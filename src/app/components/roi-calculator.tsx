@@ -1,76 +1,63 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { DollarSign, TrendingUp, Clock, Users, Target, BarChart3 } from "lucide-react";
+import { DollarSign, Users, Phone, Mail, Video, BarChart3 } from "lucide-react";
 
 export function ROICalculator() {
   const [teamSize, setTeamSize] = useState(10);
-  const [avgDealSize, setAvgDealSize] = useState(25000);
-  const [currentWinRate, setCurrentWinRate] = useState(20);
-  const [avgDealsPerRep, setAvgDealsPerRep] = useState(12);
-  const [avgRampTime, setAvgRampTime] = useState(6);
+  const [actionsPerUser, setActionsPerUser] = useState(500);
 
-  // ROI Calculation Logic
-  const calculateROI = () => {
-    // Win rate improvement (average 8-12% increase)
-    const winRateImprovement = 10; // percentage points
-    const newWinRate = currentWinRate + winRateImprovement;
+  // Pricing: Pay-per-action model
+  const PRICE_PER_1000_ACTIONS = 5; // $5 per 1,000 actions
+  const BASE_FEE_PER_USER = 15; // $15 base fee per user
+  
+  // Calculate monthly cost
+  const calculateCost = () => {
+    const totalActions = teamSize * actionsPerUser;
+    const actionCost = (totalActions / 1000) * PRICE_PER_1000_ACTIONS;
+    const baseFee = teamSize * BASE_FEE_PER_USER;
+    const monthlyTotal = actionCost + baseFee;
+    const annualTotal = monthlyTotal * 12;
     
-    // Additional deals won per year
-    const additionalDealsPerRep = (avgDealsPerRep * (winRateImprovement / 100));
-    const totalAdditionalDeals = additionalDealsPerRep * teamSize;
+    // Calculate per-user monthly cost
+    const perUserMonthlyCost = monthlyTotal / teamSize;
     
-    // Revenue increase
-    const additionalRevenue = totalAdditionalDeals * avgDealSize;
-    
-    // Ramp time reduction (average 40% faster)
-    const rampTimeReduction = 0.4;
-    const monthsSaved = avgRampTime * rampTimeReduction;
-    const rampTimeSavings = (monthsSaved / 12) * (avgDealSize * avgDealsPerRep) * (teamSize * 0.3); // 30% of team are new reps
-    
-    // Productivity gains (15% more productive conversations)
-    const productivityGain = additionalRevenue * 0.15;
-    
-    // Total annual value
-    const totalAnnualValue = additionalRevenue + rampTimeSavings + productivityGain;
-    
-    // Cost (assuming $79/user/month for Professional plan)
-    const annualCost = teamSize * 79 * 12;
-    
-    // ROI calculation
-    const roi = ((totalAnnualValue - annualCost) / annualCost) * 100;
-    
-    // Payback period in months
-    const monthlyValue = totalAnnualValue / 12;
-    const monthlyCost = annualCost / 12;
-    const paybackMonths = monthlyCost / (monthlyValue - monthlyCost);
+    // Calculate savings vs traditional pricing
+    const traditionalCost = teamSize * 89; // $89/user traditional pricing
+    const monthlySavings = traditionalCost - monthlyTotal;
+    const annualSavings = monthlySavings * 12;
     
     return {
-      totalAnnualValue: Math.round(totalAnnualValue),
-      annualCost: Math.round(annualCost),
-      netBenefit: Math.round(totalAnnualValue - annualCost),
-      roi: Math.round(roi),
-      paybackMonths: Math.max(0.5, Math.min(12, paybackMonths)).toFixed(1),
-      additionalDeals: Math.round(totalAdditionalDeals),
-      newWinRate: Math.round(newWinRate),
-      monthsSaved: monthsSaved.toFixed(1)
+      monthlyTotal: Math.round(monthlyTotal),
+      annualTotal: Math.round(annualTotal),
+      baseFee: Math.round(baseFee),
+      actionCost: Math.round(actionCost),
+      perUserMonthlyCost: Math.round(perUserMonthlyCost),
+      traditionalCost: Math.round(traditionalCost),
+      monthlySavings: Math.max(0, Math.round(monthlySavings)),
+      annualSavings: Math.max(0, Math.round(annualSavings)),
+      totalActions: totalActions
     };
   };
 
-  const results = calculateROI();
+  const results = calculateCost();
 
   const formatCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(2)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
-    }
     return `$${value.toLocaleString()}`;
+  };
+
+  const formatNumber = (value: number) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    } else if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}K`;
+    }
+    return value.toLocaleString();
   };
 
   return (
     <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
             <motion.div
@@ -80,7 +67,7 @@ export function ROICalculator() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 mb-6"
             >
               <BarChart3 className="w-4 h-4 text-cyan-600" />
-              <span className="text-sm font-semibold">ROI Calculator</span>
+              <span className="text-sm font-semibold">Pricing Calculator</span>
             </motion.div>
             
             <motion.h2
@@ -90,9 +77,9 @@ export function ROICalculator() {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-bold mb-4"
             >
-              Calculate Your{" "}
+              Pay Only for{" "}
               <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-                Savings
+                What You Use
               </span>
             </motion.h2>
             
@@ -101,9 +88,9 @@ export function ROICalculator() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-slate-600 max-w-3xl mx-auto"
+              className="text-xl text-slate-600 max-w-2xl mx-auto"
             >
-              See how much revenue your team can gain with Tasknova's AI-powered platform
+              Simple, transparent pricing based on your actual usage
             </motion.p>
           </div>
 
@@ -116,7 +103,7 @@ export function ROICalculator() {
               transition={{ delay: 0.3 }}
               className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200"
             >
-              <h3 className="text-2xl font-bold mb-6">Your Team Metrics</h3>
+              <h3 className="text-2xl font-bold mb-8">Configure Your Plan</h3>
               
               <div className="space-y-8">
                 {/* Team Size */}
@@ -124,7 +111,7 @@ export function ROICalculator() {
                   <div className="flex justify-between items-center mb-3">
                     <label className="font-semibold text-slate-700 flex items-center gap-2">
                       <Users className="w-5 h-5 text-cyan-600" />
-                      Number of Sales Reps
+                      Team Members
                     </label>
                     <span className="text-2xl font-bold text-cyan-600">{teamSize}</span>
                   </div>
@@ -143,100 +130,54 @@ export function ROICalculator() {
                   </div>
                 </div>
 
-                {/* Average Deal Size */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <DollarSign className="w-5 h-5 text-cyan-600" />
-                      Average Deal Size
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{formatCurrency(avgDealSize)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5000"
-                    max="200000"
-                    step="5000"
-                    value={avgDealSize}
-                    onChange={(e) => setAvgDealSize(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
-                  />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>$5K</span>
-                    <span>$100K</span>
-                    <span>$200K</span>
-                  </div>
-                </div>
-
-                {/* Current Win Rate */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <Target className="w-5 h-5 text-cyan-600" />
-                      Current Win Rate
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{currentWinRate}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="10"
-                    max="60"
-                    value={currentWinRate}
-                    onChange={(e) => setCurrentWinRate(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
-                  />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>10%</span>
-                    <span>35%</span>
-                    <span>60%</span>
-                  </div>
-                </div>
-
-                {/* Deals Per Rep */}
+                {/* Monthly Actions Per User */}
                 <div>
                   <div className="flex justify-between items-center mb-3">
                     <label className="font-semibold text-slate-700 flex items-center gap-2">
                       <BarChart3 className="w-5 h-5 text-cyan-600" />
-                      Deals Closed Per Rep/Year
+                      Actions Per User/Month
                     </label>
-                    <span className="text-2xl font-bold text-cyan-600">{avgDealsPerRep}</span>
+                    <span className="text-2xl font-bold text-cyan-600">{formatNumber(actionsPerUser)}</span>
                   </div>
                   <input
                     type="range"
-                    min="4"
-                    max="50"
-                    value={avgDealsPerRep}
-                    onChange={(e) => setAvgDealsPerRep(parseInt(e.target.value))}
+                    min="100"
+                    max="2000"
+                    step="100"
+                    value={actionsPerUser}
+                    onChange={(e) => setActionsPerUser(parseInt(e.target.value))}
                     className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
                   />
                   <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>4</span>
-                    <span>25</span>
-                    <span>50</span>
+                    <span>100</span>
+                    <span>1K</span>
+                    <span>2K</span>
                   </div>
+                  <p className="text-sm text-slate-500 mt-2">
+                    Calls, emails, meetings, and other activities
+                  </p>
                 </div>
 
-                {/* Ramp Time */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-cyan-600" />
-                      New Rep Ramp Time (Months)
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{avgRampTime}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="2"
-                    max="12"
-                    value={avgRampTime}
-                    onChange={(e) => setAvgRampTime(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
-                  />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>2</span>
-                    <span>7</span>
-                    <span>12</span>
+                {/* What counts as an action */}
+                <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4">
+                  <h4 className="font-semibold text-slate-900 mb-3">What counts as an action?</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2 text-sm text-slate-700">
+                      <Phone className="w-4 h-4 text-cyan-600" />
+                      <span>Sales calls</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-700">
+                      <Mail className="w-4 h-4 text-cyan-600" />
+                      <span>Emails sent</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-700">
+                      <Video className="w-4 h-4 text-cyan-600" />
+                      <span>Meetings</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-700">
+                      <BarChart3 className="w-4 h-4 text-cyan-600" />
+                      <span>Activities logged</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -250,97 +191,95 @@ export function ROICalculator() {
               transition={{ delay: 0.4 }}
               className="space-y-6"
             >
-              {/* Main ROI Card */}
+              {/* Main Pricing Card */}
               <div className="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl shadow-2xl p-8 text-white">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6" />
+                    <DollarSign className="w-6 h-6" />
                   </div>
-                  <h3 className="text-2xl font-bold">Your Projected ROI</h3>
+                  <h3 className="text-2xl font-bold">Your Monthly Cost</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <div className="text-sm opacity-90 mb-1">Annual Value</div>
-                    <div className="text-4xl font-bold">{formatCurrency(results.totalAnnualValue)}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm opacity-90 mb-1">Annual Cost</div>
-                    <div className="text-4xl font-bold">{formatCurrency(results.annualCost)}</div>
+                <div className="mb-6">
+                  <div className="text-6xl font-bold mb-2">{formatCurrency(results.monthlyTotal)}</div>
+                  <div className="text-xl opacity-90">
+                    {formatCurrency(results.perUserMonthlyCost)}/user
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-white/20">
-                  <div className="text-sm opacity-90 mb-2">Net Annual Benefit</div>
-                  <div className="text-5xl font-bold mb-2">{formatCurrency(results.netBenefit)}</div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <span className="px-3 py-1 rounded-full bg-white/20">
-                      {results.roi}% ROI
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white/20">
-                      {results.paybackMonths} month payback
-                    </span>
+                <div className="space-y-3 pt-6 border-t border-white/20">
+                  <div className="flex justify-between items-center">
+                    <span className="opacity-90">Base fee ({teamSize} users × $15)</span>
+                    <span className="font-semibold">{formatCurrency(results.baseFee)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="opacity-90">Usage ({formatNumber(results.totalActions)} actions)</span>
+                    <span className="font-semibold">{formatCurrency(results.actionCost)}</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-3 border-t border-white/20">
+                    <span className="font-semibold">Annual cost</span>
+                    <span className="font-bold text-xl">{formatCurrency(results.annualTotal)}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Impact Breakdown */}
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-                <h4 className="text-xl font-bold mb-6">Expected Impact</h4>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center flex-shrink-0">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-900 mb-1">Win Rate Improvement</div>
+              {/* Savings Comparison */}
+              {results.monthlySavings > 0 && (
+                <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+                  <h4 className="text-xl font-bold mb-4 text-slate-900">Your Savings</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
+                      <div className="text-sm text-slate-600 mb-1">vs Traditional Pricing</div>
+                      <div className="text-3xl font-bold text-green-600 mb-1">
+                        {formatCurrency(results.monthlySavings)}<span className="text-lg">/mo</span>
+                      </div>
                       <div className="text-sm text-slate-600">
-                        From <span className="font-bold text-cyan-600">{currentWinRate}%</span> to{" "}
-                        <span className="font-bold text-cyan-600">{results.newWinRate}%</span>
+                        {formatCurrency(results.annualSavings)} annual savings
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center flex-shrink-0">
-                      <BarChart3 className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-900 mb-1">Additional Deals Won</div>
-                      <div className="text-sm text-slate-600">
-                        <span className="font-bold text-cyan-600">{results.additionalDeals}</span> more deals per year
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-900 mb-1">Faster Ramp Time</div>
-                      <div className="text-sm text-slate-600">
-                        Save <span className="font-bold text-cyan-600">{results.monthsSaved} months</span> per new rep
-                      </div>
+                    <div className="text-sm text-slate-500">
+                      Traditional fixed pricing: {formatCurrency(results.traditionalCost)}/month
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* CTA */}
-              <div className="bg-slate-900 rounded-2xl p-8 text-white text-center">
-                <h4 className="text-xl font-bold mb-3">Ready to unlock these results?</h4>
-                <p className="text-slate-300 mb-6">Start your free trial and see the impact in 30 days</p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              {/* Pricing Model Info */}
+              <div className="bg-slate-900 rounded-2xl p-8 text-white">
+                <h4 className="text-lg font-bold mb-4">Simple Pricing Model</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">$15/user</span> base fee per month
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">$5 per 1,000 actions</span> for all activities
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">No hidden fees</span> or overage charges
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-white/20">
                   <a href="/book-demo">
-                    <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:opacity-90 transition-opacity w-full sm:w-auto">
-                      Book a Demo
-                    </button>
-                  </a>
-                  <a href="/pricing">
-                    <button className="px-6 py-3 border-2 border-white/30 rounded-xl font-semibold hover:bg-white/10 transition-colors w-full sm:w-auto">
-                      View Pricing
+                    <button className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                      Start Free Trial
                     </button>
                   </a>
                 </div>
@@ -356,8 +295,8 @@ export function ROICalculator() {
             transition={{ delay: 0.5 }}
             className="text-center text-sm text-slate-500 mt-8 max-w-3xl mx-auto"
           >
-            * Results are estimated based on industry averages and typical Tasknova customer outcomes. 
-            Actual results may vary based on your team's specific situation, implementation, and usage patterns.
+            * Estimated pricing based on your inputs. Final pricing may vary based on actual usage. 
+            All plans include unlimited storage, 24/7 support, and access to all features.
           </motion.p>
         </div>
       </div>
