@@ -16,6 +16,7 @@ import { SecuritySection } from "./components/security-section";
 import { FAQSection } from "./components/faq-section";
 import { FinalCTA } from "./components/final-cta";
 import { Footer } from "./components/footer";
+import { N8nChat } from "./components/n8n-chat";
 
 // Import Pages
 import ProductsOverview from "./pages/products-overview";
@@ -71,6 +72,8 @@ export default function App() {
         <Route path="/book-demo" element={<BookDemoPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
       </Routes>
+      {/* Global Chat Widget - Available on all pages */}
+      <N8nChat />
     </BrowserRouter>
   );
 }
