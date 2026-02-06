@@ -37,7 +37,7 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
@@ -65,19 +65,21 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${productsDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {productsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {productLinks.map((link, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleNavClick(link.path, () => setProductsDropdownOpen(false))}
-                        className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer"
-                      >
-                        <div className="font-semibold text-slate-900 hover:text-cyan-600">{link.name}</div>
-                        {link.description && (
-                          <div className="text-sm text-slate-500">{link.description}</div>
-                        )}
-                      </button>
-                    ))}
+                  <div className="absolute top-full left-0 pt-2 z-[100]">
+                    <div className="w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      {productLinks.map((link, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleNavClick(link.path, () => setProductsDropdownOpen(false))}
+                          className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer"
+                        >
+                          <div className="font-semibold text-slate-900 hover:text-cyan-600">{link.name}</div>
+                          {link.description && (
+                            <div className="text-sm text-slate-500">{link.description}</div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -96,17 +98,19 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${solutionsDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {solutionsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {solutionLinks.map((link, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleNavClick(link.path, () => setSolutionsDropdownOpen(false))}
-                        className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer"
-                      >
-                        <div className="font-semibold text-slate-900 hover:text-cyan-600">{link.name}</div>
-                        <div className="text-sm text-slate-500">{link.description}</div>
-                      </button>
-                    ))}
+                  <div className="absolute top-full left-0 pt-2 z-[100]">
+                    <div className="w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      {solutionLinks.map((link, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleNavClick(link.path, () => setSolutionsDropdownOpen(false))}
+                          className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer"
+                        >
+                          <div className="font-semibold text-slate-900 hover:text-cyan-600">{link.name}</div>
+                          <div className="text-sm text-slate-500">{link.description}</div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -139,16 +143,18 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${resourcesDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {resourcesDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {resourceLinks.map((link, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleNavClick(link.path, () => setResourcesDropdownOpen(false))}
-                        className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors font-medium text-slate-700 hover:text-cyan-600 cursor-pointer"
-                      >
-                        {link.name}
-                      </button>
-                    ))}
+                  <div className="absolute top-full left-0 pt-2 z-[100]">
+                    <div className="w-56 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      {resourceLinks.map((link, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleNavClick(link.path, () => setResourcesDropdownOpen(false))}
+                          className="block w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors font-medium text-slate-700 hover:text-cyan-600 cursor-pointer"
+                        >
+                          {link.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
