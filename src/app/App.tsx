@@ -17,6 +17,7 @@ import { FAQSection } from "./components/faq-section";
 import { FinalCTA } from "./components/final-cta";
 import { Footer } from "./components/footer";
 import { N8nChat } from "./components/n8n-chat";
+import { VapiVoiceAgent } from "./components/vapi-voice-agent";
 
 // Import Pages
 import ProductsOverview from "./pages/products-overview";
@@ -74,6 +75,7 @@ export default function App() {
       </Routes>
       {/* Global Chat Widget - Available on all pages */}
       <N8nChat />
+      <VapiVoiceAgent />
     </BrowserRouter>
   );
 }
