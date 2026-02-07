@@ -64,7 +64,7 @@
   --chat--message--bot--border: none;
   
   /* User Messages - Gradient */
-  --chat--message--user--background: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+  --chat--message--user--background: #2563eb;
   --chat--message--user--color: var(--chat--color-white);
   --chat--message--user--border: none;
   
@@ -191,4 +191,10 @@
 #n8n-chat [class*="message"]:hover {
   transform: translateY(-1px);
   transition: transform 0.2s ease;
+}
+
+/* Preserve gradient styling on user bubbles without breaking text color */
+#n8n-chat .chat-message.chat-message-from-user:not(.chat-message-transparent) {
+  background: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%) !important;
+  color: var(--chat--message--user--color);
 }
