@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Vapi from "@vapi-ai/web";
-import { Mic } from "lucide-react";
+import { Mic, X } from "lucide-react";
 
 type CallState = "idle" | "connecting" | "live";
 
@@ -25,17 +25,221 @@ type VapiLike = {
   removeListener?: (event: string, handler: EventHandler) => void;
 };
 
+type BookingFormFields = {
+  name: string;
+  email: string;
+  date: string;
+  time: string;
+};
+
+type BookingSubmissionState = "idle" | "sending" | "sent" | "error";
+
+const BOOKING_KEYWORDS = ["book", "schedule", "demo", "meeting", "appointment", "calendar"];
+const AFFIRMATIVE_KEYWORDS = [
+  "yes",
+  "yeah",
+  "yep",
+  "sure",
+  "absolutely",
+  "definitely",
+  "sounds good",
+  "let's do it",
+  "please do",
+];
+const BOOKING_INTENT_TOKENS = ["book", "schedule", "demo", "meeting", "appointment"];
+const TEXT_KEYS = ["message", "text", "content", "transcript", "transcription", "value", "response", "body", "delta", "args"];
+
+const createEmptyBookingForm = (): BookingFormFields => ({
+  name: "",
+  email: "",
+  date: "",
+  time: "",
+});
+
+const toRecord = (value: unknown): Record<string, unknown> | null =>
+  typeof value === "object" && value !== null ? (value as Record<string, unknown>) : null;
+
+const containsKeyword = (text: string, keywords: string[]) =>
+  Boolean(text) && keywords.some((keyword) => text.includes(keyword.toLowerCase()));
+
+const collectTextSnippets = (value: unknown, depth = 0, acc: string[] = []): string[] => {
+  if (depth > 4 || value == null) {
+    return acc;
+  }
+  if (typeof value === "string") {
+    acc.push(value);
+    return acc;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectTextSnippets(item, depth + 1, acc));
+    return acc;
+  }
+  if (typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    for (const key of TEXT_KEYS) {
+      if (key in record) {
+        collectTextSnippets(record[key], depth + 1, acc);
+      }
+    }
+  }
+  return acc;
+};
+
+const extractNormalizedText = (payload: unknown): string => {
+  const snippets = collectTextSnippets(payload);
+  return Array.from(
+    new Set(
+      snippets
+        .map((snippet) => snippet.trim())
+        .filter(Boolean)
+    )
+  )
+    .join(" ")
+    .toLowerCase();
+};
+
+const collectRoleFromRecord = (record: Record<string, unknown> | null): string | undefined => {
+  if (!record) {
+    return undefined;
+  }
+  const candidates = [record.role, record.speaker, record.owner, record.source];
+  for (const candidate of candidates) {
+    if (typeof candidate === "string") {
+      return candidate.toLowerCase();
+    }
+  }
+  return undefined;
+};
+
+const extractRole = (payload: unknown): string | undefined => {
+  const record = toRecord(payload);
+  if (!record) {
+    return undefined;
+  }
+
+  const directRole = collectRoleFromRecord(record);
+  if (directRole) {
+    return directRole;
+  }
+
+  const nestedKeys = ["message", "data", "payload", "source", "metadata", "participant"] as const;
+  for (const key of nestedKeys) {
+    const nestedRole = collectRoleFromRecord(toRecord(record[key]));
+    if (nestedRole) {
+      return nestedRole;
+    }
+  }
+  return undefined;
+};
+
+const tryParseIntent = (candidate: unknown): string | undefined => {
+  if (!candidate) {
+    return undefined;
+  }
+  if (typeof candidate === "string") {
+    return candidate.toLowerCase();
+  }
+  const record = toRecord(candidate);
+  if (!record) {
+    return undefined;
+  }
+  if (typeof record.name === "string") {
+    return record.name.toLowerCase();
+  }
+  if (typeof record.intent === "string") {
+    return record.intent.toLowerCase();
+  }
+  if (typeof record.value === "string") {
+    return record.value.toLowerCase();
+  }
+  return undefined;
+};
+
+const extractIntentName = (payload: unknown): string | undefined => {
+  const record = toRecord(payload);
+  if (!record) {
+    return undefined;
+  }
+
+  const candidates: unknown[] = [
+    record.intent,
+    (record as { intentName?: unknown }).intentName,
+    (record as { detectedIntent?: unknown }).detectedIntent,
+    toRecord(record.data)?.intent,
+    toRecord(record.data)?.intentName,
+    toRecord(record.metadata)?.intent,
+    toRecord(record.message)?.intent,
+    toRecord(record.payload)?.intent,
+    toRecord(record.tool)?.name,
+    toRecord((record as { functionCall?: unknown }).functionCall)?.name,
+    (record as any).function_call?.name,
+  ];
+
+  if (
+    typeof record.type === "string" &&
+    record.type.toLowerCase().includes("intent") &&
+    typeof record.name === "string"
+  ) {
+    candidates.unshift(record.name);
+  }
+
+  for (const candidate of candidates) {
+    const parsed = tryParseIntent(candidate);
+    if (parsed) {
+      return parsed;
+    }
+  }
+  return undefined;
+};
+
+const isFinalizedMessage = (payload: unknown): boolean => {
+  const record = toRecord(payload);
+  if (!record) {
+    return true;
+  }
+
+  const type = typeof record.type === "string" ? record.type.toLowerCase() : "";
+  if (type.includes("partial")) {
+    return false;
+  }
+
+  const hasPartialFlag = ["partial", "isPartial", "is_partial"].some((key) => record[key] === true);
+  if (hasPartialFlag) {
+    return false;
+  }
+
+  const hasNotFinalFlag = ["isFinal", "is_final", "final"].some((key) => record[key] === false);
+  if (hasNotFinalFlag) {
+    return false;
+  }
+
+  return true;
+};
+
 export function VapiVoiceAgent() {
   const apiKey = import.meta.env.VITE_VAPI_PUBLIC_KEY;
   const agentId = import.meta.env.VITE_VAPI_AGENT_ID;
+  const apiBaseUrl =
+    (import.meta.env.VITE_VAPI_BASE_URL as string | undefined)?.trim() || (import.meta.env.DEV ? "/vapi-proxy" : undefined);
   const [status, setStatus] = useState<CallState>("idle");
   const [volume, setVolume] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [callStage, setCallStage] = useState<string | null>(null);
   const [micReady, setMicReady] = useState(false);
+  const [bookingFormVisible, setBookingFormVisible] = useState(false);
+  const [bookingFormData, setBookingFormData] = useState<BookingFormFields>(() => createEmptyBookingForm());
+  const [bookingErrors, setBookingErrors] = useState<Record<string, string>>({});
+  const [bookingSubmissionState, setBookingSubmissionState] = useState<BookingSubmissionState>("idle");
+  const [bookingFeedback, setBookingFeedback] = useState<string | null>(null);
   const vapiRef = useRef<Vapi | null>(null);
   const warnedRef = useRef(false);
+  const bookingNameInputRef = useRef<HTMLInputElement | null>(null);
+  const bookingActiveRef = useRef(false);
+  const lastAssistantPromptWasBookingRef = useRef(false);
+  const statusRef = useRef<CallState>("idle");
+  const bookingResetTimeoutRef = useRef<number | null>(null);
   const hasConfig = Boolean(apiKey && agentId);
+  const todayISO = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     if (!hasConfig && !warnedRef.current) {
@@ -46,12 +250,67 @@ export function VapiVoiceAgent() {
     }
   }, [hasConfig]);
 
+  const resetBookingFlow = useCallback(() => {
+    if (bookingResetTimeoutRef.current) {
+      window.clearTimeout(bookingResetTimeoutRef.current);
+      bookingResetTimeoutRef.current = null;
+    }
+    bookingActiveRef.current = false;
+    lastAssistantPromptWasBookingRef.current = false;
+    setBookingFormVisible(false);
+    setBookingFormData(createEmptyBookingForm());
+    setBookingErrors({});
+    setBookingSubmissionState("idle");
+    setBookingFeedback(null);
+  }, []);
+
+  const openBookingForm = useCallback(() => {
+    if (bookingResetTimeoutRef.current) {
+      window.clearTimeout(bookingResetTimeoutRef.current);
+      bookingResetTimeoutRef.current = null;
+    }
+    bookingActiveRef.current = true;
+    setBookingFormVisible(true);
+    setBookingErrors({});
+    setBookingSubmissionState("idle");
+    setBookingFeedback(null);
+  }, []);
+
+  const handleBookingDismiss = useCallback(() => {
+    if (bookingResetTimeoutRef.current) {
+      window.clearTimeout(bookingResetTimeoutRef.current);
+      bookingResetTimeoutRef.current = null;
+    }
+    bookingActiveRef.current = false;
+    setBookingFormVisible(false);
+    setBookingSubmissionState("idle");
+    setBookingFeedback(null);
+  }, []);
+
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
+
+  useEffect(() => {
+    if (bookingFormVisible && bookingNameInputRef.current) {
+      bookingNameInputRef.current.focus();
+    }
+  }, [bookingFormVisible]);
+
+  useEffect(() => {
+    return () => {
+      if (bookingResetTimeoutRef.current) {
+        window.clearTimeout(bookingResetTimeoutRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (!hasConfig || !apiKey) {
       return;
     }
 
-    const client = new Vapi(apiKey);
+    const client = new Vapi(apiKey, apiBaseUrl);
     vapiRef.current = client;
 
     const handleCallStart = () => {
@@ -64,6 +323,7 @@ export function VapiVoiceAgent() {
       setStatus("idle");
       setVolume(0);
       setCallStage(null);
+      resetBookingFlow();
     };
 
     const handleVolume = (value: number) => {
@@ -76,6 +336,7 @@ export function VapiVoiceAgent() {
       setVolume(0);
       setErrorMessage("We couldn't connect. Please try again.");
       setCallStage(null);
+      resetBookingFlow();
     };
 
     const handleCallStartProgress = (event: CallStartProgressEvent) => {
@@ -90,6 +351,38 @@ export function VapiVoiceAgent() {
       setCallStage(null);
       const detail = event.errorMsg || event.error || "Voice channel could not be established.";
       setErrorMessage(detail);
+      resetBookingFlow();
+    };
+
+    const handleVapiMessage = (payload: unknown) => {
+      if (!isFinalizedMessage(payload)) {
+        return;
+      }
+
+      const normalizedText = extractNormalizedText(payload);
+      const role = extractRole(payload);
+      if (role === "assistant") {
+        lastAssistantPromptWasBookingRef.current = containsKeyword(normalizedText, BOOKING_KEYWORDS);
+      }
+
+      if (statusRef.current !== "live" || bookingActiveRef.current) {
+        return;
+      }
+
+      const intentName = extractIntentName(payload);
+      const assistantIntentTriggered = Boolean(
+        intentName && BOOKING_INTENT_TOKENS.some((token) => intentName.includes(token))
+      );
+
+      const userTriggered =
+        role === "user" &&
+        normalizedText &&
+        (containsKeyword(normalizedText, BOOKING_KEYWORDS) ||
+          (containsKeyword(normalizedText, AFFIRMATIVE_KEYWORDS) && lastAssistantPromptWasBookingRef.current));
+
+      if ((assistantIntentTriggered || userTriggered) && !bookingActiveRef.current) {
+        openBookingForm();
+      }
     };
 
     client.on("call-start", handleCallStart);
@@ -98,6 +391,7 @@ export function VapiVoiceAgent() {
     client.on("error", handleError);
     client.on("call-start-progress", handleCallStartProgress);
     client.on("call-start-failed", handleCallStartFailed);
+    client.on("message", handleVapiMessage);
 
     return () => {
       const detachable = client as unknown as VapiLike;
@@ -115,6 +409,7 @@ export function VapiVoiceAgent() {
       detach("error", handleError);
       detach("call-start-progress", handleCallStartProgress);
       detach("call-start-failed", handleCallStartFailed);
+      detach("message", handleVapiMessage);
 
       try {
         client.stop?.();
@@ -124,7 +419,7 @@ export function VapiVoiceAgent() {
 
       vapiRef.current = null;
     };
-  }, [apiKey, hasConfig]);
+  }, [apiKey, hasConfig, openBookingForm, resetBookingFlow]);
 
   const ensureMicAccess = async () => {
     if (micReady) {
@@ -158,6 +453,7 @@ export function VapiVoiceAgent() {
       setErrorMessage(null);
       setVolume(0);
       setCallStage(null);
+      resetBookingFlow();
       try {
         await vapiRef.current.stop();
       } catch (error) {
@@ -206,44 +502,234 @@ export function VapiVoiceAgent() {
 
   const progressWidth = `${Math.min(Math.max(Math.round(volume * 100), 0), 100)}%`;
 
-  return (
-    <div className="fixed bottom-6 left-6 z-[9999] flex max-w-xs flex-col gap-2 text-slate-900">
-      <button
-        type="button"
-        onClick={handleToggle}
-        disabled={status === "connecting"}
-        className="group flex items-center gap-3 rounded-3xl bg-slate-900 px-5 py-4 text-white shadow-2xl shadow-slate-900/25 transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-70"
-        aria-live="polite"
-      >
-        <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-          <span
-            className={`absolute inset-0 rounded-2xl border ${
-              status === "live" ? "border-emerald-400 animate-ping" : "border-white/25"
-            }`}
-            aria-hidden="true"
-          />
-          <Mic className="h-6 w-6" strokeWidth={2.2} />
-        </span>
-        <span className="flex flex-col text-left">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
-            Voice Agent
-          </span>
-          <span className="text-lg font-semibold">{buttonLabel}</span>
-        </span>
-      </button>
+  const handleBookingFieldChange = (field: keyof BookingFormFields, value: string) => {
+    setBookingFormData((prev) => ({ ...prev, [field]: value }));
+    setBookingErrors((prev) => {
+      if (!prev[field]) {
+        return prev;
+      }
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
 
-      <div className="rounded-3xl border border-slate-100 bg-white/90 px-4 py-3 text-sm text-slate-600 shadow-xl backdrop-blur">
-        <p>{helperText}</p>
-        {status === "live" && (
-          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200" aria-hidden="true">
-            <span
-              className="block h-full rounded-full bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 transition-[width] duration-200"
-              style={{ width: progressWidth }}
-            />
+  const handleBookingSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const trimmedName = bookingFormData.name.trim();
+    const trimmedEmail = bookingFormData.email.trim();
+    const errors: Record<string, string> = {};
+
+    if (!trimmedName) {
+      errors.name = "Name is required.";
+    }
+    if (!trimmedEmail) {
+      errors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errors.email = "Enter a valid email.";
+    }
+    if (!bookingFormData.date) {
+      errors.date = "Pick a date.";
+    }
+    if (!bookingFormData.time) {
+      errors.time = "Select a time.";
+    }
+
+    setBookingErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      setBookingSubmissionState("error");
+      setBookingFeedback("Add the missing details to continue.");
+      return;
+    }
+
+    if (!vapiRef.current || statusRef.current !== "live") {
+      setBookingSubmissionState("error");
+      setBookingFeedback("The voice session ended. Restart the voice agent to continue.");
+      return;
+    }
+
+    setBookingSubmissionState("sending");
+    setBookingFeedback(null);
+
+    const bookingMessage = `Name: ${trimmedName}, Email: ${trimmedEmail}, Date: ${bookingFormData.date}, Time: ${bookingFormData.time}`;
+
+    try {
+      vapiRef.current.send({
+        type: "add-message",
+        message: {
+          role: "user",
+          content: bookingMessage,
+        },
+        triggerResponseEnabled: true,
+      });
+      setBookingSubmissionState("sent");
+      setBookingFeedback("Shared with your Tasknova guide. They will confirm on the call.");
+      bookingResetTimeoutRef.current = window.setTimeout(() => {
+        resetBookingFlow();
+      }, 2400);
+    } catch (error) {
+      console.error("Failed to send booking details:", error);
+      setBookingSubmissionState("error");
+      setBookingFeedback("We couldn't send that. Please try again.");
+    }
+  };
+
+  return (
+    <>
+      {bookingFormVisible && (
+        <div className="fixed bottom-32 left-6 z-[10000] w-[min(22rem,calc(100vw-3rem))] rounded-3xl border border-slate-200 bg-white/95 p-5 text-slate-900 shadow-2xl backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Demo Booking</p>
+              <p className="text-base font-semibold">Share your details</p>
+            </div>
+            <button
+              type="button"
+              onClick={handleBookingDismiss}
+              className="rounded-full p-1 text-slate-400 transition hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              aria-label="Dismiss booking form"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
-        )}
-        {errorMessage && <p className="mt-2 text-xs font-medium text-rose-500">{errorMessage}</p>}
+          <p className="mt-2 text-sm text-slate-600">The voice session stays live while you fill out this form.</p>
+          <form className="mt-4 flex flex-col gap-3" onSubmit={handleBookingSubmit}>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500" htmlFor="booking-name">
+                Name
+              </label>
+              <input
+                id="booking-name"
+                ref={bookingNameInputRef}
+                type="text"
+                name="booking-name"
+                autoComplete="name"
+                value={bookingFormData.name}
+                onChange={(event) => handleBookingFieldChange("name", event.target.value)}
+                className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                aria-invalid={Boolean(bookingErrors.name)}
+              />
+              {bookingErrors.name && (
+                <p className="mt-1 text-xs font-semibold text-rose-500">{bookingErrors.name}</p>
+              )}
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500" htmlFor="booking-email">
+                Email
+              </label>
+              <input
+                id="booking-email"
+                type="email"
+                name="booking-email"
+                autoComplete="email"
+                value={bookingFormData.email}
+                onChange={(event) => handleBookingFieldChange("email", event.target.value)}
+                className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                aria-invalid={Boolean(bookingErrors.email)}
+              />
+              {bookingErrors.email && (
+                <p className="mt-1 text-xs font-semibold text-rose-500">{bookingErrors.email}</p>
+              )}
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500" htmlFor="booking-date">
+                  Date
+                </label>
+                <input
+                  id="booking-date"
+                  type="date"
+                  name="booking-date"
+                  min={todayISO}
+                  value={bookingFormData.date}
+                  onChange={(event) => handleBookingFieldChange("date", event.target.value)}
+                  className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                  aria-invalid={Boolean(bookingErrors.date)}
+                />
+                {bookingErrors.date && (
+                  <p className="mt-1 text-xs font-semibold text-rose-500">{bookingErrors.date}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500" htmlFor="booking-time">
+                  Time
+                </label>
+                <input
+                  id="booking-time"
+                  type="time"
+                  name="booking-time"
+                  value={bookingFormData.time}
+                  onChange={(event) => handleBookingFieldChange("time", event.target.value)}
+                  className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                  aria-invalid={Boolean(bookingErrors.time)}
+                />
+                {bookingErrors.time && (
+                  <p className="mt-1 text-xs font-semibold text-rose-500">{bookingErrors.time}</p>
+                )}
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={bookingSubmissionState === "sending"}
+              className="mt-1 rounded-2xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-400 disabled:opacity-60"
+            >
+              {bookingSubmissionState === "sending"
+                ? "Sending..."
+                : bookingSubmissionState === "sent"
+                ? "Details sent"
+                : "Send to Voice Agent"}
+            </button>
+          </form>
+          {bookingFeedback && (
+            <p
+              className={`mt-3 text-sm font-medium ${
+                bookingSubmissionState === "error" ? "text-rose-500" : "text-emerald-600"
+              }`}
+            >
+              {bookingFeedback}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="fixed bottom-6 left-6 z-[9999] flex max-w-xs flex-col gap-2 text-slate-900">
+        <button
+          type="button"
+          onClick={handleToggle}
+          disabled={status === "connecting"}
+          className="group flex items-center gap-3 rounded-3xl bg-slate-900 px-5 py-4 text-white shadow-2xl shadow-slate-900/25 transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-70"
+          aria-live="polite"
+        >
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
+            <span
+              className={`absolute inset-0 rounded-2xl border ${
+                status === "live" ? "border-emerald-400 animate-ping" : "border-white/25"
+              }`}
+              aria-hidden="true"
+            />
+            <Mic className="h-6 w-6" strokeWidth={2.2} />
+          </span>
+          <span className="flex flex-col text-left">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+              Voice Agent
+            </span>
+            <span className="text-lg font-semibold">{buttonLabel}</span>
+          </span>
+        </button>
+
+        <div className="rounded-3xl border border-slate-100 bg-white/90 px-4 py-3 text-sm text-slate-600 shadow-xl backdrop-blur">
+          <p>{helperText}</p>
+          {status === "live" && (
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200" aria-hidden="true">
+              <span
+                className="block h-full rounded-full bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500 transition-[width] duration-200"
+                style={{ width: progressWidth }}
+              />
+            </div>
+          )}
+          {errorMessage && <p className="mt-2 text-xs font-medium text-rose-500">{errorMessage}</p>}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

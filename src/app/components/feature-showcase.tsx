@@ -6,6 +6,18 @@ import {
   Users, Brain, BookOpen, LineChart,
   ChevronDown
 } from "lucide-react";
+import image1 from "../assets/image_1.jpeg";
+import image2 from "../assets/image_2.jpeg";
+import image3 from "../assets/image_3.png";
+import image4 from "../assets/image_4.png";
+import image5 from "../assets/image_5.png";
+import image6 from "../assets/image_6.png";
+import image7 from "../assets/image_7.png";
+import image8 from "../assets/image_8.jpeg";
+import image9 from "../assets/image_9.png";
+import image10 from "../assets/image_10.jpeg";
+import image11 from "../assets/image_11.jpeg";
+import image12 from "../assets/image_12.jpeg";
 
 const insightFeatures = [
   {
@@ -13,28 +25,28 @@ const insightFeatures = [
     icon: Mic,
     title: "Call Transcription",
     description: "Automatically capture and transcribe every customer conversation with 98% accuracy across 40+ languages.",
-    image: "https://images.unsplash.com/photo-1731487068413-e5509cf7338a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWxsJTIwcmVjb3JkaW5nJTIwaW50ZXJmYWNlJTIwd2F2ZWZvcm18ZW58MXx8fHwxNzcwMzY1NDgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image1
   },
   {
     id: "sentiment",
     icon: TrendingUp,
     title: "Sentiment Tracking",
     description: "AI-powered sentiment analysis identifies buyer intent, engagement levels, and conversation momentum in real-time.",
-    image: "https://images.unsplash.com/photo-1666537072206-6a7a01ecb7d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZW50aW1lbnQlMjBhbmFseXNpcyUyMGdyYXBoJTIwY2hhcnR8ZW58MXx8fHwxNzcwMzY1NDgxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image2
   },
   {
     id: "alerts",
     icon: AlertTriangle,
     title: "Deal Risk Alerts",
     description: "Get instant notifications when deals show warning signs—missed objections, pricing concerns, or stakeholder gaps.",
-    image: "https://images.unsplash.com/photo-1611741853473-810f7c7309ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXJuaW5nJTIwZGFzaGJvYXJkJTIwcmlzayUyMGluZGljYXRvciUyMHJlZHxlbnwxfHx8fDE3NzAzNjU4Nzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image3
   },
   {
     id: "scoring",
     icon: BarChart3,
     title: "Conversation Scoring",
     description: "Automatically score every interaction against your ideal customer profile and buying signals.",
-    image: "https://images.unsplash.com/photo-1714449349503-ea9b1d6ed9ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY29yZWNhcmQlMjByYXRpbmclMjBzeXN0ZW0lMjBkYXNoYm9hcmR8ZW58MXx8fHwxNzcwMzY1NDgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image4
   }
 ];
 
@@ -44,28 +56,28 @@ const engageFeatures = [
     icon: Mail,
     title: "Email Intelligence",
     description: "Track opens, clicks, and engagement patterns. AI suggests optimal send times and content personalization.",
-    image: "https://images.unsplash.com/photo-1683117927786-f146451082fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbWFpbCUyMGluYm94JTIwaW50ZXJmYWNlfGVufDF8fHx8MTc3MDI4NzUwNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image5
   },
   {
     id: "omnichannel",
     icon: MessageSquare,
     title: "Omnichannel Tracking",
     description: "Unified view of all customer touchpoints—calls, emails, meetings, and chats—in one timeline.",
-    image: "https://images.unsplash.com/photo-1585905208683-e47c3b3d2bc8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bmlmaWVkJTIwdGltZWxpbmUlMjBjb21tdW5pY2F0aW9ufGVufDF8fHx8MTc3MDM2NTQ4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image6
   },
   {
     id: "engagement-scoring",
     icon: Target,
     title: "Engagement Scoring",
     description: "Health metrics for every account based on response time, interaction frequency, and sentiment trends.",
-    image: "https://images.unsplash.com/photo-1752842936785-39ee0a9b5286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjBzY29yZSUyMG1ldGVyJTIwZ2F1Z2V8ZW58MXx8fHwxNzcwMzY1NDgzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image7
   },
   {
     id: "automation",
     icon: Zap,
     title: "Follow-up Automation",
     description: "Smart reminders and suggested next steps based on conversation context and customer behavior.",
-    image: "https://images.unsplash.com/photo-1762330469300-2732c258c686?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0YXNrJTIwcmVtaW5kZXIlMjBub3RpZmljYXRpb258ZW58MXx8fHwxNzcwMzY1NDgzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image8
   }
 ];
 
@@ -75,28 +87,28 @@ const coachFeatures = [
     icon: Users,
     title: "AI Coaching Insights",
     description: "Personalized coaching recommendations based on actual performance data and winning behaviors.",
-    image: "https://images.unsplash.com/photo-1758875568756-37a9c5c1a4f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50b3IlMjBjb2FjaGluZyUyMHNlc3Npb258ZW58MXx8fHwxNzcwMzY1NDg0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image9
   },
   {
     id: "performance",
     icon: LineChart,
     title: "Performance Tracking",
     description: "Compare individual and team metrics against benchmarks. Identify top performers and skill gaps.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJmb3JtYW5jZSUyMG1ldHJpY3MlMjBjaGFydCUyMGdyYXBofGVufDF8fHx8MTc3MDM2NTQ4NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image10
   },
   {
     id: "skill-gaps",
     icon: Target,
     title: "Skill Gap Analysis",
     description: "Automatically detect objection handling, discovery techniques, and closing skills that need improvement.",
-    image: "https://images.unsplash.com/photo-1643706755594-d0e8d8d42a09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVja2xpc3QlMjBza2lsbHMlMjBhc3Nlc3NtZW50fGVufDF8fHx8MTc3MDM2NTQ4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image11
   },
   {
     id: "playbooks",
     icon: BookOpen,
     title: "Learning Playbooks",
     description: "Auto-generated training content from your best calls. Turn winning behaviors into repeatable processes.",
-    image: "https://images.unsplash.com/photo-1715929602089-552e57a48810?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxndWlkZWJvb2slMjBtYW51YWwlMjBkb2N1bWVudGF0aW9ufGVufDF8fHx8MTc3MDM2NTQ4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+    image: image12
   }
 ];
 
@@ -154,8 +166,8 @@ function ShowcaseSection({ showcase, isEven }: { showcase: typeof showcases[0], 
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">{showcase.subtitle}</p>
         </div>
 
-        {/* Two Column Layout - 60/40 Split */}
-        <div className="grid lg:grid-cols-[60fr_40fr] gap-12 lg:gap-16 items-center">
+        {/* Two Column Layout - 45/55 Split */}
+        <div className="grid lg:grid-cols-[45fr_55fr] gap-12 lg:gap-16 items-center">
           
           {/* LEFT COLUMN - Feature Content */}
           <div className="relative">
@@ -277,7 +289,7 @@ function ShowcaseSection({ showcase, isEven }: { showcase: typeof showcases[0], 
                   key={activeFeature}
                   src={currentFeature.image} 
                   alt={currentFeature.title}
-                  className="w-full h-auto object-cover aspect-[4/3]"
+                  className="w-full h-auto object-contain"
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
