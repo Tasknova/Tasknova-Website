@@ -183,9 +183,6 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" className="text-slate-700 hover:text-cyan-600">
-                Sign In
-              </Button>
               <Link to="/book-demo">
                 <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white cursor-pointer">
                   Book Demo
@@ -274,9 +271,6 @@ export function Navbar() {
               </div>
 
               <div className="pt-4 border-t border-slate-200 flex flex-col gap-3">
-                <Button variant="outline" className="w-full cursor-pointer">
-                  Sign In
-                </Button>
                 <Link to="/book-demo" className="w-full">
                   <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white cursor-pointer">
                     Book Demo

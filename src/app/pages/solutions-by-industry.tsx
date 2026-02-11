@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { 
   Layers, Home, Users, ArrowRight, CheckCircle2,
   TrendingUp, Clock, DollarSign, Target, HelpCircle, ChevronDown
@@ -377,10 +378,12 @@ export default function SolutionsByIndustry() {
               Join revenue teams already using Tasknova to improve deal execution, customer engagement, and predictable growth.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg">
-                Start Free Trial
-                <ArrowRight className="inline-block ml-2 w-5 h-5" />
-              </button>
+              <Link to="/book-demo">
+                <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg">
+                  Start Free Trial
+                  <ArrowRight className="inline-block ml-2 w-5 h-5" />
+                </button>
+              </Link>
               <button className="px-8 py-4 border-2 border-slate-300 rounded-xl font-semibold text-lg text-slate-700 hover:border-cyan-500 transition-colors bg-white">
                 Schedule Industry Demo
               </button>

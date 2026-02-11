@@ -178,7 +178,7 @@ export function PricingPreview() {
                 </div>
 
                 {/* CTA */}
-                <Link to={tier.cta === "Contact Sales" ? "/contact" : "/pricing"}>
+                <Link to={tier.cta === "Contact Sales" ? "/contact" : "/book-demo"}>
                   <button 
                     className={`w-full mb-8 px-6 py-4 rounded-xl font-semibold transition-all ${\n                      tier.isPopular\n                        ? `bg-gradient-to-r ${tier.gradient} text-white hover:opacity-90 shadow-lg`
                         : 'bg-slate-100 text-slate-900 hover:bg-slate-200'\n                    }`}

@@ -176,7 +176,7 @@ export function ProductsOverview() {
                   transition={{ delay: 0.3 }}
                   className="flex flex-wrap gap-4"
                 >
-                  <Link to="/pricing">
+                  <Link to="/book-demo">
                     <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold text-lg hover:bg-slate-100 transition-colors shadow-lg">
                       Start Free Trial
                       <ArrowRight className="inline-block ml-2 w-5 h-5" />
@@ -494,7 +494,7 @@ export function ProductsOverview() {
               Join thousands of revenue teams using Tasknova to convert customer conversations into predictable growth
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/pricing">
+              <Link to="/book-demo">
                 <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold text-lg hover:bg-slate-100 transition-colors shadow-lg">
                   Start Free Trial
                   <ArrowRight className="inline-block ml-2 w-5 h-5" />

@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { 
   Check, X, ArrowRight, Sparkles, HelpCircle, Zap,
   Shield, Users, BarChart3, Clock, DollarSign, Target, TrendingUp,
@@ -462,16 +463,18 @@ export function PricingPage() {
                   </div>
 
                   {/* CTA */}
-                  <button 
-                    className={`w-full mb-6 px-6 py-4 rounded-xl font-semibold transition-all ${
-                      plan.popular
-                        ? `bg-gradient-to-r ${plan.gradient} text-white hover:opacity-90 shadow-lg`
-                        : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
-                    }`}
-                  >
-                    {plan.cta}
-                    <ArrowRight className="inline-block ml-2 w-4 h-4" />
-                  </button>
+                  <Link to={plan.cta === "Contact Sales" ? "/book-demo" : "/book-demo"}>
+                    <button 
+                      className={`w-full mb-6 px-6 py-4 rounded-xl font-semibold transition-all ${
+                        plan.popular
+                          ? `bg-gradient-to-r ${plan.gradient} text-white hover:opacity-90 shadow-lg`
+                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+                      }`}
+                    >
+                      {plan.cta}
+                      <ArrowRight className="inline-block ml-2 w-4 h-4" />
+                    </button>
+                  </Link>
 
                   {/* Limits */}
                   <div className="mb-6 p-4 rounded-lg bg-slate-50">
@@ -645,9 +648,11 @@ export function PricingPage() {
                     Ideal for: {module.ideal}
                   </div>
 
-                  <button className="w-full px-4 py-3 border-2 border-slate-300 rounded-lg font-semibold text-slate-700 hover:border-cyan-500 transition-colors">
-                    Start Free Trial
-                  </button>
+                  <Link to="/book-demo">
+                    <button className="w-full px-4 py-3 border-2 border-slate-300 rounded-lg font-semibold text-slate-700 hover:border-cyan-500 transition-colors">
+                      Start Free Trial
+                    </button>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -798,9 +803,11 @@ export function PricingPage() {
               Join 5,000+ revenue teams growing with Tasknova. Start your free trial today.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                Start 14-Day Free Trial
-              </button>
+              <Link to="/book-demo">
+                <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                  Start 14-Day Free Trial
+                </button>
+              </Link>
               <button className="px-8 py-4 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-cyan-500 transition-colors">
                 Schedule a Demo
               </button>

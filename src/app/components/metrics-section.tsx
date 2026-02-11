@@ -181,9 +181,11 @@ export function MetricsSection() {
             <p className="text-lg text-cyan-50 mb-6">
               See how much revenue you could add with Tasknova
             </p>
-            <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-slate-50 transition-colors text-lg">
-              Try ROI Calculator
-            </button>
+            <a href="/pricing#roi-calculator">
+              <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-slate-50 transition-colors text-lg">
+                Try ROI Calculator
+              </button>
+            </a>
           </div>
         </motion.div>
       </div>

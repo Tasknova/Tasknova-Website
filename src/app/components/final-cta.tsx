@@ -54,7 +54,7 @@ export function FinalCTA() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/pricing">
+            <Link to="/book-demo">
               <Button 
                 size="lg" 
                 variant="outline" 

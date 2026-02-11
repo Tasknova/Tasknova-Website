@@ -162,7 +162,7 @@ export function EngagePage() {
               transition={{ delay: 0.3 }}
               className="flex flex-wrap gap-4"
             >
-              <Link to="/pricing">
+              <Link to="/book-demo">
                 <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg">
                   Start Free Trial
                   <ArrowRight className="inline-block ml-2 w-5 h-5" />
@@ -396,7 +396,7 @@ export function EngagePage() {
               14 day free trial. No credit card required.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/pricing">
+              <Link to="/book-demo">
                 <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg">
                   Start Free Trial
                   <ArrowRight className="inline-block ml-2 w-5 h-5" />

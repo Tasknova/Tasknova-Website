@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { 
   Brain, Zap, Users, BarChart3, MessageSquare, Target,
   CheckCircle2, ArrowRight, Play, Video, Mail, Phone,
@@ -413,9 +414,11 @@ export function ProductsPage() {
               transition={{ delay: 0.3 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                Start Free Trial
-              </button>
+              <Link to="/book-demo">
+                <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                  Start Free Trial
+                </button>
+              </Link>
               <button className="px-8 py-4 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-cyan-500 transition-colors">
                 Compare Products
               </button>
@@ -452,9 +455,11 @@ export function ProductsPage() {
                       <span className="text-slate-600">or save 25% with annual billing</span>
                     </div>
                     <div className="flex gap-4">
-                      <button className={`px-6 py-3 bg-gradient-to-r ${product.gradient} text-white rounded-lg font-semibold hover:opacity-90 transition-opacity`}>
-                        Start Free Trial
-                      </button>
+                      <Link to="/book-demo">
+                        <button className={`px-6 py-3 bg-gradient-to-r ${product.gradient} text-white rounded-lg font-semibold hover:opacity-90 transition-opacity`}>
+                          Start Free Trial
+                        </button>
+                      </Link>
                       <button className="px-6 py-3 border-2 border-slate-300 rounded-lg font-semibold text-slate-700 hover:border-cyan-500 transition-colors">
                         Watch Demo
                       </button>
@@ -607,10 +612,12 @@ export function ProductsPage() {
             <div className="inline-block p-8 rounded-2xl bg-slate-800 border border-slate-700">
               <div className="text-5xl font-bold mb-2">$79<span className="text-2xl text-slate-400">/user/month</span></div>
               <p className="text-slate-400 mb-6">Full platform • Save $24/user/month</p>
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                Start Free Trial
-                <ArrowRight className="inline-block ml-2 w-5 h-5" />
-              </button>
+              <Link to="/book-demo">
+                <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                  Start Free Trial
+                  <ArrowRight className="inline-block ml-2 w-5 h-5" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,215 +1,201 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { DollarSign, Users, Phone, Mail, Video, BarChart3 } from "lucide-react";
+import { Clock, Phone, BarChart3, TrendingUp, Sparkles, ArrowRight } from "lucide-react";
 
 export function ROICalculator() {
-  const [teamSize, setTeamSize] = useState(10);
-  const [actionsPerUser, setActionsPerUser] = useState(500);
-  const [intelligenceLayers, setIntelligenceLayers] = useState(1);
-
-  // Pricing: Pay-per-action model
-  const PRICE_PER_1000_ACTIONS = 5; // $5 per 1,000 actions
-  const BASE_AGENT_FEE = 12; // $12 base agent fee per user
-  const INTELLIGENCE_LAYER_COST = 30; // $30 per intelligence layer per user
+  const [salesReps, setSalesReps] = useState(25);
+  const [hoursPerDay, setHoursPerDay] = useState(2);
+  const [callsPerDay, setCallsPerDay] = useState(30);
+  const [managerHoursPerWeek, setManagerHoursPerWeek] = useState(8);
   
-  // Calculate monthly cost
-  const calculateCost = () => {
-    const totalActions = teamSize * actionsPerUser;
-    const actionCost = (totalActions / 1000) * PRICE_PER_1000_ACTIONS;
-    const baseFee = teamSize * BASE_AGENT_FEE;
-    const intelligenceCost = teamSize * intelligenceLayers * INTELLIGENCE_LAYER_COST;
-    const monthlyTotal = actionCost + baseFee + intelligenceCost;
-    const annualTotal = monthlyTotal * 12;
+  // Calculate ROI metrics
+  const calculateROI = () => {
+    // Hours saved per month calculation
+    // Assume 5 mins saved per call review + 30 mins saved on coaching prep per rep per week
+    const callsPerMonth = salesReps * callsPerDay * 20; // 20 working days
+    const callReviewTimeSaved = (callsPerMonth * 5) / 60; // 5 mins per call converted to hours
+    const coachingPrepTimeSaved = (salesReps * 30 * 4) / 60; // 30 mins per rep per week * 4 weeks
+    const hoursSavedPerMonth = Math.round(callReviewTimeSaved + coachingPrepTimeSaved);
     
-    // Calculate per-user monthly cost
-    const perUserMonthlyCost = monthlyTotal / teamSize;
+    // Productivity weeks calculation
+    const productivityWeeks = (hoursSavedPerMonth / 40).toFixed(1);
     
-    // Calculate savings vs traditional pricing
-    const traditionalCost = teamSize * 89; // $89/user traditional pricing
-    const monthlySavings = traditionalCost - monthlyTotal;
-    const annualSavings = monthlySavings * 12;
+    // Calls analyzed automatically
+    const callsAnalyzed = callsPerMonth.toLocaleString();
+    
+    // Coaching bandwidth gained
+    // Manager time freed up from call review
+    const currentReviewTime = managerHoursPerWeek * 4; // monthly
+    const newReviewTime = currentReviewTime * 0.3; // 70% reduction
+    const timeSaved = currentReviewTime - newReviewTime;
+    const bandwidthGainedPercent = Math.round((timeSaved / currentReviewTime) * 100);
+    
+    // Conversion effectiveness increase
+    // Based on improved coaching and call quality
+    const conversionIncrease = 14; // Industry benchmark
     
     return {
-      monthlyTotal: Math.round(monthlyTotal),
-      annualTotal: Math.round(annualTotal),
-      baseFee: Math.round(baseFee),
-      actionCost: Math.round(actionCost),
-      intelligenceCost: Math.round(intelligenceCost),
-      perUserMonthlyCost: Math.round(perUserMonthlyCost),
-      traditionalCost: Math.round(traditionalCost),
-      monthlySavings: Math.max(0, Math.round(monthlySavings)),
-      annualSavings: Math.max(0, Math.round(annualSavings)),
-      totalActions: totalActions
+      hoursSaved: hoursSavedPerMonth,
+      productivityWeeks,
+      callsAnalyzed,
+      bandwidthPercent: bandwidthGainedPercent,
+      conversionIncrease
     };
   };
 
-  const results = calculateCost();
+  const results = calculateROI();
 
-  const formatCurrency = (value: number) => {
-    return `$${value.toLocaleString()}`;
-  };
-
-  const formatNumber = (value: number) => {
-    if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      return `${(value / 1000).toFixed(0)}K`;
+  // Format hours with range
+  const formatHours = (hours: number) => {
+    if (hours < 1) {
+      return `${Math.round(hours * 60)} min`;
     }
-    return value.toLocaleString();
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-white">
+    <section id="roi-calculator" className="py-20 bg-gradient-to-br from-slate-50 to-white">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 mb-6"
-            >
-              <BarChart3 className="w-4 h-4 text-cyan-600" />
-              <span className="text-sm font-semibold">Pricing Calculator</span>
-            </motion.div>
-            
-            <motion.h2
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl font-bold mb-4"
-            >
-              Pay Only for{" "}
-              <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-                What You Use
-              </span>
-            </motion.h2>
-            
-            <motion.p
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-slate-600 max-w-2xl mx-auto"
-            >
-              Simple, transparent pricing based on your actual usage
-            </motion.p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
             {/* Left Column - Inputs */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200"
+              className="space-y-8"
             >
-              <h3 className="text-2xl font-bold mb-8">Configure Your Plan</h3>
-              
-              <div className="space-y-8">
-                {/* Team Size */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <Users className="w-5 h-5 text-cyan-600" />
-                      Team Members
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{teamSize}</span>
+              {/* Question 1 */}
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  How many sales reps do you have?
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Measures total scale of AI insight and coaching impact.
+                </p>
+                <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <input
+                      type="number"
+                      value={salesReps}
+                      onChange={(e) => setSalesReps(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-20 px-3 py-2 text-2xl font-bold text-slate-900 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-500"
+                    />
+                    <span className="text-slate-600">reps</span>
                   </div>
                   <input
                     type="range"
                     min="1"
-                    max="100"
-                    value={teamSize}
-                    onChange={(e) => setTeamSize(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                    max="500"
+                    value={salesReps}
+                    onChange={(e) => setSalesReps(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                   />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
+                  <div className="flex justify-between text-xs text-slate-500 mt-2">
                     <span>1</span>
-                    <span>50</span>
-                    <span>100</span>
+                    <span>500</span>
                   </div>
                 </div>
+              </div>
 
-                {/* Intelligence Layers */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <BarChart3 className="w-5 h-5 text-cyan-600" />
-                      Intelligence Layers
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{intelligenceLayers}</span>
+              {/* Question 2 */}
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  How much time does each rep spend talking to clients daily?
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Used to calculate conversation analysis coverage and time savings.
+                </p>
+                <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <input
+                      type="number"
+                      value={hoursPerDay}
+                      onChange={(e) => setHoursPerDay(Math.max(0.5, parseFloat(e.target.value) || 0.5))}
+                      step="0.5"
+                      className="w-20 px-3 py-2 text-2xl font-bold text-slate-900 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-500"
+                    />
+                    <span className="text-slate-600">hours per day</span>
                   </div>
                   <input
                     type="range"
-                    min="0"
-                    max="3"
-                    value={intelligenceLayers}
-                    onChange={(e) => setIntelligenceLayers(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                    min="0.5"
+                    max="6"
+                    step="0.5"
+                    value={hoursPerDay}
+                    onChange={(e) => setHoursPerDay(parseFloat(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                   />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>0 (Agents Only)</span>
-                    <span>1 Layer</span>
-                    <span>2 Layers</span>
-                    <span>3 Layers</span>
+                  <div className="flex justify-between text-xs text-slate-500 mt-2">
+                    <span>30 min</span>
+                    <span>6 hrs</span>
                   </div>
-                  <p className="text-sm text-slate-500 mt-2">
-                    Add Insight, Engage, or Coach intelligence layers ($30/user each)
-                  </p>
                 </div>
+              </div>
 
-                {/* Monthly Actions Per User */}
-                <div>
-                  <div className="flex justify-between items-center mb-3">
-                    <label className="font-semibold text-slate-700 flex items-center gap-2">
-                      <BarChart3 className="w-5 h-5 text-cyan-600" />
-                      Actions Per User/Month
-                    </label>
-                    <span className="text-2xl font-bold text-cyan-600">{formatNumber(actionsPerUser)}</span>
+              {/* Question 3 */}
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  How many calls does each rep make per day?
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Helps estimate AI analysis volume and automation efficiency.
+                </p>
+                <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <input
+                      type="number"
+                      value={callsPerDay}
+                      onChange={(e) => setCallsPerDay(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-20 px-3 py-2 text-2xl font-bold text-slate-900 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-500"
+                    />
+                    <span className="text-slate-600">calls per day</span>
                   </div>
                   <input
                     type="range"
-                    min="100"
-                    max="2000"
-                    step="100"
-                    value={actionsPerUser}
-                    onChange={(e) => setActionsPerUser(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                    min="5"
+                    max="80"
+                    value={callsPerDay}
+                    onChange={(e) => setCallsPerDay(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                   />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1">
-                    <span>100</span>
-                    <span>1K</span>
-                    <span>2K</span>
+                  <div className="flex justify-between text-xs text-slate-500 mt-2">
+                    <span>5</span>
+                    <span>80</span>
                   </div>
-                  <p className="text-sm text-slate-500 mt-2">
-                    Calls, emails, meetings, and other activities
-                  </p>
                 </div>
+              </div>
 
-                {/* What counts as an action */}
-                <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4">
-                  <h4 className="font-semibold text-slate-900 mb-3">What counts as an action?</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="flex items-center gap-2 text-sm text-slate-700">
-                      <Phone className="w-4 h-4 text-cyan-600" />
-                      <span>Sales calls</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700">
-                      <Mail className="w-4 h-4 text-cyan-600" />
-                      <span>Emails sent</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700">
-                      <Video className="w-4 h-4 text-cyan-600" />
-                      <span>Meetings</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-700">
-                      <BarChart3 className="w-4 h-4 text-cyan-600" />
-                      <span>Activities logged</span>
-                    </div>
+              {/* Question 4 */}
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  How much time do managers spend reviewing calls or coaching reps weekly?
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Used to calculate coaching automation and manager productivity gains.
+                </p>
+                <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <input
+                      type="number"
+                      value={managerHoursPerWeek}
+                      onChange={(e) => setManagerHoursPerWeek(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-20 px-3 py-2 text-2xl font-bold text-slate-900 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-500"
+                    />
+                    <span className="text-slate-600">hours per week</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="20"
+                    value={managerHoursPerWeek}
+                    onChange={(e) => setManagerHoursPerWeek(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                  />
+                  <div className="flex justify-between text-xs text-slate-500 mt-2">
+                    <span>1</span>
+                    <span>20</span>
                   </div>
                 </div>
               </div>
@@ -223,125 +209,114 @@ export function ROICalculator() {
               transition={{ delay: 0.4 }}
               className="space-y-6"
             >
-              {/* Main Pricing Card */}
-              <div className="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl shadow-2xl p-8 text-white">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                    <DollarSign className="w-6 h-6" />
+              {/* Metric 1 - Hours Saved */}
+              <div className="bg-white rounded-2xl p-8 border-2 border-slate-200 hover:border-green-300 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="text-2xl font-bold">Your Monthly Cost</h3>
-                </div>
-                
-                <div className="mb-6">
-                  <div className="text-6xl font-bold mb-2">{formatCurrency(results.monthlyTotal)}</div>
-                  <div className="text-xl opacity-90">
-                    {formatCurrency(results.perUserMonthlyCost)}/user
-                  </div>
-                </div>
-
-                <div className="space-y-3 pt-6 border-t border-white/20">
-                  <div className="flex justify-between items-center">
-                    <span className="opacity-90">Base agent fee ({teamSize} users × $12)</span>
-                    <span className="font-semibold">{formatCurrency(results.baseFee)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="opacity-90">Intelligence layers ({intelligenceLayers} × $30 × {teamSize} users)</span>
-                    <span className="font-semibold">{formatCurrency(results.intelligenceCost)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="opacity-90">Usage cost ($5 per 1,000 actions, {formatNumber(results.totalActions)} actions)</span>
-                    <span className="font-semibold">{formatCurrency(results.actionCost)}</span>
-                  </div>
-                  <div className="flex justify-between items-center pt-3 border-t border-white/20">
-                    <span className="font-semibold">Annual cost</span>
-                    <span className="font-bold text-xl">{formatCurrency(results.annualTotal)}</span>
+                  <div className="flex-1">
+                    <div className="text-4xl font-bold text-green-600 mb-2">
+                      {results.hoursSaved} Hours
+                    </div>
+                    <div className="text-lg font-bold text-slate-900 mb-3">
+                      Saved Per Month
+                    </div>
+                    <p className="text-sm text-slate-600 mb-3">
+                      Reduced manual call review and coaching preparation time
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 px-3 py-2 rounded-lg w-fit">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Equivalent to {results.productivityWeeks} full-time productivity weeks</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Savings Comparison */}
-              {results.monthlySavings > 0 && (
-                <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-                  <h4 className="text-xl font-bold mb-4 text-slate-900">Your Savings</h4>
-                  
-                  <div className="space-y-4">
-                    <div className="p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
-                      <div className="text-sm text-slate-600 mb-1">vs Traditional Pricing</div>
-                      <div className="text-3xl font-bold text-green-600 mb-1">
-                        {formatCurrency(results.monthlySavings)}<span className="text-lg">/mo</span>
-                      </div>
-                      <div className="text-sm text-slate-600">
-                        {formatCurrency(results.annualSavings)} annual savings
-                      </div>
+              {/* Metric 2 - Calls Analyzed */}
+              <div className="bg-white rounded-2xl p-8 border-2 border-slate-200 hover:border-blue-300 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                      {results.callsAnalyzed}
                     </div>
-
-                    <div className="text-sm text-slate-500">
-                      Traditional fixed pricing: {formatCurrency(results.traditionalCost)}/month
+                    <div className="text-lg font-bold text-slate-900 mb-3">
+                      Calls Automatically Analyzed Monthly
                     </div>
+                    <p className="text-sm text-slate-600">
+                      Every customer interaction converted into actionable coaching insights
+                    </p>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {/* Pricing Model Info */}
-              <div className="bg-slate-900 rounded-2xl p-8 text-white">
-                <h4 className="text-lg font-bold mb-4">Simple Pricing Model</h4>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold">$12/user</span> base agent fee per month
-                    </div>
+              {/* Metric 3 - Coaching Bandwidth */}
+              <div className="bg-white rounded-2xl p-8 border-2 border-slate-200 hover:border-blue-300 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <BarChart3 className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs">✓</span>
+                  <div className="flex-1">
+                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                      {results.bandwidthPercent}% More
                     </div>
-                    <div>
-                      <span className="font-semibold">$30/user</span> per intelligence layer per month
+                    <div className="text-lg font-bold text-slate-900 mb-3">
+                      Coaching Bandwidth Gained
                     </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold">$5 per 1,000 actions</span> for all activities
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold">No hidden fees</span> or overage charges
-                    </div>
+                    <p className="text-sm text-slate-600">
+                      Spend more time coaching, less time reviewing calls
+                    </p>
                   </div>
                 </div>
-                
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <a href="/book-demo">
-                    <button className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:opacity-90 transition-opacity">
-                      Start Free Trial
-                    </button>
-                  </a>
+              </div>
+
+              {/* Metric 4 - Conversion Increase */}
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border-2 border-purple-200">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-4xl font-bold text-purple-600 mb-2">
+                      Potential {results.conversionIncrease}%
+                    </div>
+                    <div className="text-lg font-bold text-slate-900 mb-3">
+                      Increase in Conversion Effectiveness
+                    </div>
+                    <p className="text-sm text-slate-600 mb-3">
+                      Based on improved objection handling and call quality trends
+                    </p>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-purple-700 bg-purple-100 px-3 py-1.5 rounded-lg w-fit">
+                      <Sparkles className="w-3 h-3" />
+                      <span>AI Projection Estimate</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          {/* Disclaimer */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+          {/* Bottom CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="text-center text-sm text-slate-500 mt-8 max-w-3xl mx-auto"
+            transition={{ delay: 0.6 }}
+            className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-12 text-center"
           >
-            * Estimated pricing based on your inputs. Final pricing may vary based on actual usage. 
-            All plans include unlimited storage, 24/7 support, and access to all features.
-          </motion.p>
+            <a href="/book-demo">
+              <button className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-xl">
+                Book a Demo & See Your Real Data
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </a>
+            <p className="text-slate-400 text-sm mt-4">
+              ROI estimates based on SaaS industry benchmarks
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
