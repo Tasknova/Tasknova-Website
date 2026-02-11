@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Vapi from "@vapi-ai/web";
-import { Mic, X } from "lucide-react";
+import { Mic, MicOff, PhoneOff, X } from "lucide-react";
 
 type CallState = "idle" | "connecting" | "live";
 
@@ -33,6 +33,11 @@ type BookingFormFields = {
 };
 
 type BookingSubmissionState = "idle" | "sending" | "sent" | "error";
+
+type VapiVoiceAgentProps = {
+  inline?: boolean;
+  className?: string;
+};
 
 const BOOKING_KEYWORDS = ["book", "schedule", "demo", "meeting", "appointment", "calendar"];
 const AFFIRMATIVE_KEYWORDS = [
@@ -216,7 +221,7 @@ const isFinalizedMessage = (payload: unknown): boolean => {
   return true;
 };
 
-export function VapiVoiceAgent() {
+export function VapiVoiceAgent({ inline = false, className }: VapiVoiceAgentProps = {}) {
   const apiKey = import.meta.env.VITE_VAPI_PUBLIC_KEY;
   const agentId = import.meta.env.VITE_VAPI_AGENT_ID;
   const apiBaseUrl =
@@ -226,6 +231,7 @@ export function VapiVoiceAgent() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [callStage, setCallStage] = useState<string | null>(null);
   const [micReady, setMicReady] = useState(false);
+  const [micMuted, setMicMuted] = useState(false);
   const [bookingFormVisible, setBookingFormVisible] = useState(false);
   const [bookingFormData, setBookingFormData] = useState<BookingFormFields>(() => createEmptyBookingForm());
   const [bookingErrors, setBookingErrors] = useState<Record<string, string>>({});
@@ -240,6 +246,22 @@ export function VapiVoiceAgent() {
   const bookingResetTimeoutRef = useRef<number | null>(null);
   const hasConfig = Boolean(apiKey && agentId);
   const todayISO = new Date().toISOString().split("T")[0];
+
+  const applyMuteState = useCallback((nextMuted: boolean) => {
+    setMicMuted(nextMuted);
+    try {
+      const client = vapiRef.current as unknown as {
+        mute?: () => void;
+        unmute?: () => void;
+        setMicrophoneMuted?: (muted: boolean) => void;
+      };
+      if (client?.setMicrophoneMuted) client.setMicrophoneMuted(nextMuted);
+      else if (nextMuted && client?.mute) client.mute();
+      else if (!nextMuted && client?.unmute) client.unmute();
+    } catch (error) {
+      console.error("Failed to toggle mute:", error);
+    }
+  }, []);
 
   useEffect(() => {
     if (!hasConfig && !warnedRef.current) {
@@ -262,7 +284,8 @@ export function VapiVoiceAgent() {
     setBookingErrors({});
     setBookingSubmissionState("idle");
     setBookingFeedback(null);
-  }, []);
+    applyMuteState(false);
+  }, [applyMuteState]);
 
   const openBookingForm = useCallback(() => {
     if (bookingResetTimeoutRef.current) {
@@ -274,7 +297,8 @@ export function VapiVoiceAgent() {
     setBookingErrors({});
     setBookingSubmissionState("idle");
     setBookingFeedback(null);
-  }, []);
+    applyMuteState(true);
+  }, [applyMuteState]);
 
   const handleBookingDismiss = useCallback(() => {
     if (bookingResetTimeoutRef.current) {
@@ -285,7 +309,10 @@ export function VapiVoiceAgent() {
     setBookingFormVisible(false);
     setBookingSubmissionState("idle");
     setBookingFeedback(null);
-  }, []);
+    if (statusRef.current === "live") {
+      applyMuteState(false);
+    }
+  }, [applyMuteState]);
 
   useEffect(() => {
     statusRef.current = status;
@@ -317,12 +344,14 @@ export function VapiVoiceAgent() {
       setStatus("live");
       setErrorMessage(null);
       setCallStage(null);
+      applyMuteState(false);
     };
 
     const handleCallEnd = () => {
       setStatus("idle");
       setVolume(0);
       setCallStage(null);
+      applyMuteState(false);
       resetBookingFlow();
     };
 
@@ -454,6 +483,7 @@ export function VapiVoiceAgent() {
       setVolume(0);
       setCallStage(null);
       resetBookingFlow();
+      applyMuteState(false);
       try {
         await vapiRef.current.stop();
       } catch (error) {
@@ -488,16 +518,16 @@ export function VapiVoiceAgent() {
   }
 
   const buttonLabel =
-    status === "live" ? "End Voice Session" : status === "connecting" ? "Connecting..." : "Talk to Tasknova";
+    status === "live" ? "End Voice Session" : status === "connecting" ? "Connecting..." : "Talk to Nova";
 
   const helperText = (() => {
     if (status === "live") {
-      return "You are live with the Tasknova AI coach.";
+      return "You are live with the Nova AI coach.";
     }
     if (status === "connecting") {
-      return callStage ? `Connecting (${callStage.replace(/-/g, " ")})...` : "Connecting to the Tasknova voice channel...";
+      return "Connecting to the Nova voice channel...";
     }
-    return "Launch a live conversation with the Tasknova AI team member.";
+    return "Launch a live conversation with the Nova AI team member.";
   })();
 
   const progressWidth = `${Math.min(Math.max(Math.round(volume * 100), 0), 100)}%`;
@@ -573,6 +603,10 @@ export function VapiVoiceAgent() {
       setBookingFeedback("We couldn't send that. Please try again.");
     }
   };
+
+  const containerClasses = `${
+    inline ? "relative mx-auto flex max-w-md flex-col gap-3 text-slate-900" : "fixed bottom-6 left-6 z-[9999] flex max-w-xs flex-col gap-2 text-slate-900"
+  } ${className ?? ""}`;
 
   return (
     <>
@@ -692,12 +726,12 @@ export function VapiVoiceAgent() {
         </div>
       )}
 
-      <div className="fixed bottom-6 left-6 z-[9999] flex max-w-xs flex-col gap-2 text-slate-900">
+      <div className={containerClasses}>
         <button
           type="button"
           onClick={handleToggle}
           disabled={status === "connecting"}
-          className="group flex items-center gap-3 rounded-3xl bg-slate-900 px-5 py-4 text-white shadow-2xl shadow-slate-900/25 transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-400 disabled:cursor-not-allowed disabled:opacity-70"
+          className="group flex items-center gap-3 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 px-5 py-4 text-white shadow-2xl shadow-blue-900/25 transition hover:shadow-blue-800/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-70"
           aria-live="polite"
         >
           <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
@@ -716,6 +750,39 @@ export function VapiVoiceAgent() {
             <span className="text-lg font-semibold">{buttonLabel}</span>
           </span>
         </button>
+
+        {status !== "idle" && (
+          <div className="flex items-center justify-center gap-3 self-center">
+            <button
+              type="button"
+              onClick={() => applyMuteState(!micMuted)}
+              className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/90 text-slate-900 shadow-md transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300"
+              aria-label={micMuted ? "Unmute microphone" : "Mute microphone"}
+            >
+              {micMuted ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                setStatus("idle");
+                applyMuteState(false);
+                setErrorMessage(null);
+                setVolume(0);
+                setCallStage(null);
+                resetBookingFlow();
+                try {
+                  await vapiRef.current?.stop();
+                } catch (error) {
+                  console.error("Failed to stop Vapi voice agent:", error);
+                }
+              }}
+              className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md transition hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-300"
+              aria-label="End call"
+            >
+              <PhoneOff className="h-5 w-5" />
+            </button>
+          </div>
+        )}
 
         <div className="rounded-3xl border border-slate-100 bg-white/90 px-4 py-3 text-sm text-slate-600 shadow-xl backdrop-blur">
           <p>{helperText}</p>

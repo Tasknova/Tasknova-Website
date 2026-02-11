@@ -63,22 +63,16 @@ const industryStats = [
     highlight: "Highest adoption rate"
   },
   {
-    industry: "Financial Services",
+    industry: "HR Agencies",
     teams: "1,200+",
     growth: "+38%",
     highlight: "Top revenue growth"
   },
   {
-    industry: "Healthcare & Life Sciences",
+    industry: "Real Estate",
     teams: "800+",
     growth: "+29%",
     highlight: "Fastest growing segment"
-  },
-  {
-    industry: "Manufacturing & Industrial",
-    teams: "700+",
-    growth: "+34%",
-    highlight: "Longest deal cycles improved"
   }
 ];
 
@@ -137,7 +131,7 @@ export function MetricsSection() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {industryStats.map((industry, index) => (
               <motion.div
                 key={index}
@@ -145,7 +139,7 @@ export function MetricsSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-slate-900 text-white"
+                className="p-6 rounded-xl bg-slate-900 text-white w-full max-w-sm"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <CheckCircle2 className="w-5 h-5 text-cyan-400" />
