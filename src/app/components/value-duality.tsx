@@ -5,17 +5,17 @@ const efficiencyItems = [
   {
     icon: Zap,
     title: "Automated Transcription",
-    description: "Never take notes again—AI captures every word"
+    description: "Never take notes again. Tasknova captures and structures every conversation."
   },
   {
     icon: Clock,
-    title: "Smart Follow-ups",
-    description: "Automated next steps based on conversation context"
+    title: "Smart Follow Ups",
+    description: "Automatically generate next steps based on buyer signals."
   },
   {
     icon: MessageSquare,
     title: "Meeting Intelligence",
-    description: "Auto-generated summaries and action items"
+    description: "Summaries, action items, and insights generated instantly."
   }
 ];
 
@@ -23,17 +23,17 @@ const effectivenessItems = [
   {
     icon: Brain,
     title: "Revenue Signals",
-    description: "AI identifies buying intent and deal risks in real-time"
+    description: "Detect buying intent, hesitation signals, and deal risks in real time."
   },
   {
     icon: BarChart3,
     title: "Performance Analytics",
-    description: "Data-driven insights on what actually moves deals forward"
+    description: "Understand what behaviors actually drive wins."
   },
   {
     icon: Target,
     title: "Predictive Coaching",
-    description: "Prescriptive recommendations to close skill gaps"
+    description: "Generate prescriptive improvement plans for reps and teams."
   }
 ];
 
@@ -47,7 +47,7 @@ export function ValueDuality() {
             Do More. Win More.
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Tasknova doesn't just save time—it transforms how your revenue teams perform
+            Tasknova transforms both efficiency and effectiveness across revenue teams
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export function ValueDuality() {
               </div>
               
               <p className="text-lg text-slate-600 mb-8">
-                Eliminate manual busywork with intelligent automation
+                Eliminate manual admin work using AI driven automation
               </p>
 
               <div className="space-y-6">
@@ -125,7 +125,7 @@ export function ValueDuality() {
               </div>
               
               <p className="text-lg text-slate-600 mb-8">
-                Make smarter decisions with AI-powered intelligence
+                Make smarter decisions using execution intelligence
               </p>
 
               <div className="space-y-6">
@@ -174,7 +174,7 @@ export function ValueDuality() {
           <div className="inline-flex items-center gap-4 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200">
             <TrendingUp className="w-6 h-6 text-cyan-600" />
             <span className="font-semibold text-slate-700">
-              Efficiency + Effectiveness = Predictable Revenue Growth
+              Efficiency plus Effectiveness creates predictable revenue growth
             </span>
             <Users className="w-6 h-6 text-blue-600" />
           </div>

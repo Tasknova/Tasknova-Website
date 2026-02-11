@@ -3,21 +3,21 @@ import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Tasknova transformed our sales process. We've seen a 42% increase in deal velocity and our team spends 12 hours less per week on admin tasks.",
+    quote: "Tasknova reduced admin work, improved deal visibility, and accelerated sales velocity across our entire team.",
     author: "Sarah Martinez",
     role: "VP of Sales",
     company: "TechFlow Solutions",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
   },
   {
-    quote: "The coaching insights are game-changing. We identified skill gaps we didn't know existed and saw immediate improvements in our team's performance.",
+    quote: "The coaching insights helped us identify skill gaps and saw immediate improvements in team performance.",
     author: "Michael Chen",
     role: "Head of Revenue Operations",
     company: "CloudScale Inc",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop"
   },
   {
-    quote: "Finally, a platform that connects all our revenue data. The integration with our existing stack was seamless, and we were up and running in 3 days.",
+    quote: "A platform that connects all our revenue data with seamless integration into our existing stack.",
     author: "Jessica Rodriguez",
     role: "Chief Revenue Officer",
     company: "DataPrime Systems",

@@ -14,41 +14,41 @@ const industries = [
     icon: Layers,
     gradient: "from-cyan-500 to-blue-600",
     image: "https://images.unsplash.com/photo-1669023414162-5bb06bbff0ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYWFzJTIwdGVjaG5vbG9neSUyMHNvZnR3YXJlJTIwaW50ZXJmYWNlfGVufDF8fHx8MTc3MDMxMTg5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "Accelerate product-led growth and optimize the entire customer journey",
+    description: "Accelerate Product-Led Growth and Optimize the Entire Customer Journey",
     challenges: [
-      "Long sales cycles with multiple stakeholders",
-      "Complex product demos that need perfect execution",
-      "High customer acquisition costs requiring efficiency",
-      "Churn prevention through proactive engagement"
+      "Long and complex sales cycles - Multiple stakeholders require consistent messaging and coordination across conversations.",
+      "High pressure product demonstrations - Demo execution directly impacts conversion success and deal momentum.",
+      "Rising customer acquisition costs - Teams need higher conversion efficiency across trials, demos, and sales conversations.",
+      "Churn risk from engagement gaps - Customer sentiment and adoption signals are often missed until renewal risk emerges."
     ],
     solutions: [
       {
         title: "Perfect Product Demos Every Time",
-        description: "Record and analyze demo calls to identify what resonates. Create a library of winning demo moments and objection handling techniques."
+        description: "Record and analyze product demonstrations to identify messaging that resonates with buyers and eliminate demo execution inconsistencies. Create libraries of winning demo moments, identify objection handling strategies that convert, and standardize demo frameworks across teams."
       },
       {
-        title: "Shorten Sales Cycles by 40%",
-        description: "AI identifies buying signals and stakeholder engagement patterns, helping reps prioritize hot deals and know exactly when to push for close."
+        title: "Shorten Sales Cycles Through Buying Signal Intelligence",
+        description: "Tasknova identifies stakeholder engagement patterns and deal momentum signals, allowing reps to focus on high-intent opportunities. Surface decision readiness indicators, track multi-stakeholder engagement levels, and highlight urgency and purchase signals."
       },
       {
-        title: "Reduce CAC Through Better Conversion",
-        description: "Analyze thousands of calls to understand what converts free trial users to paid customers. Replicate success across your team."
+        title: "Reduce Customer Acquisition Cost Through Conversion Intelligence",
+        description: "Analyze thousands of trial and sales conversations to understand what drives customer conversion and replicate those behaviors across the team. Identify trial-to-paid conversion triggers, track messaging effectiveness across lifecycle stages, and optimize onboarding and activation conversations."
       },
       {
-        title: "Prevent Churn Before It Happens",
-        description: "Detect sentiment shifts and engagement drops in customer conversations. Get alerts when accounts show risk signals."
+        title: "Prevent Churn With Proactive Sentiment Monitoring",
+        description: "Detect engagement decline and sentiment shifts across customer conversations to prevent churn and improve renewals. Track adoption conversations and usage concerns, detect dissatisfaction signals early, and monitor executive engagement across accounts."
       }
     ],
     metrics: [
-      { label: "Shorter Sales Cycle", value: "42%" },
-      { label: "Demo-to-Trial Conversion", value: "35%", trend: "up" },
-      { label: "Customer Retention", value: "89%" },
-      { label: "CAC Reduction", value: "28%" }
+      { label: "Shorter sales cycles", value: "42%" },
+      { label: "Higher demo-to-trial conversion", value: "35%", trend: "up" },
+      { label: "Improved customer retention", value: "89%" },
+      { label: "Reduction in acquisition cost", value: "28%" }
     ],
     caseStudy: {
       company: "CloudScale",
       industry: "B2B SaaS Platform",
-      result: "Increased trial-to-paid conversion by 47% and reduced average sales cycle from 89 to 52 days using conversation intelligence."
+      result: "Improved trial-to-paid conversion by 47% and reduced average sales cycle length by over 35 days using conversation intelligence."
     }
   },
   {
@@ -56,111 +56,111 @@ const industries = [
     icon: Home,
     gradient: "from-purple-500 to-pink-600",
     image: "https://images.unsplash.com/photo-1756435292384-1bf32eff7baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWFsJTIwZXN0YXRlJTIwcHJvcGVydHklMjBtb2Rlcm4lMjBob3VzZXxlbnwxfHx8fDE3NzAzMTE4OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "Close more deals faster with AI-powered insights from every client interaction",
+    description: "Close More Deals Faster Using AI Driven Client Interaction Intelligence",
     challenges: [
-      "Managing dozens of active clients simultaneously",
-      "Remembering specific preferences and requirements",
-      "Following up at the perfect time",
-      "Competitive market requiring faster response times"
+      "Managing multiple active clients simultaneously - Important client preferences and deal signals get lost across conversations.",
+      "Timing follow ups effectively - Successful deals depend heavily on follow up timing and client engagement.",
+      "High competition and response speed - Speed of response directly impacts deal success in competitive property markets.",
+      "Tracking buyer intent accurately - Agents often struggle to distinguish between serious buyers and exploratory prospects."
     ],
     solutions: [
       {
-        title: "Never Miss a Follow-Up",
-        description: "Automatically capture buyer preferences, budget constraints, and must-haves from every conversation. Get intelligent reminders for perfect-timing follow-ups."
+        title: "Never Miss Critical Follow Ups",
+        description: "Automatically capture buyer preferences, property requirements, and budget constraints from every client conversation. Generate follow up reminders based on urgency and intent, track viewing interest and client decision patterns, and preserve full client interaction history."
       },
       {
-        title: "Understand Buyer Intent Immediately",
-        description: "AI analyzes tone, urgency, and buying signals to tell you which prospects are ready to make offers vs. just browsing."
+        title: "Understand Buyer Intent in Real Time",
+        description: "Analyze tone, urgency, and decision signals to help agents prioritize serious buyers. Identify readiness to make offers, detect hesitation or negotiation signals, and highlight competitor property discussions."
       },
       {
-        title: "Scale Your Best Agent's Performance",
-        description: "Record top performer calls, extract winning techniques, and coach the entire team on what actually closes deals in your market."
+        title: "Scale Top Agent Performance Across Teams",
+        description: "Capture winning sales techniques from top performers and distribute proven deal closing strategies across agents. Extract negotiation talk tracks, standardize client discovery conversations, and train new agents using successful deal examples."
       },
       {
-        title: "Respond Faster Than Competition",
-        description: "Auto-transcribe property inquiries and viewing calls. Instantly search past conversations to match clients with perfect properties."
+        title: "Respond Faster Than Market Competition",
+        description: "Automatically transcribe property inquiries and viewing conversations so agents can instantly search and respond with relevant property options. Match client requirements with inventory faster, reduce missed inquiries and delayed responses, and improve client experience across touchpoints."
       }
     ],
     metrics: [
-      { label: "Faster Response Time", value: "67%" },
-      { label: "More Deals Closed", value: "31%", trend: "up" },
-      { label: "Client Satisfaction", value: "4.8/5" },
-      { label: "Follow-Up Completion", value: "94%" }
+      { label: "Faster client response time", value: "67%" },
+      { label: "Increase in deals closed", value: "31%", trend: "up" },
+      { label: "Client satisfaction rating", value: "4.8 / 5" },
+      { label: "Follow up completion rate", value: "94%" }
     ],
     caseStudy: {
       company: "Metro Realty Group",
-      industry: "Residential Real Estate",
-      result: "Increased listings-to-closings ratio by 38% and reduced average days-on-market by 23 days using AI engagement tracking."
+      industry: "Residential Real Estate Firm",
+      result: "Improved listing-to-closing ratio by 38% and reduced average days on market by over three weeks using AI driven engagement intelligence."
     }
   },
   {
-    name: "HR Industry",
+    name: "HR and Recruitment Industry",
     icon: Users,
     gradient: "from-orange-500 to-red-600",
     image: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxodW1hbiUyMHJlc291cmNlcyUyMEhSJTIwcmVjcnVpdG1lbnR8ZW58MXx8fHwxNzcwMzExODk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "Transform talent acquisition and employee engagement with conversation intelligence",
+    description: "Transform Talent Acquisition and Candidate Engagement Using Conversation Intelligence",
     challenges: [
-      "High-volume recruiting requiring consistent quality",
-      "Identifying best-fit candidates beyond resumes",
-      "Maintaining compliance in hiring conversations",
-      "Reducing time-to-hire in competitive markets"
+      "High volume recruiting with inconsistent evaluation quality - Hiring decisions rely heavily on subjective interviewer assessments.",
+      "Identifying best-fit candidates beyond resumes - Cultural alignment and competency signals are difficult to measure consistently.",
+      "Maintaining compliance during interviews - Organizations must ensure hiring conversations follow regulatory guidelines.",
+      "Reducing time to hire in competitive talent markets - Delays in candidate evaluation and follow up reduce acceptance rates."
     ],
     solutions: [
       {
-        title: "Identify Top Talent Faster",
-        description: "AI analyzes interview conversations for competency signals, culture fit indicators, and red flags that humans might miss."
+        title: "Identify High Quality Talent Faster",
+        description: "Analyze interview conversations to detect competency signals, communication effectiveness, and culture fit indicators. Highlight candidate strengths and risk signals, standardize interview evaluation criteria, and support data driven hiring decisions."
       },
       {
-        title: "Ensure Consistent, Compliant Interviews",
-        description: "Automatically flag compliance risks in interview questions. Standardize evaluation criteria across all interviewers and positions."
+        title: "Ensure Consistent and Compliant Interviews",
+        description: "Automatically flag risky or non-compliant interview questions and enforce standardized evaluation frameworks. Monitor interview consistency across teams, reduce compliance exposure, and improve hiring fairness and transparency."
       },
       {
-        title: "Improve Candidate Experience",
-        description: "Track response times, interview sentiment, and candidate engagement. Get alerts when top candidates show declining interest."
+        title: "Improve Candidate Experience and Engagement",
+        description: "Track candidate sentiment and responsiveness across interviews and communication touchpoints. Identify declining candidate interest early, improve follow up responsiveness, and enhance employer brand perception."
       },
       {
-        title: "Coach Interviewers to Excellence",
-        description: "Analyze what separates great interviewers from average ones. Share best practices and train hiring managers on effective techniques."
+        title: "Coach Interviewers and Hiring Managers",
+        description: "Identify characteristics that separate top interviewers from average interviewers and distribute best practices across hiring teams. Standardize interview techniques, improve candidate evaluation accuracy, and train hiring managers using real interview examples."
       }
     ],
     metrics: [
-      { label: "Faster Time-to-Hire", value: "45%" },
-      { label: "Candidate Quality Score", value: "4.7/5" },
-      { label: "Offer Acceptance Rate", value: "86%", trend: "up" },
-      { label: "Hiring Manager Satisfaction", value: "92%" }
+      { label: "Faster time to hire", value: "45%" },
+      { label: "Candidate quality score", value: "4.7 / 5" },
+      { label: "Offer acceptance rate", value: "86%", trend: "up" },
+      { label: "Hiring manager satisfaction", value: "92%" }
     ],
     caseStudy: {
       company: "TechTalent Solutions",
       industry: "Recruitment Agency",
-      result: "Reduced time-to-hire by 51% and increased placement quality scores by 43% using AI-powered interview intelligence."
+      result: "Reduced time to hire by over 50% and improved placement quality scores by more than 40% using interview conversation intelligence."
     }
   }
 ];
 
 const faqs = [
   {
-    question: "How does Tasknova handle industry-specific terminology?",
-    answer: "Our AI is trained on industry-specific vocabulary and can be customized with your own glossary. For SaaS, we understand product terminology; for Real Estate, property types and market terms; for HR, compliance and competency frameworks."
+    question: "How Does Tasknova Adapt to Industry Terminology?",
+    answer: "Tasknova Company Brain allows organizations to train AI models using industry specific vocabulary, sales frameworks, and compliance requirements."
   },
   {
-    question: "Can I use Tasknova across multiple industries?",
-    answer: "Absolutely! Many enterprise customers operate in multiple verticals. You can configure different workspaces with industry-specific settings, templates, and analytics for each business unit."
+    question: "Can Tasknova Support Multi-Industry Organizations?",
+    answer: "Yes. Tasknova allows separate intelligence models for different business units or industries within the same organization."
   },
   {
-    question: "What integrations work best for my industry?",
-    answer: "SaaS: Salesforce, HubSpot, Intercom, ProductBoard. Real Estate: MLS systems, Zillow, Follow Up Boss, kvCORE. HR: Greenhouse, Lever, Workday, BambooHR. We also offer custom API integrations."
+    question: "What Integrations Work Best Per Industry?",
+    answer: "Tasknova integrates with CRM systems, communication platforms, and workflow tools commonly used across SaaS, real estate, and recruitment organizations."
   },
   {
-    question: "How quickly can I see results specific to my industry?",
-    answer: "Most customers see measurable improvements within 30-45 days. The AI learns your industry patterns quickly, but the real transformation happens as your team adopts data-driven conversation strategies."
+    question: "How Quickly Can Teams See Industry-Specific Results?",
+    answer: "Most teams begin seeing measurable conversation insights within the first week and operational performance improvements within the first few months."
   },
   {
-    question: "Do you offer industry-specific training and best practices?",
-    answer: "Yes! Each industry gets dedicated onboarding, use-case playbooks, and access to our vertical-specific community. Professional and Enterprise plans include quarterly strategy sessions with industry experts."
+    question: "Does Tasknova Provide Industry Best Practices?",
+    answer: "Yes. Tasknova provides customizable playbooks, training workflows, and coaching intelligence tailored to industry selling and engagement patterns."
   },
   {
-    question: "How does pricing differ by industry?",
-    answer: "Pricing is consistent across industries, based on team size and feature needs. However, we offer specialized bundles—SaaS teams often need demo analytics, Real Estate needs mobile-first features, HR needs compliance tools."
+    question: "Does Pricing Vary by Industry?",
+    answer: "Tasknova pricing is based on platform modules and usage requirements rather than industry verticals."
   }
 ];
 
@@ -188,7 +188,7 @@ export default function SolutionsByIndustry() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6"
             >
-              Built for Your Industry's Unique Challenges
+              Revenue Intelligence Built for Your Industry's Unique Challenges
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -196,7 +196,7 @@ export default function SolutionsByIndustry() {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-slate-600"
             >
-              Purpose-built solutions for SaaS, Real Estate, and HR teams with industry-specific insights, workflows, and best practices.
+              Tasknova delivers industry-specific intelligence models, workflows, and coaching insights that help SaaS, Real Estate, and HR teams transform customer conversations into measurable revenue outcomes.
             </motion.p>
           </div>
         </div>
@@ -315,9 +315,9 @@ export default function SolutionsByIndustry() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Industry-Specific Questions</h2>
+              <h2 className="text-4xl font-bold mb-4">Industry FAQ</h2>
               <p className="text-xl text-slate-600">
-                Common questions about using Tasknova in your industry
+                Frequently asked questions about industry-specific intelligence
               </p>
             </div>
 
@@ -371,13 +371,10 @@ export default function SolutionsByIndustry() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Transform Your {" "}
-              <span className="bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent">
-                Industry Results?
-              </span>
+              Ready to Transform Results in Your Industry?
             </h2>
             <p className="text-xl text-slate-600 mb-8">
-              Join hundreds of teams in your industry already using Tasknova to close more deals, faster.
+              Join revenue teams already using Tasknova to improve deal execution, customer engagement, and predictable growth.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg">

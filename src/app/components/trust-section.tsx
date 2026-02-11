@@ -48,7 +48,7 @@ export function TrustSection() {
             Trusted by modern revenue teams across industries
           </h2>
           <p className="text-slate-600">
-            Join thousands of high-performing teams accelerating revenue growth
+            Teams rely on Tasknova to improve complex, high value customer interactions
           </p>
         </div>
 

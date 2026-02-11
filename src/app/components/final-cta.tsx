@@ -29,8 +29,8 @@ export function FinalCTA() {
           </h2>
 
           <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Join 5,000+ revenue teams using AI-powered intelligence to close more deals, 
-            coach better, and grow faster.
+            Join thousands of revenue teams using AI intelligence to close more deals, 
+            coach better, and scale faster.
           </p>
 
           {/* Benefits */}
@@ -66,7 +66,7 @@ export function FinalCTA() {
           </div>
 
           <p className="text-sm text-slate-400">
-            No credit card required • Free 14-day trial • Setup in under 10 minutes
+            No credit card required • 14 day trial • Setup in minutes
           </p>
 
           {/* Stats Bar */}

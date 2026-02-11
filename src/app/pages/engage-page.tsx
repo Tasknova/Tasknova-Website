@@ -12,41 +12,44 @@ const capabilities = [
   {
     icon: Mail,
     title: "Email Intelligence",
-    description: "Analyze sentiment, urgency, and buying signals.",
+    sectionTitle: "Understand Customer Intent Inside Every Email",
+    description: "Analyze sentiment, urgency, and buying signals inside customer emails so reps know exactly when interest is rising or deals are at risk.",
     features: [
-      "Real-time email sentiment analysis",
+      "Real time email sentiment analysis",
       "Urgency and intent detection",
       "Buying signal identification",
       "Optimal send time recommendations",
       "Template performance tracking",
-      "Automated response suggestions"
+      "AI assisted response suggestions"
     ],
     outcome: "Know exactly when customers are engaged"
   },
   {
     icon: MessageSquare,
     title: "Omnichannel Interaction Timeline",
-    description: "Combine calls and emails into one unified customer record.",
+    sectionTitle: "Never Lose Context Across Calls and Emails",
+    description: "Combine calls, emails, and meetings into a single chronological customer timeline that preserves context and reveals engagement patterns across the entire journey.",
     features: [
-      "Unified activity feed across all channels",
-      "Chronological interaction history",
-      "Multi-touchpoint journey mapping",
+      "Unified activity feed across channels",
+      "Complete interaction history per account",
+      "Multi touch journey mapping",
       "Engagement pattern recognition",
       "Channel preference detection",
-      "Automated CRM logging"
+      "Automated CRM activity logging"
     ],
     outcome: "Never lose context across touchpoints"
   },
   {
     icon: Target,
-    title: "Follow-up Recommendations",
-    description: "Suggest next best actions automatically.",
+    title: "Follow Up Intelligence",
+    sectionTitle: "Always Know the Next Best Action",
+    description: "Tasknova Engage continuously monitors interaction patterns and recommends follow ups based on timing, urgency, and channel effectiveness.",
     features: [
-      "AI-powered next step suggestions",
-      "Optimal timing recommendations",
+      "AI powered next step recommendations",
+      "Optimal follow up timing insights",
       "Channel preference guidance",
       "Automated task creation",
-      "Follow-up sequence triggers",
+      "Follow up sequence triggers",
       "Priority deal alerts"
     ],
     outcome: "Never miss a critical follow-up"
@@ -54,13 +57,14 @@ const capabilities = [
   {
     icon: BarChart3,
     title: "Engagement Scoring",
-    description: "Prioritize high-potential deals and leads.",
+    sectionTitle: "Prioritize Deals Most Likely to Close",
+    description: "Score accounts, contacts, and deals based on real engagement behavior so reps focus on opportunities with the highest probability of success.",
     features: [
-      "Account engagement scoring",
-      "Contact-level engagement tracking",
+      "Account level engagement scoring",
+      "Contact level interaction tracking",
       "Response rate prediction",
       "Deal velocity indicators",
-      "Stakeholder involvement metrics",
+      "Stakeholder involvement signals",
       "Pipeline health scoring"
     ],
     outcome: "Focus on deals most likely to close"
@@ -71,41 +75,41 @@ const outcomes = [
   {
     icon: Clock,
     metric: "10x",
-    label: "Faster follow-ups",
-    description: "Respond to customer signals within minutes, not hours or days"
+    label: "Faster follow ups",
+    description: "Respond to customer signals in minutes instead of hours"
   },
   {
     icon: TrendingUp,
     metric: "41%",
-    label: "Increased conversion rate",
-    description: "Convert more leads by engaging at the perfect moment"
+    label: "Higher conversion rates",
+    description: "Engage at the perfect moment with the right message"
   },
   {
     icon: Target,
     metric: "67%",
     label: "Better deal prioritization",
-    description: "Reps focus their time on deals with highest win probability"
+    description: "Focus time on deals with the highest win probability"
   }
 ];
 
 const useCases = [
   {
     title: "SDR Outbound Sequences",
-    challenge: "Low response rates and inefficient multi-channel outreach",
-    solution: "Track engagement across email, calls, and LinkedIn to optimize sequence timing",
-    result: "58% increase in meeting booking rate"
+    challenge: "Low response rates across multi channel outreach.",
+    solution: "Track engagement across calls, email, and social channels to optimize timing and messaging.",
+    result: "58% increase in meeting booking rate."
   },
   {
     title: "AE Deal Management",
-    challenge: "Missing buying signals buried in email threads",
-    solution: "AI surfaces urgency signals and competitor mentions automatically",
-    result: "26% shorter sales cycles"
+    challenge: "Critical buying signals buried inside long email threads.",
+    solution: "AI surfaces urgency signals, competitive mentions, and engagement shifts automatically.",
+    result: "26% shorter sales cycles."
   },
   {
-    title: "CS Account Expansion",
-    challenge: "Don't know which accounts are ready for upsell",
-    solution: "Engagement scoring identifies expansion-ready accounts based on interaction patterns",
-    result: "48% increase in expansion revenue"
+    title: "Customer Success Expansion",
+    challenge: "Teams struggle to identify which accounts are ready for expansion.",
+    solution: "Engagement scoring highlights expansion ready accounts based on interaction patterns.",
+    result: "48% increase in expansion revenue."
   }
 ];
 
@@ -117,7 +121,7 @@ const integrations = [
   { name: "Outreach", category: "Sales Engagement" },
   { name: "Salesloft", category: "Sales Engagement" },
   { name: "Slack", category: "Collaboration" },
-  { name: "Teams", category: "Collaboration" }
+  { name: "Microsoft Teams", category: "Collaboration" }
 ];
 
 export function EngagePage() {
@@ -142,7 +146,7 @@ export function EngagePage() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6"
             >
-              Know What Customers Say Across Every Channel
+              Know What Customers Say and Signal Across Every Channel
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -150,7 +154,7 @@ export function EngagePage() {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-slate-600 mb-8"
             >
-              Unified interaction intelligence that tracks, analyzes, and optimizes every customer touchpoint across calls, emails, and meetings.
+              Tasknova Engage delivers unified interaction intelligence that tracks, analyzes, and optimizes customer engagement across calls, emails, and meetings, so revenue teams act at the right moment, on the right signal, through the right channel.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -174,15 +178,33 @@ export function EngagePage() {
         </div>
       </section>
 
+      {/* Core Value Statement */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <h2 className="text-4xl font-bold mb-6">
+                Engagement Intelligence That Goes Beyond Sequences and Automation
+              </h2>
+              <p className="text-xl text-slate-600 leading-relaxed">
+                Tasknova Engage does not just automate outreach. It understands customer intent, urgency, and engagement patterns using company specific intelligence models so teams engage with precision, not guesswork.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Core Capabilities */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Core Capabilities</h2>
-              <p className="text-xl text-slate-600">
-                Complete visibility and intelligence across every customer interaction
-              </p>
+              <h2 className="text-4xl font-bold mb-4">Complete Visibility and Intelligence Across Every Customer Interaction</h2>
             </div>
 
             <div className="space-y-12">
@@ -201,7 +223,7 @@ export function EngagePage() {
                         <div className="inline-flex p-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 mb-4">
                           <Icon className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-2xl font-bold mb-3">{capability.title}</h3>
+                        <h3 className="text-2xl font-bold mb-3">{capability.sectionTitle}</h3>
                         <p className="text-slate-600 mb-4">{capability.description}</p>
                         <div className="inline-block px-4 py-2 rounded-lg bg-purple-100 text-purple-700 font-semibold text-sm">
                           {capability.outcome}
@@ -229,15 +251,38 @@ export function EngagePage() {
         </div>
       </section>
 
+      {/* Differentiation Block */}
+      <section className="py-20 bg-gradient-to-br from-purple-900 to-pink-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <h2 className="text-4xl font-bold mb-6">
+                Not Another Sales Engagement Tool
+              </h2>
+              <p className="text-xl text-purple-100 mb-6 leading-relaxed">
+                Sales engagement platforms focus on sending more messages. Tasknova Engage focuses on understanding when engagement actually matters.
+              </p>
+              <div className="inline-block px-6 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                <p className="text-lg text-white leading-relaxed">
+                  Powered by <span className="font-bold text-purple-300">Tasknova Company Brain</span>, Engage connects interaction data to revenue outcomes, rep performance, and deal execution context across the platform.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Outcomes */}
       <section className="py-20 bg-slate-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Outcomes</h2>
-              <p className="text-xl text-slate-300">
-                What teams achieve with omnichannel engagement intelligence
-              </p>
+              <h2 className="text-4xl font-bold mb-4">What Teams Achieve With Engagement Intelligence</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -271,10 +316,7 @@ export function EngagePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Real-World Use Cases</h2>
-              <p className="text-xl text-slate-600">
-                How teams use Engage to improve customer interactions
-              </p>
+              <h2 className="text-4xl font-bold mb-4">Real World Use Cases</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -314,9 +356,9 @@ export function EngagePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Works With Your Existing Tools</h2>
+              <h2 className="text-4xl font-bold mb-4">Works Seamlessly With Your Existing Tools</h2>
               <p className="text-xl text-slate-600">
-                Seamlessly integrates with your email, CRM, and sales engagement platforms
+                Tasknova Engage integrates with your CRM, email, and collaboration platforms to deliver intelligence without disrupting workflows.
               </p>
             </div>
 
@@ -347,10 +389,11 @@ export function EngagePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-6">
-              Start Tracking Every Customer Interaction Today
+              Start Tracking and Acting on Every Customer Signal
             </h2>
             <p className="text-xl text-slate-600 mb-8">
-              14-day free trial. No credit card required. Full access to all features.
+              Gain complete visibility into customer engagement and act with confidence using AI powered interaction intelligence.
+              14 day free trial. No credit card required.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/pricing">

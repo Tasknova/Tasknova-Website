@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { HeroSection } from "./components/hero-section";
 import { ProductTabs } from "./components/product-tabs";
+import { CustomerIntelligenceSection } from "./components/customer-intelligence-section";
 import { TrustSection } from "./components/trust-section";
 import { ProblemSection } from "./components/problem-section";
 import { ValueDuality } from "./components/value-duality";
@@ -38,6 +39,7 @@ function HomePage() {
       <main>
         <HeroSection />
         <ProductTabs />
+        <CustomerIntelligenceSection />
         <TrustSection />
         <ProblemSection />
         <ValueDuality />

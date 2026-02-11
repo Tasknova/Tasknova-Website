@@ -5,17 +5,20 @@ import { DollarSign, Users, Phone, Mail, Video, BarChart3 } from "lucide-react";
 export function ROICalculator() {
   const [teamSize, setTeamSize] = useState(10);
   const [actionsPerUser, setActionsPerUser] = useState(500);
+  const [intelligenceLayers, setIntelligenceLayers] = useState(1);
 
   // Pricing: Pay-per-action model
   const PRICE_PER_1000_ACTIONS = 5; // $5 per 1,000 actions
-  const BASE_FEE_PER_USER = 15; // $15 base fee per user
+  const BASE_AGENT_FEE = 12; // $12 base agent fee per user
+  const INTELLIGENCE_LAYER_COST = 30; // $30 per intelligence layer per user
   
   // Calculate monthly cost
   const calculateCost = () => {
     const totalActions = teamSize * actionsPerUser;
     const actionCost = (totalActions / 1000) * PRICE_PER_1000_ACTIONS;
-    const baseFee = teamSize * BASE_FEE_PER_USER;
-    const monthlyTotal = actionCost + baseFee;
+    const baseFee = teamSize * BASE_AGENT_FEE;
+    const intelligenceCost = teamSize * intelligenceLayers * INTELLIGENCE_LAYER_COST;
+    const monthlyTotal = actionCost + baseFee + intelligenceCost;
     const annualTotal = monthlyTotal * 12;
     
     // Calculate per-user monthly cost
@@ -31,6 +34,7 @@ export function ROICalculator() {
       annualTotal: Math.round(annualTotal),
       baseFee: Math.round(baseFee),
       actionCost: Math.round(actionCost),
+      intelligenceCost: Math.round(intelligenceCost),
       perUserMonthlyCost: Math.round(perUserMonthlyCost),
       traditionalCost: Math.round(traditionalCost),
       monthlySavings: Math.max(0, Math.round(monthlySavings)),
@@ -130,6 +134,34 @@ export function ROICalculator() {
                   </div>
                 </div>
 
+                {/* Intelligence Layers */}
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <label className="font-semibold text-slate-700 flex items-center gap-2">
+                      <BarChart3 className="w-5 h-5 text-cyan-600" />
+                      Intelligence Layers
+                    </label>
+                    <span className="text-2xl font-bold text-cyan-600">{intelligenceLayers}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="3"
+                    value={intelligenceLayers}
+                    onChange={(e) => setIntelligenceLayers(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cyan-600"
+                  />
+                  <div className="flex justify-between text-xs text-slate-500 mt-1">
+                    <span>0 (Agents Only)</span>
+                    <span>1 Layer</span>
+                    <span>2 Layers</span>
+                    <span>3 Layers</span>
+                  </div>
+                  <p className="text-sm text-slate-500 mt-2">
+                    Add Insight, Engage, or Coach intelligence layers ($30/user each)
+                  </p>
+                </div>
+
                 {/* Monthly Actions Per User */}
                 <div>
                   <div className="flex justify-between items-center mb-3">
@@ -209,11 +241,15 @@ export function ROICalculator() {
 
                 <div className="space-y-3 pt-6 border-t border-white/20">
                   <div className="flex justify-between items-center">
-                    <span className="opacity-90">Base fee ({teamSize} users × $15)</span>
+                    <span className="opacity-90">Base agent fee ({teamSize} users × $12)</span>
                     <span className="font-semibold">{formatCurrency(results.baseFee)}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="opacity-90">Usage ({formatNumber(results.totalActions)} actions)</span>
+                    <span className="opacity-90">Intelligence layers ({intelligenceLayers} × $30 × {teamSize} users)</span>
+                    <span className="font-semibold">{formatCurrency(results.intelligenceCost)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="opacity-90">Usage cost ($5 per 1,000 actions, {formatNumber(results.totalActions)} actions)</span>
                     <span className="font-semibold">{formatCurrency(results.actionCost)}</span>
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-white/20">
@@ -255,7 +291,15 @@ export function ROICalculator() {
                       <span className="text-xs">✓</span>
                     </div>
                     <div>
-                      <span className="font-semibold">$15/user</span> base fee per month
+                      <span className="font-semibold">$12/user</span> base agent fee per month
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold">$30/user</span> per intelligence layer per month
                     </div>
                   </div>
                   <div className="flex items-start gap-3">

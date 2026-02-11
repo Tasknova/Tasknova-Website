@@ -10,12 +10,12 @@ const products = [
     name: "Tasknova Insight",
     icon: Brain,
     tagline: "Turn conversations into competitive intelligence",
-    description: "AI-powered conversation intelligence that captures, transcribes, and analyzes every customer interaction to surface actionable insights.",
+    description: "AI powered conversation intelligence that captures, analyzes, and scores every customer interaction against your company playbook.",
     features: [
-      { icon: Zap, text: "Real-time call transcription & recording" },
-      { icon: TrendingUp, text: "Sentiment analysis & deal scoring" },
-      { icon: BarChart3, text: "Revenue forecasting & risk alerts" },
-      { icon: Target, text: "Topic tracking & keyword detection" }
+      { icon: Zap, text: "Real time call transcription and recording" },
+      { icon: TrendingUp, text: "Sentiment analysis and deal scoring" },
+      { icon: BarChart3, text: "Revenue forecasting and risk alerts" },
+      { icon: Target, text: "Topic tracking and keyword detection" }
     ],
     integrations: ["Salesforce", "HubSpot", "Pipedrive", "Zoho CRM", "Microsoft Dynamics"],
     image: "https://images.unsplash.com/photo-1750816204148-5d02aff367cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaSUyMGFuYWx5dGljcyUyMHRyYW5zY3JpcHRpb24lMjBwbGF0Zm9ybXxlbnwxfHx8fDE3NzAzNjU3MzN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -26,13 +26,13 @@ const products = [
     id: "engage",
     name: "Tasknova Engage",
     icon: MessageSquare,
-    tagline: "Orchestrate omnichannel customer engagement",
-    description: "Track and optimize every touchpoint across calls, emails, and meetings. Understand engagement patterns and automate intelligent follow-ups.",
+    tagline: "Orchestrate every customer touchpoint",
+    description: "Track, analyze, and optimize customer engagement across email, messaging, and outreach channels using AI driven engagement intelligence.",
     features: [
-      { icon: Mail, text: "Email intelligence & tracking" },
-      { icon: MessageSquare, text: "Multi-channel interaction analytics" },
-      { icon: TrendingUp, text: "Engagement scoring & health metrics" },
-      { icon: Zap, text: "Automated follow-up recommendations" }
+      { icon: Mail, text: "Email and engagement tracking" },
+      { icon: MessageSquare, text: "Omnichannel communication insights" },
+      { icon: Zap, text: "Follow up automation and scheduling" },
+      { icon: TrendingUp, text: "Engagement scoring and buyer intent detection" }
     ],
     integrations: ["Salesforce", "HubSpot", "Outreach", "SalesLoft", "Gmail", "Outlook"],
     image: "https://images.unsplash.com/photo-1762340275877-32d64414d8aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXN0b21lciUyMGVuZ2FnZW1lbnQlMjBwbGF0Zm9ybSUyMGludGVyZmFjZXxlbnwxfHx8fDE3NzAzNjM2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -43,13 +43,13 @@ const products = [
     id: "coach",
     name: "Tasknova Coach",
     icon: GraduationCap,
-    tagline: "Scale your best performers with AI coaching",
-    description: "Automatically identify skill gaps, deliver personalized coaching insights, and accelerate rep performance with data-driven playbooks.",
+    tagline: "Scale top performers across your entire team",
+    description: "AI driven coaching intelligence that identifies performance gaps and generates personalized improvement plans.",
     features: [
-      { icon: Users, text: "AI-powered coaching recommendations" },
-      { icon: BarChart3, text: "Performance benchmarking & tracking" },
-      { icon: Target, text: "Skill gap analysis & training paths" },
-      { icon: Brain, text: "Automated playbook creation" }
+      { icon: BarChart3, text: "Rep level performance analytics" },
+      { icon: Target, text: "Skill gap detection and benchmarking" },
+      { icon: Users, text: "Winning behavior replication" },
+      { icon: Brain, text: "AI mock call practice and coaching insights" }
     ],
     integrations: ["Salesforce", "HubSpot", "Gong", "Chorus", "Zoom", "Microsoft Teams"],
     image: "https://images.unsplash.com/photo-1758691736508-a85d1f7d5a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2FjaGluZyUyMHBlcmZvcm1hbmNlJTIwYW5hbHl0aWNzJTIwcGxhdGZvcm18ZW58MXx8fHwxNzcwMzY1NzMwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -68,10 +68,10 @@ export function ProductTabs() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            One Platform. Three Powerful Products.
+            One Platform. Three Intelligence Products.
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Choose the module you need today, seamlessly expand as your revenue operations mature.
+            Choose the module you need today. Seamlessly expand as your revenue operations mature.
           </p>
         </div>
 

@@ -11,6 +11,47 @@ import { ROICalculator } from "../components/roi-calculator";
 
 const pricingPlans = [
   {
+    name: "Startup Pack",
+    price: {
+      monthly: 12,
+      annual: 12
+    },
+    description: "Best for early-stage teams and pilot deployments",
+    gradient: "from-slate-500 to-slate-600",
+    popular: false,
+    cta: "Start 14-Day Free Trial",
+    limits: {
+      users: "Up to 5 users",
+      recordings: "50 recordings/month",
+      storage: "14-day retention",
+      transcription: "5 hours/user/month"
+    },
+    features: [
+      { category: "Agents Included", items: [
+        { name: "Voice Agent", included: true },
+        { name: "Meeting Agent", included: true },
+        { name: "Automatic recording and transcription", included: true },
+        { name: "Basic interaction analysis", included: true },
+        { name: "Conversation summaries", included: true },
+        { name: "Action item extraction", included: true }
+      ]},
+      { category: "Integrations", items: [
+        { name: "Calendar integration", included: true },
+        { name: "Zoom, Meet, Teams", included: true },
+        { name: "Basic CRM sync", included: true }
+      ]},
+      { category: "Support", items: [
+        { name: "Email support", included: true },
+        { name: "Knowledge base access", included: true }
+      ]},
+      { category: "Intelligence Layer Pricing (Optional Add-On)", items: [
+        { name: "Conversation Intelligence Layer +$30/user/month", included: false },
+        { name: "Engagement Intelligence Layer +$30/user/month", included: false },
+        { name: "Coaching Intelligence Layer +$30/user/month", included: false }
+      ]}
+    ]
+  },
+  {
     name: "Starter",
     price: {
       monthly: 49,
@@ -209,7 +250,7 @@ const modules = [
   {
     name: "Tasknova Insight",
     tagline: "Conversation Intelligence",
-    price: { monthly: 39, annual: 31 },
+    price: { monthly: 30, annual: 30 },
     description: "AI-powered recording, transcription, and conversation analytics",
     features: [
       "Unlimited recording & transcription",
@@ -223,7 +264,7 @@ const modules = [
   {
     name: "Tasknova Engage",
     tagline: "Omnichannel Engagement",
-    price: { monthly: 29, annual: 23 },
+    price: { monthly: 30, annual: 30 },
     description: "Track and optimize every customer touchpoint across all channels",
     features: [
       "Email tracking & analytics",
@@ -237,7 +278,7 @@ const modules = [
   {
     name: "Tasknova Coach",
     tagline: "AI Sales Coaching",
-    price: { monthly: 35, annual: 28 },
+    price: { monthly: 30, annual: 30 },
     description: "Scale your best performers with AI coaching and performance analytics",
     features: [
       "AI coaching recommendations",
@@ -251,6 +292,10 @@ const modules = [
 ];
 
 const faqs = [
+  {
+    question: "What Is The Startup Pack?",
+    answer: "Startup Pack includes Tasknova Voice Agent and Meeting Agent with foundational interaction analysis. Teams can activate intelligence layers later as revenue operations mature."
+  },
   {
     question: "How does the 14-day free trial work?",
     answer: "Your trial includes full access to your chosen plan with no feature limitations and no credit card required. You can invite your entire team, connect all your tools, and experience the full platform. If you love it, simply add payment info before day 14. If not, no charges—ever."
@@ -334,6 +379,7 @@ export function PricingPage() {
               transition={{ delay: 0.2 }}
               className="text-xl text-slate-600 mb-8"
             >
+              Start with agents and expand into full revenue intelligence as your team scales.
               Start with a 14-day free trial. No credit card required. Cancel anytime.
             </motion.p>
 
@@ -369,7 +415,7 @@ export function PricingPage() {
       {/* Pricing Tiers */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-4 gap-8 max-w-[1400px] mx-auto">
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={index}
@@ -485,6 +531,72 @@ export function PricingPage() {
         </div>
       </section>
 
+      {/* Intelligence Layer Pricing Model */}
+      <section className="py-20 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Intelligence Layer Pricing Model</h2>
+              <p className="text-lg text-slate-600">
+                Tasknova is built as a modular intelligence platform. Teams can start with agents and activate intelligence layers as needed.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-6 rounded-xl border-2 border-cyan-500 bg-cyan-50"
+              >
+                <div className="text-cyan-600 font-bold text-sm uppercase tracking-wide mb-2">Layer</div>
+                <h3 className="text-xl font-bold mb-2">Conversation Intelligence</h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Analyze conversations, detect buying signals, and generate deal insights
+                </p>
+                <div className="text-3xl font-bold text-cyan-600">$30<span className="text-base text-slate-600 font-normal">/user/month</span></div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="p-6 rounded-xl border-2 border-purple-500 bg-purple-50"
+              >
+                <div className="text-purple-600 font-bold text-sm uppercase tracking-wide mb-2">Layer</div>
+                <h3 className="text-xl font-bold mb-2">Engagement Intelligence</h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Track customer interaction patterns and optimize engagement timing
+                </p>
+                <div className="text-3xl font-bold text-purple-600">$30<span className="text-base text-slate-600 font-normal">/user/month</span></div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="p-6 rounded-xl border-2 border-green-500 bg-green-50"
+              >
+                <div className="text-green-600 font-bold text-sm uppercase tracking-wide mb-2">Layer</div>
+                <h3 className="text-xl font-bold mb-2">Coaching Intelligence</h3>
+                <p className="text-slate-600 text-sm mb-4">
+                  Generate personalized coaching insights and performance analytics
+                </p>
+                <div className="text-3xl font-bold text-green-600">$30<span className="text-base text-slate-600 font-normal">/user/month</span></div>
+              </motion.div>
+            </div>
+
+            <div className="mt-8 p-6 rounded-xl bg-gradient-to-r from-slate-100 to-slate-50 text-center">
+              <p className="text-lg font-semibold text-slate-900">
+                Bundle all 3 layers for maximum performance optimization.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Modular Pricing */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
@@ -542,7 +654,7 @@ export function PricingPage() {
 
             <div className="p-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-center">
               <h3 className="text-2xl font-bold mb-2">Bundle All 3 & Save 25%</h3>
-              <p className="mb-4">Full platform from <span className="text-3xl font-bold">${billingPeriod === "annual" ? 63 : 79}</span>/user/month</p>
+              <p className="mb-4">Full platform from <span className="text-3xl font-bold">$67</span>/user/month</p>
               <button className="px-8 py-3 bg-white text-cyan-600 rounded-lg font-semibold hover:bg-slate-50 transition-colors">
                 Get Full Platform
               </button>

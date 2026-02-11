@@ -4,19 +4,19 @@ import { XCircle, AlertTriangle } from "lucide-react";
 const problems = [
   {
     title: "Fragmented Tools",
-    description: "Sales teams juggle 10+ disconnected tools, losing context and wasting hours on manual data entry."
+    description: "Revenue teams juggle multiple disconnected platforms, losing context and wasting hours on manual updates."
   },
   {
     title: "Siloed Data",
-    description: "Critical insights trapped in email threads, call recordings, and individual notes—never reaching leadership."
+    description: "Insights remain trapped inside recordings, email threads, and personal notes without reaching decision makers."
   },
   {
     title: "Reactive Coaching",
-    description: "Managers discover performance issues too late, missing critical moments to course-correct deals."
+    description: "Managers discover performance issues after deals are already lost."
   },
   {
     title: "Invisible Revenue Risks",
-    description: "Pipeline forecasts based on gut feel rather than conversation intelligence, leading to missed targets."
+    description: "Forecasts rely on assumptions instead of real customer signals."
   }
 ];
 
@@ -39,11 +39,11 @@ export function ProblemSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 italic text-slate-300">
-            "We want to grow slowly and inefficiently..."
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+            Revenue teams are drowning in conversations but starving for intelligence.
           </h2>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-            Said no revenue leader ever. Yet most teams are stuck with:
+            Most teams operate across fragmented tools, disconnected data, and reactive coaching. Critical signals get buried inside calls, emails, chats, and notes, leaving leaders guessing instead of executing with clarity.
           </p>
         </motion.div>
 
@@ -79,17 +79,11 @@ export function ProblemSection() {
           <div className="p-8 rounded-2xl bg-gradient-to-r from-cyan-500/10 to-blue-600/10 border border-cyan-500/30">
             <AlertTriangle className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
             <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              The Problem? No Single Source of Truth
+              Without unified intelligence, revenue teams operate without a single source of truth.
             </h3>
             <p className="text-lg text-slate-300 mb-6">
-              Without unified revenue intelligence, you're flying blind—making decisions on incomplete data, 
-              reacting to problems instead of preventing them, and leaving revenue on the table.
+              Tasknova creates your company specific intelligence layer.
             </p>
-            <div className="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600">
-              <p className="font-semibold text-lg">
-                Tasknova creates your unified intelligence layer
-              </p>
-            </div>
           </div>
         </motion.div>
       </div>

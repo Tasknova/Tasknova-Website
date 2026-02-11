@@ -14,36 +14,39 @@ const platformFlow = [
     name: "Tasknova Insight",
     icon: Brain,
     gradient: "from-cyan-500 to-blue-600",
-    description: "AI-powered call intelligence that captures and analyzes customer conversations.",
+    description: "AI Conversation Intelligence Built Around Your Business",
+    longDescription: "Tasknova Insight captures and analyzes customer conversations and maps them against your company's playbooks, ICPs, and sales standards.",
     capabilities: [
-      "Automatic call recording & transcription",
-      "Sentiment & emotion detection",
-      "Conversation pattern analysis",
-      "Deal risk identification"
+      "Automatic call recording and transcription",
+      "Sentiment and emotion analysis",
+      "Conversation pattern and buying signal detection",
+      "Deal risk identification and forecasting signals"
     ]
   },
   {
     name: "Tasknova Engage",
     icon: Zap,
     gradient: "from-purple-500 to-pink-600",
-    description: "Unified interaction intelligence across calls and emails.",
+    description: "Customer Interaction Intelligence Across Every Channel",
+    longDescription: "Tasknova Engage tracks, analyzes, and optimizes customer engagement across calls, emails, and communication channels to improve follow ups and deal momentum.",
     capabilities: [
       "Omnichannel activity tracking",
-      "Email sentiment analysis",
-      "Engagement scoring",
-      "Follow-up recommendations"
+      "Email sentiment and engagement intelligence",
+      "Buyer intent and engagement scoring",
+      "Automated follow up recommendations"
     ]
   },
   {
     name: "Tasknova Coach",
     icon: Users,
     gradient: "from-green-500 to-emerald-600",
-    description: "AI coaching and performance optimization platform.",
+    description: "Performance Intelligence and AI Coaching Platform",
+    longDescription: "Tasknova Coach identifies performance gaps, extracts winning behaviors from top performers, and generates personalized coaching plans for revenue teams.",
     capabilities: [
       "Automated coaching insights",
-      "Skill gap detection",
-      "Performance benchmarking",
-      "Onboarding acceleration"
+      "Skill gap detection and improvement tracking",
+      "Rep and team performance benchmarking",
+      "Onboarding acceleration and AI practice simulations"
     ]
   }
 ];
@@ -52,42 +55,42 @@ const platformBenefits = [
   {
     icon: Brain,
     title: "One Unified Intelligence Engine",
-    description: "All your conversation data flows through a single AI engine, creating consistent insights across every touchpoint."
+    description: "All customer interaction data flows through a single AI engine, creating consistent insights across calls, messaging, and coaching workflows."
   },
   {
     icon: Target,
     title: "Eliminates Tool Fragmentation",
-    description: "Replace 3-5 disconnected tools with one integrated platform. Reduce costs and complexity."
+    description: "Replace multiple disconnected conversation, engagement, and coaching tools with one integrated platform that reduces operational complexity."
   },
   {
     icon: TrendingUp,
     title: "Improves Rep Performance Automatically",
-    description: "AI identifies coaching moments and delivers personalized recommendations without manual intervention."
+    description: "Tasknova continuously identifies coaching opportunities and delivers prescriptive improvement recommendations based on real customer interactions."
   },
   {
     icon: Users,
     title: "Scales Learning Across Teams",
-    description: "Extract best practices from top performers and replicate them across your entire organization."
+    description: "Winning behaviors from top performers are automatically extracted, standardized, and scaled across the entire revenue organization."
   }
 ];
 
 const outcomes = [
   { metric: "40%", label: "Faster Rep Ramp Time" },
   { metric: "32%", label: "Higher Win Rates" },
-  { metric: "80%", label: "Less Review Time" },
-  { metric: "$2.4M", label: "Avg Annual Value Added" }
+  { metric: "80%", label: "Less Deal and Performance Review Time" },
+  { metric: "$2.4M", label: "Average Annual Revenue Impact Per Team" }
 ];
 
 const testimonials = [
   {
-    quote: "Before Tasknova, we had three separate tools for calls, emails, and coaching. The platform unified everything and gave us insights we never had before.",
+    quote: "Before Tasknova, we used separate tools for conversations, email engagement, and coaching. Tasknova unified everything and revealed execution insights we never had visibility into.",
     author: "Sarah Chen",
     role: "Chief Revenue Officer",
     company: "CloudMetrics",
     image: "saas executive"
   },
   {
-    quote: "Our new reps hit quota 40% faster because the AI coaching shows them exactly what top performers do differently.",
+    quote: "Our new reps reach quota significantly faster because AI coaching clearly shows them what top performers do differently and how to replicate those behaviors.",
     author: "David Park",
     role: "VP of Sales",
     company: "TechForward",
@@ -98,35 +101,35 @@ const testimonials = [
 const faqs = [
   {
     question: "Can I buy individual products or do I need the full platform?",
-    answer: "You have complete flexibility. Purchase Insight, Engage, or Coach individually starting at $29-39/user/month. Or bundle all three for the full platform price and save 25%. Many customers start with one product and expand over time."
+    answer: "Tasknova is designed as a modular platform. Teams can start with Insight, Engage, or Coach independently and expand into the full intelligence ecosystem when ready."
   },
   {
     question: "How long does it take to implement Tasknova?",
-    answer: "Most teams are up and running within 24-48 hours. Our onboarding includes automated integrations with your CRM, calendar, and communication tools. Professional plans include dedicated setup assistance."
+    answer: "Most teams are operational within 3 to 5 business days. Enterprise deployments with custom workflows typically complete within 1 to 2 weeks."
   },
   {
-    question: "Does Tasknova work with our existing tech stack?",
-    answer: "Yes! Tasknova integrates with 50+ tools including Salesforce, HubSpot, Zoom, Teams, Gmail, Outlook, and all major sales engagement platforms. We also offer a robust API for custom integrations."
+    question: "Does Tasknova integrate with our existing tech stack?",
+    answer: "Tasknova integrates with major CRMs, meeting platforms, dialers, messaging tools, and collaboration software to create a unified intelligence layer without replacing existing systems."
   },
   {
-    question: "What's the difference between Tasknova and other conversation intelligence tools?",
-    answer: "Tasknova is the only platform that combines conversation intelligence (Insight), omnichannel engagement tracking (Engage), and AI coaching (Coach) in one unified system. This eliminates tool fragmentation and provides deeper insights by connecting all customer interaction data."
+    question: "What makes Tasknova different from conversation intelligence tools?",
+    answer: "Traditional tools analyze conversations. Tasknova connects conversation data with revenue outcomes, engagement signals, coaching intelligence, and automation workflows using company specific intelligence models."
   },
   {
-    question: "How does AI coaching actually work?",
-    answer: "Our AI analyzes every customer conversation and compares it to best practices from your top performers. It automatically identifies skill gaps, suggests improvements, and creates personalized coaching plans for each rep—scaling what would take managers hours into seconds."
+    question: "How does AI coaching work?",
+    answer: "Tasknova analyzes rep interactions, compares performance against top performers and company standards, identifies skill gaps, and generates prescriptive improvement plans supported by real conversation examples."
   },
   {
     question: "Is our conversation data secure and private?",
-    answer: "Absolutely. Tasknova is SOC 2 Type II certified, GDPR compliant, and offers enterprise-grade security including SSO/SAML, data encryption at rest and in transit, and granular access controls. You own your data and can export or delete it anytime."
+    answer: "Tasknova follows enterprise grade security standards including encryption, role based access controls, and strict data ownership protections."
   },
   {
-    question: "What kind of ROI can we expect?",
-    answer: "Most customers see ROI within 4-5 months. On average, teams experience 32% higher win rates, 40% faster rep ramp time, and 80% reduction in call review time. Annual value delivered averages $127K per team."
+    question: "What ROI can teams expect?",
+    answer: "Customers typically see improvements in win rates, onboarding speed, forecasting accuracy, and revenue expansion within the first six months."
   },
   {
     question: "Do you offer a free trial?",
-    answer: "Yes! We offer a 14-day free trial with full access to all features in your chosen plan. No credit card required. You can invite your entire team and test all integrations before making a decision."
+    answer: "Yes. Teams can start with a 14 day free trial with full product access and guided onboarding support."
   }
 ];
 
@@ -164,7 +167,8 @@ export function ProductsOverview() {
                   transition={{ delay: 0.2 }}
                   className="text-xl md:text-2xl text-slate-600 mb-8"
                 >
-                  Tasknova transforms customer conversations into actionable insights, engagement intelligence, and automated coaching — helping revenue teams scale performance predictably.
+                  Tasknova transforms customer conversations into company specific intelligence, engagement insights, and automated coaching that helps revenue teams improve execution and scale performance predictably.
+                  Start with one product or deploy the full platform as your revenue operations mature.
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -210,9 +214,9 @@ export function ProductsOverview() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Platform Architecture</h2>
+              <h2 className="text-4xl font-bold mb-4">Three Execution Products Powered by Four Intelligence Layers.</h2>
               <p className="text-xl text-slate-600">
-                Three integrated products. One powerful intelligence layer.
+                Tasknova combines conversation analytics, engagement intelligence, and performance coaching into one connected system designed to improve revenue execution across the entire customer lifecycle.
               </p>
             </div>
 
@@ -234,7 +238,7 @@ export function ProductsOverview() {
                         <Icon className="w-10 h-10 text-white" />
                       </div>
                       <h3 className="text-2xl font-bold mb-3">{product.name}</h3>
-                      <p className="text-slate-600 mb-6">{product.description}</p>
+                      <p className="text-slate-600 mb-6">{product.longDescription}</p>
                       <ul className="space-y-3">
                         {product.capabilities.map((capability, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm">
@@ -263,13 +267,57 @@ export function ProductsOverview() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-8 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white text-center"
+              className="p-10 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white"
             >
-              <BarChart3 className="w-12 h-12 mx-auto mb-4 text-cyan-400" />
-              <h3 className="text-2xl font-bold mb-3">Revenue Intelligence Layer</h3>
-              <p className="text-slate-300 max-w-3xl mx-auto">
-                All three products feed into a unified intelligence engine that connects conversation data to revenue outcomes, forecasting, and strategic insights.
-              </p>
+              <div className="text-center mb-8">
+                <BarChart3 className="w-12 h-12 mx-auto mb-4 text-cyan-400" />
+                <h3 className="text-3xl font-bold mb-3">The Intelligence Layer That Connects Execution to Revenue Outcomes</h3>
+                <p className="text-slate-300 max-w-3xl mx-auto text-lg">
+                  All Tasknova products feed into a unified intelligence engine that connects conversation data, engagement signals, rep behavior, and customer context to measurable revenue outcomes.
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
+                <div className="p-5 rounded-lg bg-gradient-to-br from-cyan-600/20 to-blue-600/20 border border-cyan-500/30">
+                  <h4 className="font-bold text-lg text-cyan-400 mb-3">Customer Intelligence Layer</h4>
+                  <ul className="space-y-2 text-sm text-slate-300">
+                    <li>• Account context intelligence</li>
+                    <li>• Pre-call customer briefs</li>
+                    <li>• Expansion and adoption signal detection</li>
+                    <li>• Customer lifecycle insight tracking</li>
+                  </ul>
+                </div>
+                <div className="p-5 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <h4 className="font-bold text-lg text-cyan-400 mb-3">Deal Health Intelligence</h4>
+                  <ul className="space-y-2 text-sm text-slate-300">
+                    <li>• Deal health visibility</li>
+                    <li>• Forecasting accuracy improvement</li>
+                    <li>• Risk identification</li>
+                  </ul>
+                </div>
+                <div className="p-5 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <h4 className="font-bold text-lg text-cyan-400 mb-3">Performance Intelligence</h4>
+                  <ul className="space-y-2 text-sm text-slate-300">
+                    <li>• Performance improvement signals across teams</li>
+                    <li>• Skill gap detection</li>
+                    <li>• Coaching optimization</li>
+                  </ul>
+                </div>
+                <div className="p-5 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <h4 className="font-bold text-lg text-cyan-400 mb-3">Strategic Intelligence</h4>
+                  <ul className="space-y-2 text-sm text-slate-300">
+                    <li>• Strategic insights for GTM optimization</li>
+                    <li>• Market and competitive intelligence</li>
+                    <li>• Revenue pattern analysis</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <p className="text-sm text-slate-400">
+                  Powered by <span className="font-semibold text-cyan-400">Tasknova Company Brain</span>, which customizes intelligence models using your product knowledge, ICP definitions, pricing, SLAs, and execution standards.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -280,9 +328,9 @@ export function ProductsOverview() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Why Choose Tasknova Platform</h2>
+              <h2 className="text-4xl font-bold mb-4">Built for Revenue Teams That Need More Than Point Solutions</h2>
               <p className="text-xl text-slate-600">
-                Built for modern revenue teams who need more than point solutions
+                Tasknova eliminates fragmentation with a unified intelligence approach
               </p>
             </div>
 
@@ -320,9 +368,9 @@ export function ProductsOverview() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Platform Outcomes</h2>
+              <h2 className="text-4xl font-bold mb-4">What Teams Achieve With Tasknova</h2>
               <p className="text-xl text-slate-600">
-                What teams achieve with the complete Tasknova platform
+                Real outcomes from revenue teams using the complete platform
               </p>
             </div>
 
@@ -351,6 +399,9 @@ export function ProductsOverview() {
       <section className="py-20 bg-slate-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4">Trusted by Modern Revenue Leaders</h2>
+            </div>
             <div className="grid md:grid-cols-2 gap-8">
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -383,7 +434,7 @@ export function ProductsOverview() {
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
               <p className="text-xl text-slate-600">
-                Answers to common questions about Tasknova
+                Everything you need to know about implementing and scaling Tasknova
               </p>
             </div>
 
@@ -437,10 +488,10 @@ export function ProductsOverview() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Transform Your Revenue Operations?
+              Ready to Transform Revenue Execution?
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Join 5,000+ revenue teams using Tasknova to scale performance predictably
+              Join thousands of revenue teams using Tasknova to convert customer conversations into predictable growth
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/pricing">

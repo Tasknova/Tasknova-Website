@@ -57,8 +57,7 @@ export function Footer() {
               />
             </div>
             <p className="text-slate-400 mb-6 max-w-sm">
-              AI-powered revenue intelligence platform that transforms customer conversations 
-              into predictable growth.
+              Tasknova is an AI powered revenue intelligence platform that transforms customer conversations into company specific insights, coaching intelligence, and execution automation that drives predictable growth.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => {

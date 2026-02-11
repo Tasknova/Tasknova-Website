@@ -13,63 +13,63 @@ const solutions = [
     icon: Users,
     gradient: "from-cyan-500 to-blue-600",
     title: "Sales Leaders",
-    subtitle: "Drive predictable revenue growth with conversation intelligence",
+    subtitle: "Drive Predictable Revenue Growth With Conversation Intelligence",
     challenges: [
       {
         title: "Lack of visibility into rep performance",
-        description: "Can't scale yourself to listen to every call and coach effectively"
+        description: "Leaders cannot scale themselves to review every conversation and coach consistently."
       },
       {
         title: "Inconsistent sales execution",
-        description: "Top performers use different techniques than everyone else"
+        description: "Top performers follow different techniques than the rest of the team."
       },
       {
         title: "Unreliable forecasting",
-        description: "Pipeline reviews based on gut feel, not conversation data"
+        description: "Pipeline reviews rely on assumptions instead of real customer signals."
       }
     ],
     solutions: [
       {
         icon: BarChart3,
-        title: "Conversation Analytics",
-        description: "Automatically analyze every sales conversation for talk patterns, objections, and competitor mentions",
+        title: "Conversation Intelligence",
+        description: "Automatically analyze every sales conversation to uncover talk patterns, objections, and competitive mentions.",
         features: [
-          "Rep performance scorecards with 20+ metrics",
-          "Talk-to-listen ratio tracking",
-          "Objection identification and categorization",
+          "Rep performance scorecards across 20+ metrics",
+          "Talk-to-listen ratio intelligence",
+          "Objection detection and categorization",
           "Sentiment and engagement scoring"
         ]
       },
       {
         icon: Users,
         title: "Performance Coaching",
-        description: "Scale your coaching with AI-powered insights and best practice playbooks",
+        description: "Scale coaching using AI powered insights and real examples from top performers.",
         features: [
           "Automated coaching recommendations",
-          "Top performer talk track extraction",
+          "Talk track extraction from winning calls",
           "Skill gap identification",
-          "1-on-1 meeting preparation automation"
+          "One-on-one preparation automation"
         ]
       },
       {
         icon: Target,
-        title: "Pipeline Intelligence",
-        description: "Forecast with confidence using conversation-based deal insights",
+        title: "Pipeline and Deal Intelligence",
+        description: "Forecast with confidence using conversation driven deal insights.",
         features: [
           "Deal risk scoring from conversation patterns",
           "Buying signal detection",
           "Stakeholder engagement tracking",
-          "Win/loss pattern analysis"
+          "Win and loss pattern analysis"
         ]
       }
     ],
     outcomes: [
       { metric: "32%", label: "Higher team quota attainment" },
       { metric: "94%", label: "Forecast accuracy" },
-      { metric: "40%", label: "Faster new rep ramp" }
+      { metric: "40%", label: "Faster new rep ramp time" }
     ],
     testimonial: {
-      quote: "Tasknova gave me visibility into every deal conversation. I can now coach with specific examples instead of generic advice.",
+      quote: "Tasknova gave me visibility into every deal conversation. I coach with real examples instead of generic advice.",
       author: "Marcus Stevens",
       role: "VP of Sales",
       company: "CloudMetrics"
@@ -80,28 +80,28 @@ const solutions = [
     icon: BarChart3,
     gradient: "from-purple-500 to-indigo-600",
     title: "RevOps Teams",
-    subtitle: "Eliminate tool sprawl and automate revenue operations",
+    subtitle: "Eliminate Tool Sprawl and Automate Revenue Operations",
     challenges: [
       {
-        title: "Disconnected tools",
-        description: "Data scattered across CRM, dialers, email, and meeting tools"
+        title: "Disconnected systems",
+        description: "Revenue data scattered across CRM, dialers, email, and meeting tools."
       },
       {
         title: "Manual reporting",
-        description: "Spend hours each week pulling together revenue reports"
+        description: "Teams spend hours each week building reports instead of analyzing insights."
       },
       {
         title: "Poor data quality",
-        description: "Reps don't log activities consistently in CRM"
+        description: "Inconsistent activity logging creates blind spots and inaccurate forecasts."
       }
     ],
     solutions: [
       {
         icon: Zap,
         title: "Unified Revenue Intelligence",
-        description: "One platform that connects conversation data across all channels to revenue outcomes",
+        description: "Create a single source of truth by connecting conversation data across all channels to revenue outcomes.",
         features: [
-          "Automatic activity capture and CRM sync",
+          "Automatic activity capture and CRM synchronization",
           "Omnichannel interaction tracking",
           "Revenue attribution by activity type",
           "Unified data model across tools"
@@ -110,7 +110,7 @@ const solutions = [
       {
         icon: BarChart3,
         title: "Automation Workflows",
-        description: "Eliminate manual data entry and reporting with intelligent automation",
+        description: "Eliminate manual data entry and reporting using intelligent automation.",
         features: [
           "Auto-logging of calls, emails, and meetings",
           "Workflow triggers based on conversation insights",
@@ -121,9 +121,9 @@ const solutions = [
       {
         icon: TrendingUp,
         title: "Performance Analytics",
-        description: "Real-time dashboards connecting activities to revenue performance",
+        description: "Monitor execution and productivity using real-time performance dashboards.",
         features: [
-          "Activity-to-revenue correlation analysis",
+          "Activity to revenue correlation analysis",
           "Rep productivity benchmarking",
           "Channel effectiveness tracking",
           "GTM motion performance insights"
@@ -133,10 +133,10 @@ const solutions = [
     outcomes: [
       { metric: "75%", label: "Reduction in manual reporting" },
       { metric: "100%", label: "Activity capture accuracy" },
-      { metric: "$127K", label: "Avg annual value delivered" }
+      { metric: "$127K", label: "Average annual value delivered" }
     ],
     testimonial: {
-      quote: "We replaced 4 disconnected tools with Tasknova and our data quality went from 60% to 98%.",
+      quote: "We replaced four disconnected tools with Tasknova and improved our data accuracy from 60% to 98%.",
       author: "Sarah Chen",
       role: "Director of Revenue Operations",
       company: "DataPrime Systems"
@@ -147,37 +147,37 @@ const solutions = [
     icon: Heart,
     gradient: "from-green-500 to-emerald-600",
     title: "Customer Success Teams",
-    subtitle: "Reduce churn and expand accounts with conversation intelligence",
+    subtitle: "Reduce Churn and Expand Accounts Using Conversation Intelligence",
     challenges: [
       {
         title: "Missed churn signals",
-        description: "Don't know which customers are at risk until it's too late"
+        description: "Teams only discover risk when it is too late."
       },
       {
-        title: "Poor interaction visibility",
-        description: "Can't track customer sentiment across check-ins and support calls"
+        title: "Limited visibility into customer sentiment",
+        description: "Insights remain buried inside calls and check-ins."
       },
       {
-        title: "Limited expansion opportunities",
-        description: "Don't identify upsell/cross-sell signals consistently"
+        title: "Unclear expansion opportunities",
+        description: "Upsell and cross-sell signals are not identified consistently."
       }
     ],
     solutions: [
       {
         icon: Heart,
         title: "Interaction Sentiment Monitoring",
-        description: "Track customer health through conversation sentiment analysis",
+        description: "Track customer health using sentiment analysis across every interaction.",
         features: [
-          "Sentiment scoring on every customer interaction",
+          "Sentiment scoring on all customer conversations",
           "Engagement trend tracking over time",
-          "Red flag detection (negative sentiment spikes)",
-          "Health score automation based on conversations"
+          "Early warning detection for negative sentiment",
+          "Automated health scoring"
         ]
       },
       {
         icon: Target,
-        title: "Customer Engagement Analytics",
-        description: "Understand which accounts are engaged and ready for expansion",
+        title: "Customer Engagement Intelligence",
+        description: "Identify accounts ready for expansion based on engagement behavior.",
         features: [
           "Account engagement scoring",
           "Feature adoption discussion tracking",
@@ -187,8 +187,8 @@ const solutions = [
       },
       {
         icon: Shield,
-        title: "Churn Prevention",
-        description: "Get ahead of churn with early warning signals from conversations",
+        title: "Churn Prevention Intelligence",
+        description: "Detect risk early using conversation based warning signals.",
         features: [
           "Competitor mention detection",
           "Usage concern identification",
@@ -200,10 +200,10 @@ const solutions = [
     outcomes: [
       { metric: "22%", label: "Churn reduction" },
       { metric: "48%", label: "Increase in expansion revenue" },
-      { metric: "118%", label: "Net Revenue Retention" }
+      { metric: "118%", label: "Net revenue retention" }
     ],
     testimonial: {
-      quote: "We now identify at-risk accounts 90 days earlier and our renewal rate improved from 82% to 94%.",
+      quote: "We identify at-risk accounts nearly 90 days earlier and improved our renewal rate from 82% to 94%.",
       author: "Jennifer Walsh",
       role: "VP of Customer Success",
       company: "TechForward Inc."
@@ -233,7 +233,7 @@ export function SolutionsByTeam() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6"
             >
-              AI Revenue Intelligence Solutions For Every Team
+              AI Revenue Intelligence Solutions for Every Revenue Team
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -241,7 +241,7 @@ export function SolutionsByTeam() {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-slate-600"
             >
-              Purpose-built solutions for Sales Leaders, RevOps, and Customer Success teams
+              Tasknova delivers purpose-built intelligence for Sales Leaders, Revenue Operations, and Customer Success teams by transforming customer conversations into actionable insights, coaching, and execution signals.
             </motion.p>
           </div>
         </div>
@@ -293,7 +293,9 @@ export function SolutionsByTeam() {
 
                 {/* Solutions */}
                 <div className="mb-16">
-                  <h3 className="text-2xl font-bold mb-8 text-center">Tasknova Solution</h3>
+                  <h3 className="text-2xl font-bold mb-8 text-center">
+                    How Tasknova Helps {solution.title}
+                  </h3>
                   <div className="space-y-8">
                     {solution.solutions.map((sol, i) => {
                       const SolIcon = sol.icon;
@@ -333,7 +335,9 @@ export function SolutionsByTeam() {
 
                 {/* Outcomes */}
                 <div className="mb-12">
-                  <h3 className="text-2xl font-bold mb-8 text-center">Outcomes</h3>
+                  <h3 className="text-2xl font-bold mb-8 text-center">
+                    Outcomes for {solution.title}
+                  </h3>
                   <div className="grid md:grid-cols-3 gap-6">
                     {solution.outcomes.map((outcome, i) => (
                       <motion.div
@@ -380,10 +384,10 @@ export function SolutionsByTeam() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-6">
-              Ready to Transform Your Team's Performance?
+              Ready to Transform How Your Team Performs?
             </h2>
             <p className="text-xl text-slate-300 mb-8">
-              Join 5,000+ revenue teams using Tasknova to drive predictable growth
+              Join thousands of revenue teams using Tasknova to gain visibility, improve execution, and scale predictable growth.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/pricing">

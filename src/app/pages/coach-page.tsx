@@ -11,13 +11,14 @@ const capabilities = [
   {
     icon: Brain,
     title: "AI Coaching Insights",
-    description: "Recommend skill improvements automatically.",
+    sectionTitle: "Automate Coaching Without Losing Personalization",
+    description: "Tasknova analyzes every customer interaction and automatically generates skill level coaching recommendations based on real performance patterns.",
     features: [
-      "Automated performance analysis after every call",
-      "Personalized improvement recommendations",
-      "Skill-specific coaching suggestions",
+      "Automated performance analysis after every conversation",
+      "Personalized rep improvement recommendations",
+      "Skill specific coaching suggestions",
       "Strength and weakness identification",
-      "Progress tracking over time",
+      "Performance improvement tracking over time",
       "Automated coaching scorecards"
     ],
     outcome: "Scale coaching across your entire team"
@@ -25,41 +26,44 @@ const capabilities = [
   {
     icon: Target,
     title: "Skill Gap Detection",
-    description: "Identify weaknesses in discovery, objection handling, and negotiation.",
+    sectionTitle: "Identify Exactly Where Reps Need Improvement",
+    description: "Evaluate rep performance across critical sales competencies and highlight skill gaps that impact deal outcomes.",
     features: [
-      "15+ sales competency assessments",
-      "Discovery skill evaluation",
-      "Objection handling effectiveness",
-      "Closing technique analysis",
-      "Product knowledge scoring",
-      "Soft skills measurement"
+      "Assessment across 15+ sales competency areas",
+      "Discovery and qualification skill evaluation",
+      "Objection handling effectiveness analysis",
+      "Closing and negotiation performance tracking",
+      "Product knowledge and positioning scoring",
+      "Communication and soft skill evaluation"
     ],
     outcome: "Pinpoint exact areas for improvement"
   },
   {
     icon: Award,
     title: "Coaching Playbooks",
-    description: "Create training workflows based on real customer interactions.",
+    sectionTitle: "Turn Winning Behaviors Into Repeatable Playbooks",
+    description: "Tasknova extracts best practices directly from top performer conversations and converts them into structured coaching workflows and training content.",
     features: [
-      "Best practice library from top performers",
+      "Best practice libraries built from real interactions",
       "Winning call snippet creation",
-      "Talk track extraction and templates",
+      "Talk track extraction and reusable templates",
       "Objection response guides",
-      "Industry-specific playbooks",
-      "Certification tracking"
+      "Industry specific coaching playbooks",
+      "Certification and training milestone tracking"
     ],
     outcome: "Replicate success systematically"
   },
   {
     icon: BarChart3,
     title: "Performance Dashboards",
-    description: "Track rep improvement trends.",
+    sectionTitle: "Measure Coaching Impact Using Real Performance Data",
+    description: "Track rep improvement trends, coaching effectiveness, and performance correlation with revenue outcomes across individuals and teams.",
     features: [
-      "Individual performance scorecards",
+      "Individual rep performance scorecards",
       "Team benchmarking and leaderboards",
       "Skill progression tracking",
-      "Win rate correlation analysis",
-      "Coaching effectiveness metrics",
+      "Win rate and performance correlation analysis",
+      "Coaching effectiveness measurement",
       "Manager coaching activity tracking"
     ],
     outcome: "Measure coaching impact with data"
@@ -71,48 +75,60 @@ const outcomes = [
     icon: Clock,
     metric: "40%",
     label: "Faster onboarding",
-    description: "New reps ramp to quota in weeks, not months, with AI-guided training"
+    description: "New hires ramp significantly faster with real conversation based coaching"
   },
   {
     icon: Award,
     metric: "89%",
-    label: "Standardized selling excellence",
-    description: "Ensure consistent execution of best practices across your team"
+    label: "Standardized execution",
+    description: "Ensure consistent selling behaviors across teams and geographies"
   },
   {
     icon: TrendingUp,
     metric: "35%",
-    label: "Increased win rates",
-    description: "Teams coached with AI close significantly more deals"
+    label: "Higher win rates",
+    description: "Reps coached using real interaction intelligence close more deals"
   }
 ];
 
 const useCases = [
   {
     title: "New Hire Ramp Acceleration",
-    challenge: "New SDRs take 6+ months to hit quota",
-    solution: "AI coaches new hires after every call, comparing performance to top reps",
-    result: "Ramp time reduced to 2.5 months"
+    challenge: "New SDRs and AEs take months to reach quota due to inconsistent training and limited real world practice.",
+    solution: "Tasknova delivers AI coaching after every call and compares performance against top performers.",
+    result: "Ramp time reduced to approximately two and a half months."
   },
   {
     title: "Objection Handling Mastery",
-    challenge: "Reps struggle with pricing and competitor objections",
-    solution: "Create playbook from 500+ successful objection handling moments",
-    result: "52% improvement in objection conversion"
+    challenge: "Reps struggle with pricing, competitor positioning, and objection response consistency.",
+    solution: "Tasknova builds coaching playbooks from hundreds of successful objection handling conversations.",
+    result: "52% improvement in objection conversion effectiveness."
   },
   {
     title: "Scaling Top Performer Success",
-    challenge: "Top 20% of reps outperform others 3x but can't scale their approach",
-    solution: "Extract talk tracks and techniques from winners, distribute to team",
-    result: "Bottom 50% improved performance by 42%"
+    challenge: "Top performing reps significantly outperform others but their techniques are difficult to replicate across teams.",
+    solution: "Tasknova extracts talk tracks, discovery patterns, and communication techniques from top performers and distributes them across the team.",
+    result: "Bottom performing reps improved performance by over 40%."
   }
 ];
 
 const coachingMetrics = [
-  { label: "Coaching Moments Captured", value: "3.2x more than manual coaching" },
-  { label: "Manager Time Saved", value: "15 hours/week per manager" },
-  { label: "Rep Skill Improvement", value: "Measurable gains in 8 weeks" },
-  { label: "Turnover Reduction", value: "62% lower first-year churn" }
+  { 
+    metric: "3.2x",
+    label: "More coaching moments captured compared to manual coaching"
+  },
+  { 
+    metric: "15 hours",
+    label: "Manager time saved weekly through automated coaching insights"
+  },
+  { 
+    metric: "8 weeks",
+    label: "Average time to measurable skill improvement"
+  },
+  { 
+    metric: "62%",
+    label: "Lower first year rep turnover"
+  }
 ];
 
 export function CoachPage() {
@@ -137,7 +153,7 @@ export function CoachPage() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6"
             >
-              Turn Conversation Data Into Coaching That Scales
+              Turn Customer Conversations Into Coaching That Scales Across Your Team
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -145,7 +161,7 @@ export function CoachPage() {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-slate-600 mb-8"
             >
-              AI-powered coaching platform that transforms every customer conversation into personalized training for your revenue team.
+              Tasknova Coach transforms real customer interactions into company specific coaching intelligence that helps revenue teams improve skills faster, replicate winning behaviors, and build consistent execution across the organization.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -169,15 +185,33 @@ export function CoachPage() {
         </div>
       </section>
 
+      {/* Core Value Statement */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <h2 className="text-4xl font-bold mb-6">
+                Coaching Intelligence Built From Real Deal Execution
+              </h2>
+              <p className="text-xl text-slate-600 leading-relaxed">
+                Tasknova Coach does not rely on generic training content. It uses real customer conversations, rep performance data, and company specific selling standards to deliver personalized coaching that drives measurable improvement.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Core Capabilities */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Core Capabilities</h2>
-              <p className="text-xl text-slate-600">
-                Everything you need to build a world-class coaching program
-              </p>
+              <h2 className="text-4xl font-bold mb-4">Everything You Need to Build a Scalable, Data Driven Coaching Program</h2>
             </div>
 
             <div className="space-y-12">
@@ -196,7 +230,7 @@ export function CoachPage() {
                         <div className="inline-flex p-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 mb-4">
                           <Icon className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-2xl font-bold mb-3">{capability.title}</h3>
+                        <h3 className="text-2xl font-bold mb-3">{capability.sectionTitle}</h3>
                         <p className="text-slate-600 mb-4">{capability.description}</p>
                         <div className="inline-block px-4 py-2 rounded-lg bg-green-100 text-green-700 font-semibold text-sm">
                           {capability.outcome}
@@ -224,15 +258,63 @@ export function CoachPage() {
         </div>
       </section>
 
+      {/* Differentiation Block */}
+      <section className="py-20 bg-gradient-to-br from-green-900 to-emerald-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <h2 className="text-4xl font-bold mb-6">
+                Beyond Traditional Sales Training Platforms
+              </h2>
+              <p className="text-xl text-green-100 mb-8 leading-relaxed">
+                Most training platforms deliver static learning content. Tasknova Coach delivers dynamic coaching intelligence built from real conversations and execution data.
+              </p>
+              <div className="text-left bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8">
+                <p className="text-lg text-white mb-4 font-semibold">
+                  Powered by <span className="text-green-300">Tasknova Company Brain</span>, Coach understands:
+                </p>
+                <ul className="space-y-3 text-green-50">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                    <span>Your sales methodology and playbooks</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                    <span>Your product positioning and messaging standards</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                    <span>Your ICP and buyer journey expectations</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                    <span>Your objection handling frameworks</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                    <span>Your performance benchmarks for top performers</span>
+                  </li>
+                </ul>
+                <p className="text-lg text-green-100 mt-6 italic">
+                  This ensures coaching recommendations match how your team actually sells.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Outcomes */}
       <section className="py-20 bg-slate-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Outcomes</h2>
-              <p className="text-xl text-slate-300">
-                What teams achieve with AI-powered coaching
-              </p>
+              <h2 className="text-4xl font-bold mb-4">What Teams Achieve With Coaching Intelligence</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -266,10 +348,7 @@ export function CoachPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Real-World Use Cases</h2>
-              <p className="text-xl text-slate-600">
-                How teams use Coach to accelerate performance
-              </p>
+              <h2 className="text-4xl font-bold mb-4">Real World Use Cases</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -309,29 +388,21 @@ export function CoachPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Coaching Impact Metrics</h2>
-              <p className="text-xl text-slate-600">
-                The measurable difference AI coaching makes
-              </p>
+              <h2 className="text-4xl font-bold mb-4">Measurable Coaching Results That Drive Revenue Performance</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {coachingMetrics.map((metric, index) => (
+              {coachingMetrics.map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-xl bg-white border border-slate-200"
+                  className="p-8 rounded-xl bg-white border border-slate-200 text-center"
                 >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="text-slate-600 mb-2">{metric.label}</div>
-                      <div className="text-2xl font-bold text-green-600">{metric.value}</div>
-                    </div>
-                    <Zap className="w-8 h-8 text-green-500" />
-                  </div>
+                  <div className="text-5xl font-bold text-green-600 mb-3">{item.metric}</div>
+                  <div className="text-lg text-slate-700">{item.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -344,10 +415,11 @@ export function CoachPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-6">
-              Start Building a Coaching Culture Today
+              Start Building a High Performance Coaching Culture
             </h2>
             <p className="text-xl text-slate-600 mb-8">
-              14-day free trial. No credit card required. Full access to all features.
+              Transform every customer conversation into a coaching opportunity and scale best practices across your revenue team.
+              14 day free trial. No credit card required.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/pricing">

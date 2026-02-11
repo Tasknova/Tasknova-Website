@@ -19,7 +19,7 @@ export function HeroSection() {
 
           {/* Main Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            All-in-One AI Platform for{" "}
+            All in One AI Platform for{" "}
             <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
               Revenue Intelligence
             </span>
@@ -30,17 +30,21 @@ export function HeroSection() {
             ,{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Conversation Analytics
-            </span>{" "}
-            and{" "}
+            </span>
+            ,{" "}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
               Performance Automation
+            </span>
+            , and{" "}
+            <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+              Customer Intelligence
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
-            Transform every customer interaction into actionable intelligence. 
-            Start with the product you need today. Expand into full revenue intelligence when ready.
+            Tasknova transforms calls, demos, chats, emails, and customer signals into company specific intelligence that improves deal outcomes, strengthens coaching, and eliminates revenue execution gaps.
+            Start with the product you need today. Expand into a complete revenue intelligence system as your team scales.
           </p>
 
           {/* CTAs */}
@@ -116,12 +120,12 @@ export function HeroSection() {
 
           {/* Key Features List */}
           <div className="bg-gradient-to-r from-cyan-500/10 to-blue-600/10 rounded-xl p-8 border border-cyan-500/20">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">AI Conversation Intelligence</p>
-                  <p className="text-sm text-slate-600">Real-time transcription & analysis</p>
+                  <p className="text-sm text-slate-600">Capture, transcribe, and analyze every interaction with company specific scoring</p>
                 </div>
               </div>
               
@@ -129,7 +133,7 @@ export function HeroSection() {
                 <CheckCircle2 className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">Automated Coaching</p>
-                  <p className="text-sm text-slate-600">Data-driven performance insights</p>
+                  <p className="text-sm text-slate-600">Personalized performance improvement plans built from real interaction data</p>
                 </div>
               </div>
               
@@ -137,7 +141,7 @@ export function HeroSection() {
                 <CheckCircle2 className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">Deal Risk Detection</p>
-                  <p className="text-sm text-slate-600">Early warning signals</p>
+                  <p className="text-sm text-slate-600">Identify pipeline leakage, buyer hesitation, and execution gaps before deals are lost</p>
                 </div>
               </div>
               
@@ -145,7 +149,15 @@ export function HeroSection() {
                 <CheckCircle2 className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-slate-900">Unified Intelligence</p>
-                  <p className="text-sm text-slate-600">All data in one platform</p>
+                  <p className="text-sm text-slate-600">One intelligence layer connecting conversations, deals, performance, and customer context</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900">Customer Intelligence</p>
+                  <p className="text-sm text-slate-600">Understand every account before, during, and after conversations using AI generated company context, buyer signals, and lifecycle insights</p>
                 </div>
               </div>
             </div>

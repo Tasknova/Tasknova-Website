@@ -58,10 +58,10 @@ export function ComparisonTable() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Beyond Note-Taking. Before Enterprise Complexity.
+            Beyond Note Taking. Without Enterprise Complexity.
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Tasknova bridges the gap between simple meeting tools and complex revenue platforms
+            Tasknova bridges the gap between simple meeting tools and heavy enterprise analytics platforms.
           </p>
         </div>
 
