@@ -1,8 +1,8 @@
 import { ArrowRight, TrendingUp, Users, BarChart3, CheckCircle2 } from "lucide-react";
-import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { GLSLHills } from "./ui/glsl-hills";
 import { VapiVoiceAgent } from "./vapi-voice-agent";
+import { GradientButton } from "./ui/gradient-button";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -51,8 +51,8 @@ export function HeroSection() {
             transition={{ delay: 0.8, duration: 1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
-            Transform Every Customer Interaction Into{" "}
-            <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+            <span className="block">Transform Every Customer Interaction Into</span>
+            <span className="block bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent md:-ml-2">
               {buzzwords[buzzIndex]}
             </span>
           </motion.h1>
@@ -74,29 +74,25 @@ export function HeroSection() {
             transition={{ delay: 1.5, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link to="/book-demo">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-6 text-lg group shadow-xl hover:shadow-2xl transition-all"
-              >
+            <GradientButton asChild className="group shadow-xl hover:shadow-2xl transition-all">
+              <Link to="/book-demo" className="flex items-center gap-2">
                 Book Demo
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-            <Link to="/book-demo">
-              <div className="group relative bg-gradient-to-b from-black/10 to-white/10 p-px rounded-xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <Button 
-                  size="lg" 
-                  variant="ghost"
-                  className="rounded-[0.95rem] px-8 py-6 text-lg backdrop-blur-md bg-white/95 hover:bg-white/100 text-slate-900 transition-all group-hover:-translate-y-0.5 border border-black/10 hover:shadow-md"
-                >
-                  Start Free Trial
-                  <span className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-300">
-                    →
-                  </span>
-                </Button>
-              </div>
-            </Link>
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </GradientButton>
+
+            <GradientButton
+              asChild
+              variant="variant"
+              className="group shadow-lg hover:shadow-xl transition-all"
+            >
+              <Link to="/book-demo" className="flex items-center gap-2">
+                Start Free Trial
+                <span aria-hidden className="opacity-80 group-hover:translate-x-1 group-hover:opacity-100 transition-all duration-300">
+                  →
+                </span>
+              </Link>
+            </GradientButton>
           </motion.div>
 
           {/* Subtext */}

@@ -296,6 +296,18 @@ export function SolutionsByTeam() {
                   <h3 className="text-2xl font-bold mb-8 text-center">
                     How Tasknova Helps {solution.title}
                   </h3>
+                  
+                  {/* COMPANY BRAIN & PROJECT BRAIN INSERT START */}
+                  <div className="mb-8 p-6 rounded-xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 max-w-4xl mx-auto">
+                    <p className="text-base text-slate-700 text-center mb-2">
+                      <strong>Company Brain</strong> adapts intelligence models to your industry and GTM strategy.
+                    </p>
+                    <p className="text-base text-slate-700 text-center">
+                      <strong>Project Brain</strong> continuously learns from real customer engagement and execution behavior within your organization.
+                    </p>
+                  </div>
+                  {/* COMPANY BRAIN & PROJECT BRAIN INSERT END */}
+                  
                   <div className="space-y-8">
                     {solution.solutions.map((sol, i) => {
                       const SolIcon = sol.icon;

@@ -422,21 +422,12 @@ export function PricingPage() {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -12, scale: 1.02 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`relative rounded-2xl ${
-                  plan.popular 
-                    ? 'bg-white shadow-2xl scale-105 border-2 border-cyan-500 z-10' 
-                    : 'bg-white shadow-lg border border-slate-200'
-                }`}
+                transition={{ delay: index * 0.1, type: "spring", stiffness: 240, damping: 18 }}
+                className="relative rounded-2xl bg-white shadow-lg border border-slate-200 transition-all duration-200 hover:shadow-2xl hover:border-cyan-500 hover:z-30"
               >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <div className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold shadow-lg">
-                      Most Popular
-                    </div>
-                  </div>
-                )}
+                  {/* Removed Most Popular badge */}
 
                 <div className="p-8">
                   {/* Header */}
@@ -465,11 +456,7 @@ export function PricingPage() {
                   {/* CTA */}
                   <Link to={plan.cta === "Contact Sales" ? "/book-demo" : "/book-demo"}>
                     <button 
-                      className={`w-full mb-6 px-6 py-4 rounded-xl font-semibold transition-all ${
-                        plan.popular
-                          ? `bg-gradient-to-r ${plan.gradient} text-white hover:opacity-90 shadow-lg`
-                          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
-                      }`}
+                      className="w-full mb-6 px-6 py-4 rounded-xl font-semibold transition-all bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700 hover:shadow-xl hover:-translate-y-0.5"
                     >
                       {plan.cta}
                       <ArrowRight className="inline-block ml-2 w-4 h-4" />
@@ -543,6 +530,14 @@ export function PricingPage() {
               <p className="text-lg text-slate-600">
                 Tasknova is built as a modular intelligence platform. Teams can start with agents and activate intelligence layers as needed.
               </p>
+              
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT START */}
+              <div className="mt-6 p-6 rounded-xl bg-gradient-to-r from-slate-50 to-white border border-slate-200">
+                <p className="text-base text-slate-700">
+                  Tasknova intelligence layers are powered by <strong>Company Brain</strong> and <strong>Project Brain</strong> architecture. This ensures every intelligence module delivers company-specific insights instead of generic AI analysis.
+                </p>
+              </div>
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT END */}
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">

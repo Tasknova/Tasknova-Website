@@ -11,13 +11,16 @@ import image2 from "../assets/image_2.jpeg";
 import image3 from "../assets/image_3.png";
 import image4 from "../assets/image_4.png";
 import image5 from "../assets/image_5.png";
-import image6 from "../assets/image_6.png";
+import image6 from "../assets/image_6.jpeg";
 import image7 from "../assets/image_7.png";
 import image8 from "../assets/image_8.jpeg";
 import image9 from "../assets/image_9.png";
 import image10 from "../assets/image_10.jpeg";
 import image11 from "../assets/image_11.jpeg";
 import image12 from "../assets/image_12.jpeg";
+import insightHero from "../assets/Tasknova_insights.jpeg";
+import engageHero from "../assets/tasknova_engage.jpeg";
+import coachingHero from "../assets/Tasknova_coaching.jpeg";
 
 const insightFeatures = [
   {
@@ -119,7 +122,7 @@ const showcases = [
     subtitle: "Conversation Intelligence That Never Misses a Beat",
     gradient: "from-cyan-500 to-blue-600",
     features: insightFeatures,
-    heroImage: "https://images.unsplash.com/photo-1758691736542-c437fea2c673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb252ZXJzYXRpb24lMjBpbnRlbGxpZ2VuY2UlMjBkYXNoYm9hcmQlMjBtb2Rlcm58ZW58MXx8fHwxNzcwMzYzNzA4fDA&ixlib=rb-4.1.0&q=80&w=1080"
+    heroImage: insightHero
   },
   {
     id: "engage",
@@ -127,7 +130,7 @@ const showcases = [
     subtitle: "Orchestrate Every Customer Touchpoint",
     gradient: "from-blue-500 to-indigo-600",
     features: engageFeatures,
-    heroImage: "https://images.unsplash.com/photo-1762340275877-32d64414d8aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXN0b21lciUyMGVuZ2FnZW1lbnQlMjBwbGF0Zm9ybSUyMGludGVyZmFjZXxlbnwxfHx8fDE3NzAzNjM2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+    heroImage: engageHero
   },
   {
     id: "coach",
@@ -135,7 +138,7 @@ const showcases = [
     subtitle: "Scale Your Best Performers Across Your Team",
     gradient: "from-cyan-400 to-blue-500",
     features: coachFeatures,
-    heroImage: "https://images.unsplash.com/photo-1758691736508-a85d1f7d5a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2FjaGluZyUyMHBlcmZvcm1hbmNlJTIwYW5hbHl0aWNzJTIwZGFzaGJvYXJkfGVufDF8fHx8MTc3MDM2MzcwOXww&ixlib=rb-4.1.0&q=80&w=1080"
+    heroImage: coachingHero
   }
 ];
 
@@ -283,13 +286,12 @@ function ShowcaseSection({ showcase, isEven }: { showcase: typeof showcases[0], 
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200/50">
               {/* Image Overlay Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${showcase.gradient} opacity-10 z-10 pointer-events-none`} />
-              
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={activeFeature}
                   src={currentFeature.image} 
                   alt={currentFeature.title}
-                  className="w-full h-auto object-contain"
+                  className="w-full h-auto"
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}

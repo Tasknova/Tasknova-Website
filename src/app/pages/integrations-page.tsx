@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Icon } from "@iconify/react";
 import { 
   Database, Calendar, Video, Phone, Mail, MessageSquare,
   FileText, Zap, BarChart3, DollarSign, Users, Globe,
@@ -7,6 +8,56 @@ import {
 import { useState } from "react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+
+const logoIconMap: Record<string, string> = {
+  "Salesforce": "logos:salesforce",
+  "HubSpot": "logos:hubspot",
+  "Pipedrive": "simple-icons:pipedrive",
+  "Zoho CRM": "logos:zoho",
+  "Copper": "simple-icons:copper",
+  "Close": "simple-icons:close",
+  "Google Calendar": "logos:google-calendar",
+  "Outlook Calendar": "logos:microsoft-outlook",
+  "Apple Calendar": "logos:apple",
+  "Calendly": "logos:calendly",
+  "Zoom": "logos:zoom",
+  "Google Meet": "logos:google-meet",
+  "Microsoft Teams": "logos:microsoft-teams",
+  "Webex": "logos:webex",
+  "GoToMeeting": "logos:gotomeeting",
+  "Aircall": "logos:aircall",
+  "RingCentral": "logos:ringcentral",
+  "Dialpad": "logos:dialpad",
+  "Twilio": "logos:twilio-icon",
+  "Outreach Dialer": "logos:outreach",
+  "Salesloft Dialer": "logos:salesloft",
+  "Gmail": "logos:gmail",
+  "Outlook": "logos:microsoft-outlook",
+  "SendGrid": "logos:sendgrid-icon",
+  "Mailchimp": "logos:mailchimp",
+  "Intercom": "logos:intercom",
+  "Outreach": "logos:outreach",
+  "Salesloft": "logos:salesloft",
+  "Apollo.io": "logos:apollographql",
+  "Groove": "logos:groovehq",
+  "Slack": "logos:slack-icon",
+  "Discord": "logos:discord-icon",
+  "Notion": "logos:notion-icon",
+  "Confluence": "logos:confluence",
+  "Google Docs": "logos:google-docs",
+  "Evernote": "logos:evernote",
+  "Zapier": "logos:zapier",
+  "Make (Integromat)": "logos:make",
+  "n8n": "logos:n8n",
+  "Workato": "logos:workato",
+  "Follow Up Boss": "simple-icons:followupboss",
+  "dotloop": "simple-icons:dotloop",
+  "Zillow": "logos:zillow",
+  "Greenhouse": "logos:greenhouse",
+  "Lever": "logos:lever",
+  "Workday": "logos:workday",
+  "BambooHR": "logos:bamboohr",
+};
 
 const integrationCategories = [
   {
@@ -746,7 +797,7 @@ export function IntegrationsPage() {
                         className="p-6 rounded-xl bg-white border-2 border-slate-200 hover:border-cyan-500 hover:shadow-lg transition-all"
                       >
                         {/* Header */}
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-4 gap-3">
                           <div>
                             <div className="flex items-center gap-2 mb-2">
                               <h3 className="font-bold text-lg">{integration.name}</h3>
@@ -763,8 +814,19 @@ export function IntegrationsPage() {
                               </div>
                             )}
                           </div>
-                          <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${category.color} flex items-center justify-center text-white font-bold text-sm`}>
-                            {integration.logo.slice(0, 2).toUpperCase()}
+                          <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white border border-slate-200 overflow-hidden">
+                            {logoIconMap[integration.name] && (
+                              <Icon
+                                icon={logoIconMap[integration.name]}
+                                className="w-10 h-10 text-slate-900"
+                                aria-label={`${integration.name} logo`}
+                              />
+                            )}
+                            {!logoIconMap[integration.name] && (
+                              <div className={`w-full h-full bg-gradient-to-r ${category.color} flex items-center justify-center text-white font-bold text-sm`}>
+                                {integration.logo.slice(0, 2).toUpperCase()}
+                              </div>
+                            )}
                           </div>
                         </div>
 

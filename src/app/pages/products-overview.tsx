@@ -218,6 +218,15 @@ export function ProductsOverview() {
               <p className="text-xl text-slate-600">
                 Tasknova combines conversation analytics, engagement intelligence, and performance coaching into one connected system designed to improve revenue execution across the entire customer lifecycle.
               </p>
+              
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT START */}
+              <div className="mt-8 p-6 rounded-xl bg-gradient-to-r from-slate-50 to-white border border-slate-200">
+                <h3 className="text-2xl font-bold mb-3">Powered by Dual Intelligence Architecture</h3>
+                <p className="text-lg text-slate-700 max-w-4xl mx-auto">
+                  Tasknova operates on two intelligence models. <strong>Company Brain</strong> provides strategic context by learning your product, ICP, pricing, and playbooks. <strong>Project Brain</strong> provides execution intelligence by learning from real customer interactions and deal activity in real time.
+                </p>
+              </div>
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT END */}
             </div>
 
             {/* Visual Flow */}

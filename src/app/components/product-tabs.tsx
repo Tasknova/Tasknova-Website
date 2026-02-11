@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "motion/react";
 import { Brain, MessageSquare, GraduationCap, Zap, TrendingUp, Users, BarChart3, Mail, Target } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import insightImage from "../assets/Tasknova_insights.jpeg";
+import engageImage from "../assets/tasknova_engage.jpeg";
+import coachingImage from "../assets/Tasknova_coaching.jpeg";
 
 const products = [
   {
@@ -18,7 +21,7 @@ const products = [
       { icon: Target, text: "Topic tracking and keyword detection" }
     ],
     integrations: ["Salesforce", "HubSpot", "Pipedrive", "Zoho CRM", "Microsoft Dynamics"],
-    image: "https://images.unsplash.com/photo-1750816204148-5d02aff367cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaSUyMGFuYWx5dGljcyUyMHRyYW5zY3JpcHRpb24lMjBwbGF0Zm9ybXxlbnwxfHx8fDE3NzAzNjU3MzN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: insightImage,
     gradient: "from-cyan-500 to-blue-600",
     link: "/products/insight"
   },
@@ -35,7 +38,7 @@ const products = [
       { icon: TrendingUp, text: "Engagement scoring and buyer intent detection" }
     ],
     integrations: ["Salesforce", "HubSpot", "Outreach", "SalesLoft", "Gmail", "Outlook"],
-    image: "https://images.unsplash.com/photo-1762340275877-32d64414d8aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdXN0b21lciUyMGVuZ2FnZW1lbnQlMjBwbGF0Zm9ybSUyMGludGVyZmFjZXxlbnwxfHx8fDE3NzAzNjM2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: engageImage,
     gradient: "from-blue-500 to-indigo-600",
     link: "/products/engage"
   },
@@ -52,7 +55,7 @@ const products = [
       { icon: Brain, text: "AI mock call practice and coaching insights" }
     ],
     integrations: ["Salesforce", "HubSpot", "Gong", "Chorus", "Zoom", "Microsoft Teams"],
-    image: "https://images.unsplash.com/photo-1758691736508-a85d1f7d5a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2FjaGluZyUyMHBlcmZvcm1hbmNlJTIwYW5hbHl0aWNzJTIwcGxhdGZvcm18ZW58MXx8fHwxNzcwMzY1NzMwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: coachingImage,
     gradient: "from-cyan-400 to-blue-500",
     link: "/products/coach"
   }
@@ -190,12 +193,12 @@ export function ProductTabs() {
                 {/* Decorative Background Glow */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${activeProduct.gradient} opacity-20 rounded-2xl blur-2xl`} />
                 
-                {/* Fixed Size Image Container: 520px x 360px */}
-                <div className="relative w-full lg:w-[520px] h-[360px] rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+                {/* Image Container - Auto height to preserve aspect ratio */}
+                <div className="relative w-full lg:w-[520px] rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
                   <img 
                     src={activeProduct.image} 
                     alt={activeProduct.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto"
                   />
                 </div>
               </motion.div>

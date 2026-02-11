@@ -251,6 +251,17 @@ export default function SolutionsByIndustry() {
                 </motion.div>
               </div>
 
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT START */}
+              <div className="mb-12 p-6 rounded-xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 max-w-4xl mx-auto">
+                <p className="text-base text-slate-700 text-center mb-2">
+                  <strong>Company Brain</strong> adapts intelligence models to your industry and GTM strategy.
+                </p>
+                <p className="text-base text-slate-700 text-center">
+                  <strong>Project Brain</strong> continuously learns from real customer engagement and execution behavior within your organization.
+                </p>
+              </div>
+              {/* COMPANY BRAIN & PROJECT BRAIN INSERT END */}
+
               {/* Solutions Grid */}
               <div className="grid md:grid-cols-2 gap-6 mb-12">
                 {industry.solutions.map((solution, idx) => (

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { HeroSection } from "./components/hero-section";
 import { ProductTabs } from "./components/product-tabs";
+import { IntelligenceArchitecture } from "./components/intelligence-architecture";
 import { CustomerIntelligenceSection } from "./components/customer-intelligence-section";
 import { TrustSection } from "./components/trust-section";
 import { ProblemSection } from "./components/problem-section";
@@ -38,6 +39,9 @@ function HomePage() {
       <main>
         <HeroSection />
         <ProductTabs />
+        {/* COMPANY BRAIN & PROJECT BRAIN INSERT START */}
+        <IntelligenceArchitecture />
+        {/* COMPANY BRAIN & PROJECT BRAIN INSERT END */}
         <CustomerIntelligenceSection />
         <TrustSection />
         <ProblemSection />
