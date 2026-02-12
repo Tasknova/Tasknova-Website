@@ -1,27 +1,31 @@
 import { motion } from "motion/react";
 import { Star, Quote } from "lucide-react";
 
+import testimonial1 from "../assets/testimonial_1.png";
+import testimonial2 from "../assets/testimonial_2.png";
+import testimonial3 from "../assets/testimonial_3.png";
+
 const testimonials = [
   {
     quote: "Tasknova reduced admin work, improved deal visibility, and accelerated sales velocity across our entire team.",
-    author: "Sarah Martinez",
+    author: "Aarav Sharma",
     role: "VP of Sales",
     company: "TechFlow Solutions",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
+    image: testimonial1
   },
   {
     quote: "The coaching insights helped us identify skill gaps and saw immediate improvements in team performance.",
-    author: "Michael Chen",
+    author: "Rohit Iyer",
     role: "Head of Revenue Operations",
     company: "CloudScale Inc",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop"
+    image: testimonial2
   },
   {
     quote: "A platform that connects all our revenue data with seamless integration into our existing stack.",
-    author: "Jessica Rodriguez",
+    author: "Karan Desai",
     role: "Chief Revenue Officer",
     company: "DataPrime Systems",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop"
+    image: testimonial3
   }
 ];
 

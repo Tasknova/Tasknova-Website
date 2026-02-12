@@ -8,6 +8,25 @@ import {
 import { useState } from "react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+import calendlyLogo from "../assets/calendly_logo.png";
+import teamsLogo from "../assets/teams_logo.png";
+import zapierLogo from "../assets/zapier_logo.png";
+import bambooHrLogo from "../assets/BambooHR.png";
+import pipedriveLogo from "../assets/Pipedrive.png";
+import copperLogo from "../assets/Copper.png";
+import dialpadLogo from "../assets/Dialpad.png";
+import dotloopLogo from "../assets/dotloop.png";
+import followUpBossLogo from "../assets/Follow Up Boss.jpeg";
+import grooveLogo from "../assets/Groove.png";
+import leverLogo from "../assets/Lever.jpg";
+import outlookLogo from "../assets/Outlook.png";
+import outlookCalendarLogo from "../assets/Outlook Calendar.png";
+import outreachLogo from "../assets/Outreach.jpg";
+import ringCentralLogo from "../assets/RingCentral.png";
+import salesloftLogo from "../assets/Salesloft.png";
+import sendGridLogo from "../assets/SendGrid.jpg";
+import twilioLogo from "../assets/Twilio.png";
+import workdayLogo from "../assets/Workday.png";
 
 const logoIconMap: Record<string, string> = {
   "Salesforce": "logos:salesforce",
@@ -57,6 +76,129 @@ const logoIconMap: Record<string, string> = {
   "Lever": "logos:lever",
   "Workday": "logos:workday",
   "BambooHR": "logos:bamboohr",
+};
+
+// Match home page logos for visual consistency
+const featuredLogoImages: Record<string, string> = {
+  "Salesforce": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
+  "HubSpot": "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",
+  "Zoom": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg",
+  "Slack": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
+  "Microsoft": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+  "Google": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+  "Asana": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Asana_logo.svg",
+  "Gmail": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png",
+  "Microsoft Teams": teamsLogo,
+  "Calendly": calendlyLogo,
+  "Zapier": zapierLogo,
+  "Notion": "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+  "Pipedrive": pipedriveLogo,
+  "Copper": copperLogo,
+  "Outlook Calendar": outlookCalendarLogo,
+  "RingCentral": ringCentralLogo,
+  "Dialpad": dialpadLogo,
+  "Twilio": twilioLogo,
+  "Outreach Dialer": outreachLogo,
+  "Outlook": outlookLogo,
+  "SendGrid": sendGridLogo,
+  "Outreach": outreachLogo,
+  "Salesloft": salesloftLogo,
+  "Groove": grooveLogo,
+  "Follow Up Boss": followUpBossLogo,
+  "dotloop": dotloopLogo,
+  "Lever": leverLogo,
+  "Workday": workdayLogo,
+  "BambooHR": bambooHrLogo
+};
+
+const heroShowcaseLogos = [
+  "Salesforce",
+  "HubSpot",
+  "Zoom",
+  "Slack",
+  "Microsoft",
+  "Google",
+  "Asana",
+  "Gmail",
+  "Pipedrive",
+  "Calendly",
+  "Microsoft Teams",
+  "Zapier"
+];
+
+const heroLogoPositions = [
+  { left: "8%", top: "18%" },
+  { left: "16%", top: "32%" },
+  { left: "10%", top: "48%" },
+  { left: "18%", top: "62%" },
+  { left: "12%", top: "76%" },
+  { left: "20%", top: "24%" },
+  { left: "82%", top: "18%" },
+  { left: "90%", top: "32%" },
+  { left: "84%", top: "48%" },
+  { left: "92%", top: "62%" },
+  { left: "86%", top: "76%" },
+  { left: "78%", top: "24%" },
+];
+
+// Fallback slugs for simpleicons CDN when no branded image is defined
+const simpleIconSlugMap: Record<string, string> = {
+  "Google Calendar": "googlecalendar",
+  "Outlook Calendar": "microsoftoutlook",
+  "Apple Calendar": "apple",
+  "Google Meet": "googlemeet",
+  "Microsoft Teams": "microsoftteams",
+  "GoToMeeting": "gotomeeting",
+  "Aircall": "aircall",
+  "RingCentral": "ringcentral",
+  "Dialpad": "dialpad",
+  "Twilio": "twilio",
+  "Outreach Dialer": "outreach",
+  "Salesloft Dialer": "salesloft",
+  "Gmail": "gmail",
+  "Outlook": "microsoftoutlook",
+  "SendGrid": "sendgrid",
+  "Mailchimp": "mailchimp",
+  "Intercom": "intercom",
+  "Outreach": "outreach",
+  "Salesloft": "salesloft",
+  "Apollo.io": "apollographql",
+  "Groove": "groovehq",
+  "Slack": "slack",
+  "Discord": "discord",
+  "Notion": "notion",
+  "Confluence": "confluence",
+  "Google Docs": "googledocs",
+  "Evernote": "evernote",
+  "Zapier": "zapier",
+  "Make (Integromat)": "make",
+  "n8n": "n8n",
+  "Workato": "workato",
+  "Follow Up Boss": "followupboss",
+  "dotloop": "dotloop",
+  "Zillow": "zillow",
+  "Greenhouse": "greenhouse",
+  "Lever": "lever",
+  "Workday": "workday",
+  "BambooHR": "bamboohr",
+  "Copper": "copper",
+  "Close": "close",
+  "Pipedrive": "pipedrive",
+  "Zoho CRM": "zoho",
+  "Salesforce": "salesforce",
+  "HubSpot": "hubspot",
+  "Google": "google",
+  "Microsoft": "microsoft",
+  "Asana": "asana",
+  "Gmail": "gmail",
+  "Zoom": "zoom",
+  "Webex": "webex"
+};
+
+const getLogoImage = (name: string) => {
+  if (featuredLogoImages[name]) return featuredLogoImages[name];
+  const slug = simpleIconSlugMap[name] ?? name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+  return slug ? `https://cdn.simpleicons.org/${slug}` : null;
 };
 
 const integrationCategories = [
@@ -127,14 +269,7 @@ const integrationCategories = [
         setupTime: "10 minutes",
         popular: false
       },
-      {
-        name: "Close",
-        logo: "Close",
-        tier: "Professional+",
-        features: ["Contact sync", "Call logging", "Opportunity scoring"],
-        setupTime: "12 minutes",
-        popular: false
-      }
+      // Removed Close integration per request
     ]
   },
   {
@@ -314,14 +449,6 @@ const integrationCategories = [
         logo: "Outreach",
         tier: "Professional+",
         features: ["Sequence call integration", "Disposition sync", "Analytics"],
-        setupTime: "15 minutes",
-        popular: false
-      },
-      {
-        name: "Salesloft Dialer",
-        logo: "Salesloft",
-        tier: "Professional+",
-        features: ["Cadence integration", "Call recording", "Activity logging"],
         setupTime: "15 minutes",
         popular: false
       }
@@ -553,14 +680,6 @@ const integrationCategories = [
         features: ["Self-hosted automation", "Custom nodes", "Advanced workflows"],
         setupTime: "Custom",
         popular: false
-      },
-      {
-        name: "Workato",
-        logo: "Workato",
-        tier: "Enterprise",
-        features: ["Enterprise automation", "Complex integrations", "Recipe library"],
-        setupTime: "Custom",
-        popular: false
       }
     ]
   },
@@ -653,9 +772,48 @@ export function IntegrationsPage() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-slate-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-32 pb-24 bg-gradient-to-br from-slate-50 via-white to-slate-50 overflow-hidden">
+        {/* Subtle grid and glow */}
+        <div className="absolute inset-0 opacity-60 pointer-events-none" aria-hidden>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: "linear-gradient(to right, rgba(14,165,233,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(14,165,233,0.06) 1px, transparent 1px)",
+              backgroundSize: "72px 72px"
+            }}
+          />
+          <div className="absolute -left-20 top-10 w-80 h-80 bg-cyan-200/40 blur-3xl" />
+          <div className="absolute right-0 -bottom-10 w-96 h-96 bg-blue-200/40 blur-3xl" />
+        </div>
+
+        {/* Floating logos */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          {heroShowcaseLogos.map((logo, idx) => {
+            const logoSrc = getLogoImage(logo);
+            const delay = idx * 0.12;
+            const pos = heroLogoPositions[idx % heroLogoPositions.length];
+
+            return (
+              <motion.div
+                key={logo}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 0.9, y: [-4, 4, -4] }}
+                transition={{ delay, duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute"
+                style={{ left: pos.left, top: pos.top }}
+              >
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white shadow-lg border border-slate-200/70 flex items-center justify-center p-2 backdrop-blur">
+                  {logoSrc && (
+                    <img src={logoSrc} alt={logo} className="w-full h-full object-contain" />
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="container mx-auto px-4 relative">
+          <div className="max-w-4xl mx-auto text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -726,7 +884,10 @@ export function IntegrationsPage() {
       {/* Category Filter */}
       <section className="py-8 bg-slate-50 sticky top-16 z-10 border-b border-slate-200">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+          <div className="relative">
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-50 via-slate-50 to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-50 via-slate-50 to-transparent" />
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 pr-8 integration-scrollbar">
             <button
               onClick={() => setSelectedCategory(null)}
               className={`px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors ${
@@ -737,23 +898,24 @@ export function IntegrationsPage() {
             >
               All Categories
             </button>
-            {integrationCategories.map((category) => {
-              const Icon = category.icon;
-              return (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                    selectedCategory === category.id
-                      ? 'bg-cyan-600 text-white'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {category.name}
-                </button>
-              );
-            })}
+              {integrationCategories.map((category) => {
+                const Icon = category.icon;
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors ${
+                      selectedCategory === category.id
+                        ? 'bg-cyan-600 text-white shadow-md shadow-cyan-100'
+                        : 'bg-white text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {category.name}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -787,15 +949,18 @@ export function IntegrationsPage() {
 
                   {/* Integrations Grid */}
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {category.integrations.map((integration, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.05 }}
-                        className="p-6 rounded-xl bg-white border-2 border-slate-200 hover:border-cyan-500 hover:shadow-lg transition-all"
-                      >
+                    {category.integrations.map((integration, i) => {
+                      const logoSrc = getLogoImage(integration.name);
+
+                      return (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: i * 0.05 }}
+                          className="p-6 rounded-xl bg-white border-2 border-slate-200 hover:border-cyan-500 hover:shadow-lg transition-all"
+                        >
                         {/* Header */}
                         <div className="flex items-start justify-between mb-4 gap-3">
                           <div>
@@ -815,14 +980,19 @@ export function IntegrationsPage() {
                             )}
                           </div>
                           <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white border border-slate-200 overflow-hidden">
-                            {logoIconMap[integration.name] && (
+                            {logoSrc ? (
+                              <img
+                                src={logoSrc}
+                                alt={integration.name}
+                                className="w-full h-full object-contain"
+                              />
+                            ) : logoIconMap[integration.name] ? (
                               <Icon
                                 icon={logoIconMap[integration.name]}
                                 className="w-10 h-10 text-slate-900"
                                 aria-label={`${integration.name} logo`}
                               />
-                            )}
-                            {!logoIconMap[integration.name] && (
+                            ) : (
                               <div className={`w-full h-full bg-gradient-to-r ${category.color} flex items-center justify-center text-white font-bold text-sm`}>
                                 {integration.logo.slice(0, 2).toUpperCase()}
                               </div>
@@ -855,7 +1025,8 @@ export function IntegrationsPage() {
                           </button>
                         </div>
                       </motion.div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.div>
               );

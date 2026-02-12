@@ -1,3 +1,27 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+/* Custom scrollbar for integrations category scroller */
+.integration-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #0ea5e9 #e2e8f0;
+}
+
+.integration-scrollbar::-webkit-scrollbar {
+	height: 8px;
+}
+
+.integration-scrollbar::-webkit-scrollbar-track {
+	background: #e2e8f0;
+	border-radius: 9999px;
+}
+
+.integration-scrollbar::-webkit-scrollbar-thumb {
+	background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+	border-radius: 9999px;
+}
+
+.integration-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(90deg, #0891b2, #0284c7);
+}

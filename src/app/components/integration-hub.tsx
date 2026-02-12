@@ -1,9 +1,14 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { 
   Calendar, Phone, Database, Mail, MessageSquare, 
-  FileText, Zap, Video, Users, ArrowRight, CheckCircle2, Link as LinkIcon
+  FileText, Zap, Video, Users, ArrowRight, CheckCircle2
 } from "lucide-react";
+
+import calendlyLogo from "../assets/calendly_logo.png";
+import teamsLogo from "../assets/teams_logo.png";
+import zapierLogo from "../assets/zapier_logo.png";
 
 const integrationCategories = [
   {
@@ -64,10 +69,20 @@ const integrationCategories = [
   }
 ];
 
-// Featured Integration Logos (placeholders)
+// Featured Integration Logos (from trust section for visual consistency)
 const featuredIntegrations = [
-  "Salesforce", "HubSpot", "Zoom", "Slack", "Gmail", "Microsoft Teams", 
-  "Calendly", "Zapier", "Pipedrive", "Intercom", "RingCentral", "Notion"
+  { name: "Salesforce", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg" },
+  { name: "HubSpot", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg" },
+  { name: "Zoom", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg" },
+  { name: "Slack", logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" },
+  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" },
+  { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+  { name: "Asana", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Asana_logo.svg" },
+  { name: "Gmail", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" },
+  { name: "Microsoft Teams", logo: teamsLogo },
+  { name: "Calendly", logo: calendlyLogo },
+  { name: "Zapier", logo: zapierLogo },
+  { name: "Notion", logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" }
 ];
 
 export function IntegrationHub() {
@@ -132,22 +147,26 @@ export function IntegrationHub() {
           className="mb-20 max-w-6xl mx-auto"
         >
           <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 md:gap-8">
               {featuredIntegrations.map((integration, index) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  key={integration.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.05 * index }}
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  className="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                  transition={{ delay: 0.04 * index }}
+                  whileHover={{ scale: 1.06, y: -6 }}
+                  className="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.08)]"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center mb-2 group-hover:from-cyan-500/30 group-hover:to-blue-600/30 transition-all">
-                    <LinkIcon className="w-6 h-6 text-cyan-400" />
+                  <div className="w-16 h-12 flex items-center justify-center mb-2">
+                    <img
+                      src={integration.logo}
+                      alt={integration.name}
+                      className="max-h-10 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all drop-shadow-[0_2px_6px_rgba(0,0,0,0.25)]"
+                    />
                   </div>
-                  <span className="text-xs text-slate-400 text-center font-medium group-hover:text-white transition-colors">
-                    {integration}
+                  <span className="text-xs text-slate-400 text-center font-semibold group-hover:text-white transition-colors">
+                    {integration.name}
                   </span>
                 </motion.div>
               ))}
@@ -268,10 +287,13 @@ export function IntegrationHub() {
               <h3 className="text-xl font-bold mb-2">Need a custom integration?</h3>
               <p className="text-slate-400">Our API makes it easy to build custom connections to any tool</p>
             </div>
-            <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg whitespace-nowrap">
-              View API Docs
+            <Link
+              to="/integrations"
+              className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg whitespace-nowrap inline-flex items-center"
+            >
+              View integrations
               <ArrowRight className="inline-block ml-2 w-5 h-5" />
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>
