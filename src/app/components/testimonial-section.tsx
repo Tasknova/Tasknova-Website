@@ -79,16 +79,6 @@ export function TestimonialSection() {
             </motion.div>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-12">
-          <p className="text-slate-600 mb-4">
-            Join 5,000+ revenue teams growing with Tasknova
-          </p>
-          <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity">
-            Read More Customer Stories
-          </button>
-        </div>
       </div>
     </section>
   );

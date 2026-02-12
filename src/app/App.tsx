@@ -31,6 +31,12 @@ import IntegrationsPage from "./pages/integrations-page";
 import PricingPage from "./pages/pricing-page";
 import ResourcesPage from "./pages/resources-page";
 import BookDemoPage from "./pages/book-demo-page";
+import AboutCompany from "./pages/about-company";
+import PlaybooksPage from "./pages/playbooks-page";
+import RevenueIntelligencePage from "./pages/revenue-intelligence-page";
+import BlogPage from "./pages/blog-page";
+import IndustryBenchmarksPage from "./pages/industry-benchmarks-page";
+import CareersPage from "./pages/careers-page";
 
 function HomePage() {
   return (
@@ -77,6 +83,12 @@ export default function App() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/book-demo" element={<BookDemoPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/about" element={<AboutCompany />} />
+        <Route path="/resources/careers" element={<CareersPage />} />
+        <Route path="/resources/playbooks" element={<PlaybooksPage />} />
+        <Route path="/resources/intelligence" element={<RevenueIntelligencePage />} />
+        <Route path="/resources/blog" element={<BlogPage />} />
+        <Route path="/resources/benchmarks" element={<IndustryBenchmarksPage />} />
       </Routes>
       {/* Global Chat Widget - Available on all pages */}
       <N8nChat />

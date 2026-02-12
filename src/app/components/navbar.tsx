@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, ChevronDown, LayoutGrid, Brain, MessageCircle, GraduationCap, Users, Building2, Library, BookOpen, Video, FileText } from "lucide-react";
+import { Menu, X, ChevronDown, LayoutGrid, Brain, MessageCircle, GraduationCap, Users, Building2, Library, BookOpen, FileText, Info, BarChart3 } from "lucide-react";
 import { Button } from "./ui/button";
 import tasknovaLogo from "../assets/tasknova-logo-2.png";
 
@@ -24,10 +24,12 @@ export function Navbar() {
   ];
 
   const resourceLinks = [
-    { name: "Resource Hub", path: "/resources", icon: Library },
-    { name: "Guides & Ebooks", path: "/resources#guides", icon: BookOpen },
-    { name: "Webinars", path: "/resources#webinars", icon: Video },
-    { name: "Case Studies", path: "/resources#case-studies", icon: FileText }
+    { name: "About Tasknova", path: "/resources/about", description: "Learn who we are and what we believe", icon: Info, highlight: true },
+    { name: "Careers", path: "/resources/careers", description: "Join our team and build the future", icon: Users, highlight: false },
+    { name: "Playbooks", path: "/resources/playbooks", description: "Step-by-step execution frameworks", icon: BookOpen },
+    { name: "Revenue Intelligence Guides", path: "/resources/intelligence", description: "Forecasting, pipeline intelligence, deal risk", icon: Brain },
+    { name: "Blog & Insights", path: "/resources/blog", description: "Thought leadership and tactical content", icon: FileText },
+    { name: "Industry Benchmark Reports", path: "/resources/benchmarks", description: "Data-backed research and insights", icon: BarChart3 }
   ];
 
   const handleNavClick = (path: string, closeDropdown: () => void) => {
@@ -159,20 +161,29 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${resourcesDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {resourcesDropdownOpen && (
-                  <div className="absolute top-full left-0 pt-2 z-[100]">
-                    <div className="w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute top-full right-0 pt-2 z-[100]">
+                    <div className="w-80 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                       {resourceLinks.map((link, index) => {
                         const Icon = link.icon;
                         return (
                           <button
                             key={index}
                             onClick={() => handleNavClick(link.path, () => setResourcesDropdownOpen(false))}
-                            className="flex items-center gap-3 w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer"
+                            className={`flex items-start gap-3 w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors cursor-pointer ${
+                              link.highlight ? 'border-b-2 border-slate-200 mb-1' : ''
+                            }`}
                           >
-                            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${
+                              link.highlight ? 'from-purple-500 to-pink-600' : 'from-cyan-500 to-blue-600'
+                            } flex items-center justify-center flex-shrink-0 mt-0.5`}>
                               <Icon className="w-5 h-5 text-white" />
                             </div>
-                            <div className="font-semibold text-slate-700 hover:text-cyan-600">{link.name}</div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-slate-900 hover:text-cyan-600">{link.name}</div>
+                              {link.description && (
+                                <div className="text-sm text-slate-500 mt-0.5">{link.description}</div>
+                              )}
+                            </div>
                           </button>
                         );
                       })}
