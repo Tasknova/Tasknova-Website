@@ -80,19 +80,6 @@ export function HeroSection() {
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </GradientButton>
-
-            <GradientButton
-              asChild
-              variant="variant"
-              className="group shadow-lg hover:shadow-xl transition-all"
-            >
-              <Link to="/book-demo" className="flex items-center gap-2">
-                Start Free Trial
-                <span aria-hidden className="opacity-80 group-hover:translate-x-1 group-hover:opacity-100 transition-all duration-300">
-                  →
-                </span>
-              </Link>
-            </GradientButton>
           </motion.div>
 
           {/* Subtext */}

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Calendar, Users, Briefcase, Mail, Phone, Building2, Target, CheckCircle2, Sparkles, Globe } from "lucide-react";
+import { ArrowRight, Calendar, Users, Briefcase, Mail, Phone, Building2, Target, CheckCircle2, Sparkles, Globe, AlertCircle } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { handleDemoSubmit } from "../lib/demo-form-handler";
+import { checkCalendarAvailability } from "../lib/calendar-helper";
 
 const companySizes = [
   "1-10 employees",
@@ -82,6 +83,8 @@ export default function BookDemoPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const [availabilityMessage, setAvailabilityMessage] = useState<{ available: boolean; text: string } | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -99,6 +102,43 @@ export default function BookDemoPage() {
       ...formData,
       [name]: value
     });
+    
+    // Clear availability message when date or time changes
+    if (name === "preferredDate" || name === "preferredTime" || name === "timezone") {
+      setAvailabilityMessage(null);
+    }
+  };
+
+  // Manual calendar availability check
+  const handleCheckAvailability = async () => {
+    if (!formData.preferredDate || !formData.preferredTime || !formData.timezone) {
+      alert("Please select date, time, and timezone first.");
+      return;
+    }
+
+    setCheckingAvailability(true);
+    setAvailabilityMessage(null);
+    
+    try {
+      const result = await checkCalendarAvailability(
+        formData.preferredDate,
+        formData.preferredTime,
+        formData.timezone.split(" ")[0] // Extract timezone code (e.g., "America/New_York" from "America/New_York (EST/EDT)")
+      );
+      
+      setAvailabilityMessage({
+        available: result.available,
+        text: result.message
+      });
+    } catch (error) {
+      console.error("Error checking availability:", error);
+      setAvailabilityMessage({
+        available: true,
+        text: "Unable to verify availability. Proceeding with booking."
+      });
+    } finally {
+      setCheckingAvailability(false);
+    }
   };
 
   const toggleChallenge = (challenge: string) => {
@@ -450,62 +490,109 @@ export default function BookDemoPage() {
                     </div>
 
                     {/* Preferred Date and Time */}
-                    <div className="grid md:grid-cols-3 gap-4">
-                      <div>
-                        <label htmlFor="preferredDate" className="block text-sm font-semibold text-slate-700 mb-2">
-                          Preferred Date *
-                        </label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                          <input
-                            type="date"
-                            id="preferredDate"
-                            name="preferredDate"
+                    <div>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div>
+                          <label htmlFor="preferredDate" className="block text-sm font-semibold text-slate-700 mb-2">
+                            Preferred Date *
+                          </label>
+                          <div className="relative">
+                            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                            <input
+                              type="date"
+                              id="preferredDate"
+                              name="preferredDate"
+                              required
+                              value={formData.preferredDate}
+                              onChange={handleChange}
+                              min={new Date().toISOString().split('T')[0]}
+                              className="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label htmlFor="preferredTime" className="block text-sm font-semibold text-slate-700 mb-2">
+                            Preferred Time *
+                          </label>
+                          <select
+                            id="preferredTime"
+                            name="preferredTime"
                             required
-                            value={formData.preferredDate}
+                            value={formData.preferredTime}
                             onChange={handleChange}
-                            min={new Date().toISOString().split('T')[0]}
-                            className="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
-                          />
+                            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                          >
+                            <option value="">Select time</option>
+                            {timeSlots.map((time) => (
+                              <option key={time} value={time}>{time}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor="timezone" className="block text-sm font-semibold text-slate-700 mb-2">
+                            Timezone *
+                          </label>
+                          <select
+                            id="timezone"
+                            name="timezone"
+                            required
+                            value={formData.timezone}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                          >
+                            <option value="">Select timezone</option>
+                            {timezones.map((tz) => (
+                              <option key={tz} value={tz}>{tz}</option>
+                            ))}
+                          </select>
                         </div>
                       </div>
-                      <div>
-                        <label htmlFor="preferredTime" className="block text-sm font-semibold text-slate-700 mb-2">
-                          Preferred Time *
-                        </label>
-                        <select
-                          id="preferredTime"
-                          name="preferredTime"
-                          required
-                          value={formData.preferredTime}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                      
+                      {/* Check Availability Button */}
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          onClick={handleCheckAvailability}
+                          disabled={!formData.preferredDate || !formData.preferredTime || !formData.timezone || checkingAvailability}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                         >
-                          <option value="">Select time</option>
-                          {timeSlots.map((time) => (
-                            <option key={time} value={time}>{time}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="timezone" className="block text-sm font-semibold text-slate-700 mb-2">
-                          Timezone *
-                        </label>
-                        <select
-                          id="timezone"
-                          name="timezone"
-                          required
-                          value={formData.timezone}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
-                        >
-                          <option value="">Select timezone</option>
-                          {timezones.map((tz) => (
-                            <option key={tz} value={tz}>{tz}</option>
-                          ))}
-                        </select>
+                          <Calendar className="w-4 h-4" />
+                          {checkingAvailability ? "Checking..." : "Check Availability"}
+                        </button>
                       </div>
                     </div>
+
+                    {/* Calendar Availability Status */}
+                    {(checkingAvailability || availabilityMessage) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`flex items-center gap-3 p-4 rounded-lg border ${
+                          checkingAvailability
+                            ? "bg-blue-50 border-blue-200"
+                            : availabilityMessage?.available
+                            ? "bg-green-50 border-green-200"
+                            : "bg-red-50 border-red-200"
+                        }`}
+                      >
+                        {checkingAvailability ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                            <p className="text-sm font-medium text-blue-700">Checking availability...</p>
+                          </>
+                        ) : availabilityMessage?.available ? (
+                          <>
+                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                            <p className="text-sm font-medium text-green-700">{availabilityMessage.text}</p>
+                          </>
+                        ) : (
+                          <>
+                            <AlertCircle className="w-5 h-5 text-red-600" />
+                            <p className="text-sm font-medium text-red-700">{availabilityMessage?.text}</p>
+                          </>
+                        )}
+                      </motion.div>
+                    )}
 
                     {/* Company Size and Department */}
                     <div className="grid md:grid-cols-2 gap-4">
@@ -619,7 +706,7 @@ export default function BookDemoPage() {
                       )}
                       <button
                         type="submit"
-                        disabled={submitting}
+                        disabled={submitting || (availabilityMessage !== null && !availabilityMessage.available)}
                         className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg group disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         {submitting ? "Submitting..." : "Book My Demo"}
