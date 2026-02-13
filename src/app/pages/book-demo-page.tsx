@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Calendar, Users, Briefcase, Mail, Phone, Building2, Target, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Users, Briefcase, Mail, Phone, Building2, Target, CheckCircle2, Sparkles, Globe } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { handleDemoSubmit } from "../lib/demo-form-handler";
@@ -35,6 +35,30 @@ const challenges = [
   "Other"
 ];
 
+const timeSlots = [
+  "11:00 AM",
+  "12:00 PM",
+  "1:00 PM",
+  "2:00 PM",
+  "3:00 PM",
+  "4:00 PM",
+  "5:00 PM",
+  "6:00 PM"
+];
+
+const timezones = [
+  "America/New_York (EST/EDT)",
+  "America/Chicago (CST/CDT)",
+  "America/Denver (MST/MDT)",
+  "America/Los_Angeles (PST/PDT)",
+  "Europe/London (GMT/BST)",
+  "Europe/Paris (CET/CEST)",
+  "Asia/Dubai (GST)",
+  "Asia/Kolkata (IST)",
+  "Asia/Singapore (SGT)",
+  "Australia/Sydney (AEST/AEDT)"
+];
+
 export default function BookDemoPage() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -42,12 +66,16 @@ export default function BookDemoPage() {
     email: "",
     phone: "",
     company: "",
+    companyWebsite: "",
     jobTitle: "",
     companySize: "",
     department: "",
     challenge: "",
     currentTools: "",
-    additionalInfo: ""
+    additionalInfo: "",
+    preferredDate: "",
+    preferredTime: "",
+    timezone: ""
   });
 
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>([]);
@@ -56,9 +84,20 @@ export default function BookDemoPage() {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    // Validate date is not Sunday
+    if (name === "preferredDate" && value) {
+      const selectedDate = new Date(value);
+      if (selectedDate.getDay() === 0) {
+        alert("Sundays are not available for demos. Please select another date.");
+        return;
+      }
+    }
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   };
 
@@ -388,6 +427,83 @@ export default function BookDemoPage() {
                             placeholder="VP of Sales"
                           />
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Company Website */}
+                    <div>
+                      <label htmlFor="companyWebsite" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Company Website
+                      </label>
+                      <div className="relative">
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <input
+                          type="url"
+                          id="companyWebsite"
+                          name="companyWebsite"
+                          value={formData.companyWebsite}
+                          onChange={handleChange}
+                          className="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                          placeholder="https://example.com"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Preferred Date and Time */}
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div>
+                        <label htmlFor="preferredDate" className="block text-sm font-semibold text-slate-700 mb-2">
+                          Preferred Date *
+                        </label>
+                        <div className="relative">
+                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                          <input
+                            type="date"
+                            id="preferredDate"
+                            name="preferredDate"
+                            required
+                            value={formData.preferredDate}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split('T')[0]}
+                            className="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="preferredTime" className="block text-sm font-semibold text-slate-700 mb-2">
+                          Preferred Time *
+                        </label>
+                        <select
+                          id="preferredTime"
+                          name="preferredTime"
+                          required
+                          value={formData.preferredTime}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                        >
+                          <option value="">Select time</option>
+                          {timeSlots.map((time) => (
+                            <option key={time} value={time}>{time}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="timezone" className="block text-sm font-semibold text-slate-700 mb-2">
+                          Timezone *
+                        </label>
+                        <select
+                          id="timezone"
+                          name="timezone"
+                          required
+                          value={formData.timezone}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
+                        >
+                          <option value="">Select timezone</option>
+                          {timezones.map((tz) => (
+                            <option key={tz} value={tz}>{tz}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
 

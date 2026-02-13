@@ -54,9 +54,13 @@ export async function submitDemoRequest(payload: {
   name: string;
   email: string;
   company?: string;
+  company_website?: string;
   role?: string;
   team_size?: string;
   notes?: string;
+  preferred_date?: string;
+  preferred_time?: string;
+  timezone?: string;
 }) {
   const { data, error } = await supabase
     .from("demo_requests")
@@ -64,9 +68,13 @@ export async function submitDemoRequest(payload: {
       name: payload.name,
       email: payload.email,
       company: payload.company ?? null,
+      company_website: payload.company_website ?? null,
       role: payload.role ?? null,
       team_size: payload.team_size ?? null,
       notes: payload.notes ?? null,
+      preferred_date: payload.preferred_date ?? null,
+      preferred_time: payload.preferred_time ?? null,
+      timezone: payload.timezone ?? null,
     })
     .select()
     .single();
