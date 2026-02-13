@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Calendar, Users, Briefcase, Mail, Phone, Building2, Target, CheckCircle2, Sparkles } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+import { handleDemoSubmit } from "../lib/demo-form-handler";
 
 const companySizes = [
   "1-10 employees",
@@ -51,6 +52,8 @@ export default function BookDemoPage() {
 
   const [selectedChallenges, setSelectedChallenges] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -67,11 +70,25 @@ export default function BookDemoPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", { ...formData, challenges: selectedChallenges });
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const fd = new FormData(e.currentTarget);
+      fd.append("notes", selectedChallenges.join(", "));
+      await handleDemoSubmit(fd);
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -484,11 +501,15 @@ export default function BookDemoPage() {
 
                     {/* Submit Button */}
                     <div className="pt-4">
+                      {error && (
+                        <p className="text-sm text-red-600 text-center mb-2">{error}</p>
+                      )}
                       <button
                         type="submit"
-                        className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg group"
+                        disabled={submitting}
+                        className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg group disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        Book My Demo
+                        {submitting ? "Submitting..." : "Book My Demo"}
                         <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </button>
                       <p className="text-xs text-slate-500 text-center mt-4">
