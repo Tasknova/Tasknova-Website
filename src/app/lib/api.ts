@@ -85,8 +85,8 @@ export async function submitDemoRequest(payload: {
 
 export async function listJobs() {
   const { data, error } = await supabase
-    .from("jobs")
-    .select("id, title, location, department, apply_url, description, metadata, created_at")
+    .from("job_openings")
+    .select("id, title, location, department, type, description, gradient, is_active, about, responsibilities, skills, created_at")
     .order("created_at", { ascending: false });
 
   if (error) throw error;

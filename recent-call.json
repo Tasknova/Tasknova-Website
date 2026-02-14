@@ -1,0 +1,5 @@
+{
+  "message": "Invalid Key. Hot tip, you may be using the private key instead of the public key, or vice versa.",
+  "error": "Unauthorized",
+  "statusCode": 401
+}
