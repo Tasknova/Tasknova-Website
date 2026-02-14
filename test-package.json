@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "scripts": {
-    "test-vapi": "node --env-file=.env test-vapi-api.mjs"
-  }
-}
