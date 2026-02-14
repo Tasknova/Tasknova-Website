@@ -1,10 +1,14 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { 
-  Brain, TrendingUp, Target, MessageSquare, Users, ArrowRight, CheckCircle2, BarChart3
+  Brain, TrendingUp, Target, MessageSquare, Users, ArrowRight, CheckCircle2, ExternalLink, Clock, User, Tag
 } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase-client";
+
+const SUPABASE_URL = "https://qdeqpgixanmuzonsoeou.supabase.co";
 
 // Intelligence Education
 const intelligenceGuides = [
@@ -14,7 +18,8 @@ const intelligenceGuides = [
     icon: MessageSquare,
     gradient: "from-cyan-500 to-blue-600",
     outcomes: ["98% transcription accuracy", "Real-time sentiment analysis", "Automated coaching insights"],
-    readTime: "15 min read"
+    readTime: "15 min read",
+    pdfUrl: `${SUPABASE_URL}/storage/v1/object/public/intelligence-guides/Conversation%20Intelligence.pdf`
   },
   {
     title: "Revenue Intelligence",
@@ -22,7 +27,8 @@ const intelligenceGuides = [
     icon: TrendingUp,
     gradient: "from-purple-500 to-pink-600",
     outcomes: ["94% forecast accuracy", "Early deal risk detection", "Pipeline predictability"],
-    readTime: "18 min read"
+    readTime: "18 min read",
+    pdfUrl: `${SUPABASE_URL}/storage/v1/object/public/intelligence-guides/Revenue%20Intelligence.pdf`
   },
   {
     title: "Coaching Intelligence",
@@ -30,7 +36,8 @@ const intelligenceGuides = [
     icon: Users,
     gradient: "from-green-500 to-emerald-600",
     outcomes: ["40% faster ramp time", "Systematic skill development", "Scalable team coaching"],
-    readTime: "12 min read"
+    readTime: "12 min read",
+    pdfUrl: `${SUPABASE_URL}/storage/v1/object/public/intelligence-guides/Coaching%20Intelligence.pdf`
   },
   {
     title: "Customer Intelligence",
@@ -38,51 +45,67 @@ const intelligenceGuides = [
     icon: Target,
     gradient: "from-blue-500 to-indigo-600",
     outcomes: ["Pre-call research automation", "Buyer signal detection", "Account relationship mapping"],
-    readTime: "14 min read"
+    readTime: "14 min read",
+    pdfUrl: `${SUPABASE_URL}/storage/v1/object/public/intelligence-guides/Customer%20Intelligence.pdf`
   }
 ];
 
-// Deep Dive Topics
-const deepDiveTopics = [
-  {
-    category: "Forecasting",
-    title: "How to Achieve 95%+ Forecast Accuracy",
-    description: "Learn the conversation signals and engagement patterns that predict deal outcomes with precision.",
-    gradient: "from-cyan-500 to-blue-600"
-  },
-  {
-    category: "Deal Risk",
-    title: "10 Conversation Signals That Predict Deal Risk",
-    description: "Identify the subtle patterns in customer conversations that indicate a deal is heading off track.",
-    gradient: "from-purple-500 to-pink-600"
-  },
-  {
-    category: "Pipeline Intelligence",
-    title: "Pipeline Health Beyond CRM Data",
-    description: "How engagement signals reveal pipeline quality before deals stall.",
-    gradient: "from-green-500 to-emerald-600"
-  },
-  {
-    category: "Buyer Intent",
-    title: "Reading Buyer Intent From Conversations",
-    description: "AI-powered analysis that detects buying signals and objection patterns.",
-    gradient: "from-blue-500 to-indigo-600"
-  },
-  {
-    category: "Win/Loss Analysis",
-    title: "What Winners Say Differently: Data From 2M+ Calls",
-    description: "Analysis reveals the specific language patterns that correlate with higher win rates.",
-    gradient: "from-orange-500 to-red-600"
-  },
-  {
-    category: "Stakeholder Mapping",
-    title: "AI-Powered Stakeholder Intelligence",
-    description: "Automatically map buying committees and identify missing relationships.",
-    gradient: "from-cyan-400 to-blue-500"
-  }
-];
+interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  author: string;
+  category: string;
+  tags: string[];
+  read_time: number;
+  published_at: string;
+}
+
+// Gradient colors for blog categories
+const categoryGradients: Record<string, string> = {
+  "Conversation Intelligence": "from-cyan-500 to-blue-600",
+  "AI Coaching": "from-green-500 to-emerald-600",
+  "Revenue Operations": "from-purple-500 to-pink-600",
+  "Deal Intelligence": "from-blue-500 to-indigo-600",
+  "Customer Success": "from-orange-500 to-red-600",
+  "Sales Intelligence": "from-indigo-500 to-purple-600",
+  "Sales": "from-pink-500 to-rose-600",
+  "Revenue Intelligence": "from-purple-500 to-pink-600",
+  "default": "from-slate-500 to-slate-600"
+};
 
 export function RevenueIntelligencePage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBlogs() {
+      if (!supabase) {
+        console.warn("Supabase client not configured");
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("blogs")
+        .select("*")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false })
+        .limit(6);
+
+      if (error) {
+        console.error("Error fetching blogs:", error);
+        setLoading(false);
+        return;
+      }
+
+      setBlogs(data || []);
+      setLoading(false);
+    }
+
+    fetchBlogs();
+  }, []);
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -209,10 +232,15 @@ export function RevenueIntelligencePage() {
                       ))}
                     </div>
                     
-                    <button className={`w-full px-6 py-3 rounded-lg bg-gradient-to-r ${guide.gradient} text-white font-semibold hover:opacity-90 transition-opacity`}>
-                      Read Guide
-                      <ArrowRight className="inline-block ml-2 w-4 h-4" />
-                    </button>
+                    <a 
+                      href={guide.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-full px-6 py-3 rounded-lg bg-gradient-to-r ${guide.gradient} text-white font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2`}
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      View Guide
+                    </a>
                   </motion.div>
                 );
               })}
@@ -221,7 +249,7 @@ export function RevenueIntelligencePage() {
         </div>
       </section>
 
-      {/* DEEP DIVE TOPICS */}
+      {/* RELATED BLOG ARTICLES */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
@@ -231,36 +259,82 @@ export function RevenueIntelligencePage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Deep Dive Topics</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Latest Insights</h2>
               <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                Comprehensive guides on specific revenue intelligence use cases
+                Expert articles and actionable strategies for revenue teams
               </p>
             </motion.div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {deepDiveTopics.map((topic, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-xl bg-slate-50 border-2 border-slate-200 hover:shadow-xl transition-all group cursor-pointer"
-                >
-                  <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${topic.gradient} text-white text-xs font-semibold mb-3`}>
-                    {topic.category}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors">{topic.title}</h3>
-                  <p className="text-slate-600 mb-4">{topic.description}</p>
-                  
-                  <div className="flex items-center gap-2 text-cyan-600 font-semibold">
-                    <span>Read more</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+              </div>
+            ) : blogs.length === 0 ? (
+              <div className="text-center py-20">
+                <p className="text-slate-600 text-lg">No blog posts available yet.</p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {blogs.map((blog, index) => {
+                  const gradient = categoryGradients[blog.category] || categoryGradients.default;
+                  return (
+                    <motion.div
+                      key={blog.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="group cursor-pointer"
+                    >
+                      <Link to={`/resources/blog/${blog.slug}`}>
+                        <div className="p-6 rounded-xl bg-slate-50 border-2 border-slate-200 hover:shadow-xl transition-all h-full flex flex-col">
+                          <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${gradient} mb-4 self-start`}>
+                            <Tag className="w-5 h-5 text-white" />
+                          </div>
+                          
+                          <div className="inline-block px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold mb-3 self-start">
+                            {blog.category}
+                          </div>
+                          
+                          <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-600 transition-colors">
+                            {blog.title}
+                          </h3>
+                          <p className="text-slate-600 mb-6 flex-grow line-clamp-3">{blog.excerpt}</p>
+                          
+                          <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+                            <div className="flex items-center gap-3 text-sm text-slate-500">
+                              <div className="flex items-center gap-1">
+                                <User className="w-4 h-4" />
+                                <span className="truncate">{blog.author}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-4 h-4" />
+                                <span>{blog.read_time} min</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+            >
+              <Link 
+                to="/resources/blog"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
+              >
+                View All Articles
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>

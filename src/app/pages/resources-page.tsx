@@ -1,13 +1,43 @@
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { 
-  BookOpen, Brain, Headphones, FileText, Video, BarChart3,
-  ArrowRight, Clock, User, TrendingUp, Target, Zap, CheckCircle2,
-  Download, Award, Users, MessageSquare
+  BookOpen, Brain, FileText, BarChart3, Briefcase, ArrowRight,
+  Clock, User, MapPin, ExternalLink, Download
 } from "lucide-react";
-import { useState } from "react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase-client";
+
+type Blog = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  author: string;
+  category: string;
+  read_time: number;
+  published_at: string;
+};
+
+type IndustryReport = {
+  id: string;
+  title: string;
+  description: string;
+  year: string;
+  pages: number;
+  downloads: string;
+  pdf_url: string;
+};
+
+type JobOpening = {
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+  gradient: string;
+};
 
 // Resource Categories
 const resourceCategories = [
@@ -15,252 +45,105 @@ const resourceCategories = [
     id: "playbooks",
     icon: BookOpen,
     title: "Playbooks",
-    description: "Step-by-step frameworks to improve sales execution and coaching outcomes.",
+    description: "Step-by-step frameworks to improve sales execution and coaching outcomes. Practical guides built from proven best practices.",
     gradient: "from-cyan-500 to-blue-600",
-    count: "12 guides"
-  },
-  {
-    id: "intelligence",
-    icon: Brain,
-    title: "Revenue Intelligence Guides",
-    description: "Deep dives into forecasting accuracy, deal risk detection, and pipeline intelligence.",
-    gradient: "from-purple-500 to-pink-600",
-    count: "8 guides"
-  },
-  {
-    id: "podcasts",
-    icon: Headphones,
-    title: "Podcasts / Expert Talks",
-    description: "Conversations with sales leaders, RevOps experts, and growth practitioners.",
-    gradient: "from-orange-500 to-red-600",
-    count: "24 episodes"
+    link: "/resources/playbooks"
   },
   {
     id: "blog",
     icon: FileText,
     title: "Blog & Insights",
-    description: "Tactical insights on conversation intelligence, coaching, and AI in revenue teams.",
+    description: "Expert articles on conversation intelligence, coaching, revenue operations, and AI in sales. Data-backed insights for modern revenue teams.",
     gradient: "from-green-500 to-emerald-600",
-    count: "180+ articles"
+    link: "/resources/blog"
   },
   {
-    id: "webinars",
-    icon: Video,
-    title: "Webinars & Product Walkthroughs",
-    description: "Learn how high-performing teams use Tasknova.",
-    gradient: "from-blue-500 to-indigo-600",
-    count: "16 sessions"
+    id: "intelligence",
+    icon: Brain,
+    title: "Revenue Intelligence Guides",
+    description: "Deep dives into conversation intelligence, revenue intelligence, coaching intelligence, and customer intelligence. Master the fundamentals.",
+    gradient: "from-purple-500 to-pink-600",
+    link: "/resources/intelligence"
   },
   {
     id: "reports",
     icon: BarChart3,
     title: "Industry Benchmark Reports",
-    description: "Data-driven insights on sales execution trends and coaching effectiveness.",
-    gradient: "from-cyan-400 to-blue-500",
-    count: "4 reports"
-  }
-];
-
-// Featured Content
-const featuredContent = {
-  main: {
-    category: "Revenue Intelligence",
-    title: "Revenue Intelligence Explained: How Modern Sales Teams Predict Deal Risk",
-    description: "Learn how conversation signals reveal pipeline risk before it shows in CRM. This comprehensive guide covers sentiment analysis, stakeholder engagement tracking, and AI-powered forecasting techniques used by top-performing teams.",
-    author: "Tasknova Research Team",
-    readTime: "18 min read",
-    image: "featured",
-    tags: ["Revenue Intelligence", "Deal Risk", "Forecasting"]
-  },
-  secondary: [
-    {
-      category: "Coaching",
-      title: "The Manager's Guide to Scaling AI Coaching",
-      description: "How to coach 15+ reps without sacrificing quality or personal connection.",
-      readTime: "12 min",
-      gradient: "from-green-500 to-emerald-600"
-    },
-    {
-      category: "Conversation Intelligence",
-      title: "What Top Performers Say Differently: Data From 2M+ Calls",
-      description: "Analysis reveals the specific language patterns that correlate with higher win rates.",
-      readTime: "15 min",
-      gradient: "from-purple-500 to-pink-600"
-    },
-    {
-      category: "Customer Intelligence",
-      title: "Pre-Call Research Automation: The Competitive Advantage",
-      description: "How AI-generated customer briefs improve discovery call outcomes by 47%.",
-      readTime: "10 min",
-      gradient: "from-cyan-500 to-blue-600"
-    }
-  ]
-};
-
-// Playbooks
-const playbooks = [
-  {
-    title: "Sales Execution Playbook",
-    description: "Master discovery, objection handling, and demo execution",
-    topics: [
-      "Discovery frameworks",
-      "Objection handling scripts",
-      "Demo execution strategies",
-      "Closing techniques"
-    ],
-    gradient: "from-cyan-500 to-blue-600",
-    downloads: "8,400+",
-    pages: 64
-  },
-  {
-    title: "Coaching Playbook",
-    description: "Build high-performing teams through systematic coaching",
-    topics: [
-      "Rep coaching frameworks",
-      "Manager coaching systems",
-      "Coaching ROI measurement",
-      "Performance improvement plans"
-    ],
-    gradient: "from-green-500 to-emerald-600",
-    downloads: "6,200+",
-    pages: 52
-  },
-  {
-    title: "RevOps Playbook",
-    description: "Optimize revenue operations and forecasting accuracy",
-    topics: [
-      "Forecast accuracy improvement",
-      "Pipeline intelligence",
-      "Process optimization",
-      "Data quality frameworks"
-    ],
-    gradient: "from-purple-500 to-pink-600",
-    downloads: "5,800+",
-    pages: 72
-  },
-  {
-    title: "Customer Intelligence Playbook",
-    description: "Leverage AI for deeper customer insights",
-    topics: [
-      "Pre-call research automation",
-      "Buyer signal detection",
-      "Stakeholder mapping",
-      "Account intelligence"
-    ],
+    description: "Data-driven research on sales execution trends, coaching effectiveness, and revenue intelligence adoption. Benchmark your team's performance.",
     gradient: "from-blue-500 to-indigo-600",
-    downloads: "7,100+",
-    pages: 48
-  }
-];
-
-// Blog Articles
-const blogArticles = [
-  {
-    category: "Conversation Intelligence",
-    title: "10 Conversation Signals That Predict Deal Risk",
-    excerpt: "Learn to identify the subtle patterns in customer conversations that indicate a deal is heading off track.",
-    author: "David Park",
-    readTime: "8 min",
-    gradient: "from-cyan-500 to-blue-600"
+    link: "/resources/benchmarks"
   },
   {
-    category: "AI Coaching",
-    title: "Why Generic Sales Training Fails (And What Works Instead)",
-    excerpt: "Company-specific AI coaching delivers 3x better results than traditional one-size-fits-all programs.",
-    author: "Jessica Walsh",
-    readTime: "6 min",
-    gradient: "from-green-500 to-emerald-600"
-  },
-  {
-    category: "Revenue Operations",
-    title: "The Hidden Cost of Poor Data Quality in Your CRM",
-    excerpt: "How conversation intelligence automatically improves CRM accuracy and forecast reliability.",
-    author: "Alex Rivera",
-    readTime: "10 min",
-    gradient: "from-purple-500 to-pink-600"
-  },
-  {
-    category: "Deal Intelligence",
-    title: "Stakeholder Mapping: The Missing Piece in Complex Sales",
-    excerpt: "AI-powered stakeholder analysis reveals hidden buying committee dynamics.",
-    author: "Sarah Chen",
-    readTime: "12 min",
-    gradient: "from-blue-500 to-indigo-600"
-  },
-  {
-    category: "Customer Success",
-    title: "Churn Prediction: Reading Signals 90 Days Early",
-    excerpt: "Identify at-risk accounts before renewal conversations even begin.",
-    author: "Michelle Torres",
-    readTime: "9 min",
-    gradient: "from-orange-500 to-red-600"
-  },
-  {
-    category: "Enablement",
-    title: "How to Build Winning Talk Tracks From Real Calls",
-    excerpt: "Extract and replicate the exact language patterns top performers use.",
-    author: "Kevin Zhang",
-    readTime: "7 min",
-    gradient: "from-cyan-400 to-blue-500"
-  }
-];
-
-// Intelligence Education
-const intelligenceEducation = [
-  {
-    title: "Conversation Intelligence",
-    description: "Understanding how AI analyzes sales conversations to extract insights, detect buyer intent, and identify coaching opportunities. Goes beyond transcription to deliver execution intelligence that improves rep performance and deal outcomes.",
-    icon: MessageSquare,
-    gradient: "from-cyan-500 to-blue-600",
-    outcomes: ["98% transcription accuracy", "Real-time sentiment analysis", "Automated coaching insights"]
-  },
-  {
-    title: "Revenue Intelligence",
-    description: "The practice of using conversation data, engagement signals, and performance patterns to predict revenue outcomes with precision. Connects what happens in customer interactions to forecast accuracy and pipeline health.",
-    icon: TrendingUp,
-    gradient: "from-purple-500 to-pink-600",
-    outcomes: ["94% forecast accuracy", "Early deal risk detection", "Pipeline predictability"]
-  },
-  {
-    title: "Coaching Intelligence",
-    description: "AI-driven systems that identify skill gaps, extract winning behaviors from top performers, and generate personalized improvement plans. Scales manager effectiveness across entire revenue organizations.",
-    icon: Users,
-    gradient: "from-green-500 to-emerald-600",
-    outcomes: ["40% faster ramp time", "Systematic skill development", "Scalable team coaching"]
-  },
-  {
-    title: "Customer Intelligence",
-    description: "Automated research and analysis that delivers deep customer context before every interaction. Combines firmographic data, conversation history, and buying signals into actionable pre-call briefs.",
-    icon: Target,
-    gradient: "from-blue-500 to-indigo-600",
-    outcomes: ["Pre-call research automation", "Buyer signal detection", "Account relationship mapping"]
-  }
-];
-
-// Testimonials
-const testimonials = [
-  {
-    quote: "The resources from Tasknova transformed how we think about revenue intelligence. The playbooks alone saved us months of trial and error.",
-    author: "Sarah Chen",
-    role: "Chief Revenue Officer",
-    company: "CloudMetrics"
-  },
-  {
-    quote: "These aren't generic sales tips. Every guide is backed by real data from millions of conversations. That's the difference.",
-    author: "Marcus Stevens",
-    role: "VP of Sales",
-    company: "TechForward"
+    id: "careers",
+    icon: Briefcase,
+    title: "Careers",
+    description: "Join us in building the future of revenue intelligence. Explore open positions and learn about working at Tasknova.",
+    gradient: "from-orange-500 to-red-600",
+    link: "/resources/careers"
   }
 ];
 
 export function ResourcesPage() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [report, setReport] = useState<IndustryReport | null>(null);
+
+  useEffect(() => {
+    // Fetch latest blogs
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+        .from("blogs")
+        .select("*")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false })
+        .limit(3);
+
+      if (!error && data) {
+        setBlogs(data);
+      }
+    };
+
+    // Fetch featured report
+    const fetchReport = async () => {
+      const { data, error } = await supabase
+        .from("industry_reports")
+        .select("*")
+        .eq("is_published", true)
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        setReport(data);
+      }
+    };
+
+    fetchBlogs();
+    fetchReport();
+  }, []);
+
+  const featuredJobs: JobOpening[] = [
+    {
+      title: "Senior Full Stack Engineer",
+      department: "Engineering",
+      location: "Remote (US)",
+      type: "Full-time",
+      description: "Build the future of revenue intelligence with React, TypeScript, and backend services for AI features.",
+      gradient: "from-cyan-500 to-blue-600"
+    },
+    {
+      title: "Product Designer",
+      department: "Design",
+      location: "Remote (Global)",
+      type: "Full-time",
+      description: "Design intuitive experiences for conversation intelligence, coaching workflows, and data visualization.",
+      gradient: "from-purple-500 to-pink-600"
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* 1. HERO SECTION */}
+      {/* HERO SECTION */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
@@ -286,7 +169,7 @@ export function ResourcesPage() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6"
             >
-              Learn, Improve, and Scale<br />Revenue Performance
+              Resources for Revenue Teams
             </motion.h1>
             
             <motion.p
@@ -295,35 +178,297 @@ export function ResourcesPage() {
               transition={{ delay: 0.2 }}
               className="text-xl text-slate-300 mb-10 max-w-3xl mx-auto"
             >
-              Explore expert playbooks, industry insights, and real-world strategies to improve sales execution, coaching, and customer intelligence.
+              Expert playbooks, insights, guides, and research to help your team execute with precision
             </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap gap-4 justify-center"
-            >
-              <a href="#playbooks" className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg">
-                Explore Playbooks
-              </a>
-              <a href="#blog" className="px-8 py-4 border-2 border-white/20 rounded-xl font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
-                View Blog
-              </a>
-            </motion.div>
           </div>
         </div>
         
-        {/* Floating Gradient Orb */}
+        {/* Gradient Orbs */}
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-full blur-3xl" />
       </section>
 
-      {/* 2. RESOURCE CATEGORY NAVIGATION */}
+      {/* LATEST BLOG INSIGHTS */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl font-bold mb-2">Latest Insights</h2>
+                <p className="text-xl text-slate-600">Expert articles on revenue intelligence and sales execution</p>
+              </div>
+              <Link to="/resources/blog">
+                <button className="px-6 py-3 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-cyan-500 hover:text-cyan-600 transition-colors flex items-center gap-2">
+                  View All Articles
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {blogs.map((blog, index) => (
+                <motion.div
+                  key={blog.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link to={`/resources/blog/${blog.slug}`}>
+                    <div className="group h-full p-6 rounded-xl bg-white border-2 border-slate-200 hover:shadow-xl transition-all cursor-pointer">
+                      <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-semibold mb-4">
+                        {blog.category}
+                      </div>
+
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-600 transition-colors line-clamp-2">
+                        {blog.title}
+                      </h3>
+                      <p className="text-slate-600 mb-4 line-clamp-3">{blog.excerpt}</p>
+
+                      <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                          <User className="w-4 h-4" />
+                          <span>{blog.author}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                          <Clock className="w-4 h-4" />
+                          <span>{blog.read_time} min</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED INTELLIGENCE GUIDE */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl font-bold mb-2">Revenue Intelligence Education</h2>
+                <p className="text-xl text-slate-600">Master the fundamentals of modern revenue intelligence</p>
+              </div>
+              <Link to="/resources/intelligence">
+                <button className="px-6 py-3 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-purple-500 hover:text-purple-600 transition-colors flex items-center gap-2">
+                  View All Guides
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 text-white relative overflow-hidden"
+            >
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0" style={{
+                  backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                  backgroundSize: '32px 32px'
+                }} />
+              </div>
+
+              <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div className="flex-1">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 text-white text-sm font-semibold mb-4">
+                    <Brain className="w-4 h-4" />
+                    <span>Intelligence Guide</span>
+                  </div>
+                  <h3 className="text-3xl font-bold mb-3">Conversation Intelligence Explained</h3>
+                  <p className="text-purple-100 mb-4 max-w-2xl">
+                    A comprehensive guide to understanding how conversation intelligence captures, analyzes, and transforms sales conversations into actionable insights and coaching opportunities.
+                  </p>
+                  <ul className="space-y-2 text-purple-100">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>What conversation intelligence captures and why it matters</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>How AI analyzes patterns across thousands of conversations</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <span>Real-world impact on coaching, forecasting, and win rates</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <a 
+                    href="https://qdeqpgixanmuzonsoeou.supabase.co/storage/v1/object/public/intelligence-guides/Conversation%20Intelligence.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-colors shadow-lg flex items-center gap-2 whitespace-nowrap">
+                      <ExternalLink className="w-5 h-5" />
+                      View Guide
+                    </button>
+                  </a>
+                  <div className="text-sm text-purple-200 text-center">PDF • 28 pages</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED INDUSTRY REPORT */}
+      {report && (
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-12">
+                <div>
+                  <h2 className="text-4xl font-bold mb-2">Industry Research & Benchmarks</h2>
+                  <p className="text-xl text-slate-600">Data-backed insights to benchmark your revenue team's performance</p>
+                </div>
+                <Link to="/resources/benchmarks">
+                  <button className="px-6 py-3 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    View All Reports
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white relative overflow-hidden"
+              >
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute inset-0" style={{
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                    backgroundSize: '32px 32px'
+                  }} />
+                </div>
+
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div className="flex-1">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 border border-white/30 text-white text-sm font-semibold mb-4">
+                      <BarChart3 className="w-4 h-4" />
+                      <span>{report.year} Report</span>
+                    </div>
+                    <h3 className="text-3xl font-bold mb-3">{report.title}</h3>
+                    <p className="text-blue-100 mb-4 max-w-2xl">
+                      {report.description}
+                    </p>
+                    <div className="flex items-center gap-6 text-blue-100 text-sm">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4" />
+                        <span>{report.pages} pages</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Download className="w-4 h-4" />
+                        <span>{report.downloads} downloads</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <a 
+                      href={report.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-lg flex items-center gap-2 whitespace-nowrap">
+                        <ExternalLink className="w-5 h-5" />
+                        View Report
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CAREER OPPORTUNITIES */}
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl font-bold mb-2">Join Our Team</h2>
+                <p className="text-xl text-slate-600">Help us build the future of revenue intelligence</p>
+              </div>
+              <Link to="/resources/careers">
+                <button className="px-6 py-3 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-orange-500 hover:text-orange-600 transition-colors flex items-center gap-2">
+                  View All Positions
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {featuredJobs.map((job, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Link to="/resources/careers">
+                    <div className="group h-full p-8 rounded-2xl bg-white border-2 border-slate-200 hover:shadow-2xl transition-all cursor-pointer relative overflow-hidden">
+                      <div className={`absolute inset-0 bg-gradient-to-r ${job.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
+
+                      <div className="relative z-10">
+                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${job.gradient} text-white mb-4`}>
+                          <Briefcase className="w-4 h-4" />
+                          <span className="text-sm font-semibold">{job.department}</span>
+                        </div>
+
+                        <h3 className="text-2xl font-bold mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-600 group-hover:to-blue-600 transition-all">
+                          {job.title}
+                        </h3>
+                        <p className="text-slate-600 mb-6">{job.description}</p>
+
+                        <div className="flex flex-wrap gap-4 text-sm text-slate-500">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-4 h-4" />
+                            <span>{job.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            <span>{job.type}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RESOURCE CATEGORIES */}
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Explore All Resources</h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                Everything you need to improve sales execution, coaching, and revenue intelligence
+              </p>
+            </motion.div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {resourceCategories.map((category, index) => {
                 const Icon = category.icon;
                 return (
@@ -333,258 +478,31 @@ export function ResourcesPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group p-8 rounded-2xl bg-white border-2 border-slate-200 hover:border-transparent hover:shadow-2xl transition-all cursor-pointer relative overflow-hidden"
                   >
-                    {/* Gradient Border on Hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-100 transition-opacity -z-10`} style={{ padding: '2px' }}>
-                      <div className="w-full h-full bg-white rounded-2xl" />
-                    </div>
-                    
-                    <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${category.gradient} mb-4`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold mb-2">{category.title}</h3>
-                    <p className="text-slate-600 mb-4">{category.description}</p>
-                    <p className="text-sm font-semibold text-slate-500">{category.count}</p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. FEATURED CONTENT SECTION */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Featured Resources</h2>
-              <p className="text-xl text-slate-600">Must-read guides from the Tasknova research team</p>
-            </div>
-            
-            <div className="grid lg:grid-cols-2 gap-8">
-              {/* Main Featured */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="lg:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden group cursor-pointer"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                
-                <div className="relative z-10">
-                  <div className="inline-block px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-semibold mb-4">
-                    {featuredContent.main.category}
-                  </div>
-                  
-                  <h3 className="text-3xl font-bold mb-4">{featuredContent.main.title}</h3>
-                  <p className="text-slate-300 mb-6 leading-relaxed">{featuredContent.main.description}</p>
-                  
-                  <div className="flex items-center gap-4 mb-6 text-sm text-slate-400">
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      <span>{featuredContent.main.author}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      <span>{featuredContent.main.readTime}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {featuredContent.main.tags.map((tag, i) => (
-                      <span key={i} className="px-3 py-1 rounded-full bg-white/10 text-xs text-slate-300">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <button className="px-6 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-colors">
-                    Read Guide
-                    <ArrowRight className="inline-block ml-2 w-4 h-4" />
-                  </button>
-                </div>
-              </motion.div>
-              
-              {/* Secondary Featured */}
-              <div className="space-y-6">
-                {featuredContent.secondary.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="p-6 rounded-xl bg-white border-2 border-slate-200 hover:shadow-xl transition-all cursor-pointer group"
-                  >
-                    <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${item.gradient} text-white text-xs font-semibold mb-3`}>
-                      {item.category}
-                    </div>
-                    
-                    <h4 className="text-xl font-bold mb-2 group-hover:text-cyan-600 transition-colors">{item.title}</h4>
-                    <p className="text-slate-600 text-sm mb-3">{item.description}</p>
-                    
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <Clock className="w-4 h-4" />
-                      <span>{item.readTime}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. PLAYBOOK GRID SECTION */}
-      <section id="playbooks" className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Revenue Execution Playbooks</h2>
-              <p className="text-xl text-slate-600">Step-by-step frameworks proven across thousands of revenue teams</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {playbooks.map((playbook, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-8 rounded-2xl bg-white border-2 border-slate-200 hover:shadow-2xl transition-all group cursor-pointer"
-                >
-                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${playbook.gradient} text-white mb-4`}>
-                    <BookOpen className="w-4 h-4" />
-                    <span className="text-sm font-semibold">Playbook</span>
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold mb-3">{playbook.title}</h3>
-                  <p className="text-slate-600 mb-6">{playbook.description}</p>
-                  
-                  <div className="space-y-2 mb-6">
-                    {playbook.topics.map((topic, i) => (
-                      <div key={i} className="flex items-center gap-2 text-slate-700">
-                        <CheckCircle2 className="w-4 h-4 text-cyan-600 flex-shrink-0" />
-                        <span className="text-sm">{topic}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center justify-between pt-6 border-t border-slate-200">
-                    <div className="flex items-center gap-4 text-sm text-slate-500">
-                      <div className="flex items-center gap-1">
-                        <Download className="w-4 h-4" />
-                        <span>{playbook.downloads}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <FileText className="w-4 h-4" />
-                        <span>{playbook.pages} pages</span>
-                      </div>
-                    </div>
-                    
-                    <button className={`px-4 py-2 bg-gradient-to-r ${playbook.gradient} text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity`}>
-                      Download
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. BLOG CONTENT GRID */}
-      <section id="blog" className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Latest Insights</h2>
-              <p className="text-xl text-slate-600">Tactical advice for revenue teams from Tasknova experts</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogArticles.map((article, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-xl bg-white border-2 border-slate-200 hover:shadow-xl transition-all group cursor-pointer"
-                >
-                  <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${article.gradient} text-white text-xs font-semibold mb-4`}>
-                    {article.category}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-600 transition-colors">{article.title}</h3>
-                  <p className="text-slate-600 mb-4">{article.excerpt}</p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <User className="w-4 h-4" />
-                      <span>{article.author}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <Clock className="w-4 h-4" />
-                      <span>{article.readTime}</span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            
-            <div className="text-center mt-12">
-              <button className="px-8 py-4 border-2 border-slate-300 rounded-xl font-semibold text-slate-700 hover:border-cyan-500 hover:text-cyan-600 transition-colors">
-                View All Articles
-                <ArrowRight className="inline-block ml-2 w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. VALUE EDUCATION SECTION */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Understanding Revenue Intelligence</h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                Learn the core concepts powering modern revenue execution
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {intelligenceEducation.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="p-8 rounded-2xl bg-gradient-to-br from-slate-50 to-white border-2 border-slate-200 hover:shadow-xl transition-all"
-                  >
-                    <div className={`inline-flex p-4 rounded-xl bg-gradient-to-r ${item.gradient} mb-6`}>
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-slate-700 mb-6 leading-relaxed">{item.description}</p>
-                    
-                    <div className="space-y-2">
-                      {item.outcomes.map((outcome, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-slate-600">
-                          <CheckCircle2 className="w-4 h-4 text-cyan-600 flex-shrink-0" />
-                          <span>{outcome}</span>
+                    <Link to={category.link}>
+                      <div className="group h-full p-8 rounded-2xl bg-white border-2 border-slate-200 hover:shadow-2xl transition-all cursor-pointer relative overflow-hidden">
+                        {/* Gradient glow on hover */}
+                        <div className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
+                        
+                        <div className="relative z-10">
+                          <div className={`inline-flex p-4 rounded-xl bg-gradient-to-r ${category.gradient} mb-6 group-hover:scale-110 transition-transform`}>
+                            <Icon className="w-8 h-8 text-white" />
+                          </div>
+                          
+                          <h3 className="text-2xl font-bold mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-600 group-hover:to-blue-600 transition-all">
+                            {category.title}
+                          </h3>
+                          <p className="text-slate-600 mb-6 leading-relaxed">
+                            {category.description}
+                          </p>
+                          
+                          <div className={`inline-flex items-center gap-2 text-sm font-semibold bg-gradient-to-r ${category.gradient} bg-clip-text text-transparent group-hover:gap-3 transition-all`}>
+                            <span>Explore</span>
+                            <ArrowRight className="w-4 h-4 text-cyan-600 group-hover:translate-x-1 transition-transform" />
+                          </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    </Link>
                   </motion.div>
                 );
               })}
@@ -593,60 +511,7 @@ export function ResourcesPage() {
         </div>
       </section>
 
-      {/* 8. TRUST SECTION */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-12 mb-16">
-              <div className="text-center">
-                <div className="text-5xl font-bold text-cyan-400 mb-2">180+</div>
-                <div className="text-slate-300">Educational Resources</div>
-              </div>
-              <div className="text-center">
-                <div className="text-5xl font-bold text-cyan-400 mb-2">50K+</div>
-                <div className="text-slate-300">Monthly Readers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-5xl font-bold text-cyan-400 mb-2">94%</div>
-                <div className="text-slate-300">Find Content Valuable</div>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-8 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
-                >
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Award key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  
-                  <p className="text-lg text-slate-200 mb-6 leading-relaxed italic">"{testimonial.quote}"</p>
-                  
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                      {testimonial.author.split(' ').map(n => n[0]).join('')}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-white">{testimonial.author}</div>
-                      <div className="text-sm text-slate-400">{testimonial.role}, {testimonial.company}</div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. FINAL CTA SECTION */}
+      {/* CTA SECTION */}
       <section className="py-20 bg-gradient-to-br from-cyan-500 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -656,7 +521,7 @@ export function ResourcesPage() {
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
-              Turn Insights Into Revenue Growth
+              Turn Knowledge Into Results
             </motion.h2>
             
             <motion.p
@@ -666,7 +531,7 @@ export function ResourcesPage() {
               transition={{ delay: 0.1 }}
               className="text-xl text-cyan-50 mb-10"
             >
-              See how Tasknova's Revenue Intelligence Platform helps teams execute with precision
+              See how Tasknova's AI Revenue Intelligence Platform helps teams execute with precision
             </motion.p>
             
             <motion.div
@@ -677,14 +542,14 @@ export function ResourcesPage() {
               className="flex flex-wrap gap-4 justify-center"
             >
               <Link to="/book-demo">
-                <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-slate-100 transition-colors shadow-lg">
+                <button className="px-8 py-4 bg-white text-cyan-600 rounded-xl font-semibold hover:bg-slate-100 transition-colors shadow-lg inline-flex items-center gap-2">
                   Book Demo
-                  <ArrowRight className="inline-block ml-2 w-5 h-5" />
+                  <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
               <Link to="/products">
                 <button className="px-8 py-4 border-2 border-white/30 rounded-xl font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
-                  Explore Product
+                  Explore Products
                 </button>
               </Link>
             </motion.div>

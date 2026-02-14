@@ -1,4 +1,5 @@
 import { Linkedin, Instagram, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import tasknovaLogo from "../assets/tasknova-logo-2.png";
 
 const footerLinks = {
@@ -11,28 +12,49 @@ const footerLinks = {
     "Pricing"
   ],
   Solutions: [
-    "For Sales Teams",
-    "For RevOps",
-    "For Customer Success",
-    "For Founders",
+    "By Team",
     "By Industry"
   ],
   Resources: [
-    "Blog",
-    "Case Studies",
-    "Guides & eBooks",
-    "ROI Calculator",
-    "Product Tours",
-    "Help Center"
+    "Blog & Insights",
+    "Playbooks",
+    "Intelligence Guides",
+    "Industry Reports"
   ],
   Company: [
     "About Us",
     "Careers",
-    "Contact",
-    "Partners",
-    "Security",
-    "Privacy Policy"
+    "Book a Demo",
+    "Privacy Policy",
+    "Terms of Service"
   ]
+};
+
+const routeMap: Record<string, string> = {
+  // Products
+  "Tasknova Insight": "/products/insight",
+  "Tasknova Engage": "/products/engage",
+  "Tasknova Coach": "/products/coach",
+  "Platform Overview": "/products",
+  "Integrations": "/integrations",
+  "Pricing": "/pricing",
+  
+  // Solutions
+  "By Team": "/solutions",
+  "By Industry": "/solutions/industry",
+  
+  // Resources
+  "Blog & Insights": "/resources/blog",
+  "Playbooks": "/resources/playbooks",
+  "Intelligence Guides": "/resources/intelligence",
+  "Industry Reports": "/resources/benchmarks",
+  
+  // Company
+  "About Us": "/resources/about",
+  "Careers": "/resources/careers",
+  "Book a Demo": "/book-demo",
+  "Privacy Policy": "/privacy-policy",
+  "Terms of Service": "/terms-and-services"
 };
 
 const socialLinks = [
@@ -85,12 +107,12 @@ export function Footer() {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
-                    <a
-                      href="#"
+                    <Link
+                      to={routeMap[link]}
                       className="text-slate-400 hover:text-white transition-colors text-sm"
                     >
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -105,15 +127,12 @@ export function Footer() {
               © 2026 Tasknova. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-slate-400">
-              <a href="#" className="hover:text-white transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Cookie Settings
-              </a>
+              </Link>
+              <Link to="/terms-and-services" className="hover:text-white transition-colors">
+                Terms of Service
+              </Link>
             </div>
           </div>
         </div>

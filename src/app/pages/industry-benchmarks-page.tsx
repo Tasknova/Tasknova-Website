@@ -1,74 +1,34 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { 
-  BarChart3, Download, TrendingUp, Users, Target, Award, ArrowRight, CheckCircle2
+  BarChart3, ExternalLink, TrendingUp, Users, Target, Award, ArrowRight, CheckCircle2
 } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase-client";
 
-// Industry Reports
-const industryReports = [
-  {
-    title: "2025 State of Revenue Intelligence",
-    description: "Comprehensive analysis of how 1,200+ revenue teams use AI and conversation intelligence to improve forecast accuracy, coaching effectiveness, and deal outcomes.",
-    year: "2025",
-    pages: 87,
-    downloads: "12,400+",
-    gradient: "from-cyan-500 to-blue-600",
-    icon: BarChart3,
-    keyFindings: [
-      "Teams using conversation intelligence see 94% forecast accuracy",
-      "AI coaching reduces ramp time by 40%",
-      "Revenue intelligence users close 23% more deals",
-      "89% of teams plan to increase AI investment in 2025"
-    ]
-  },
-  {
-    title: "Sales Coaching Effectiveness Report",
-    description: "Data from 500,000+ coaching sessions reveals what drives rep performance improvement, skill development velocity, and quota attainment across different coaching methodologies.",
-    year: "2024",
-    pages: 64,
-    downloads: "8,700+",
-    gradient: "from-green-500 to-emerald-600",
-    icon: Users,
-    keyFindings: [
-      "Systematic coaching improves win rates by 31%",
-      "Top managers conduct 3+ coaching sessions per rep/month",
-      "AI-assisted coaching scales 5x more effectively",
-      "Personalized coaching drives 2.4x faster skill development"
-    ]
-  },
-  {
-    title: "Win/Loss Analysis Benchmark Study",
-    description: "Analysis of 2 million+ sales conversations to identify the language patterns, objection handling techniques, and discovery questions that correlate with deal success.",
-    year: "2024",
-    pages: 72,
-    downloads: "9,200+",
-    gradient: "from-purple-500 to-pink-600",
-    icon: Target,
-    keyFindings: [
-      "Top performers ask 47% more qualification questions",
-      "Winning reps mention pricing 3x later in the sales cycle",
-      "Multi-thread deals have 67% higher win rates",
-      "Discovery call quality predicts outcomes with 84% accuracy"
-    ]
-  },
-  {
-    title: "Customer Intelligence ROI Report",
-    description: "Measurement framework and benchmark data showing how automated pre-call research, stakeholder mapping, and buyer signal detection impact revenue outcomes.",
-    year: "2024",
-    pages: 56,
-    downloads: "7,800+",
-    gradient: "from-blue-500 to-indigo-600",
-    icon: Award,
-    keyFindings: [
-      "Pre-call research saves 8 hours per rep per week",
-      "Account intelligence improves discovery call outcomes by 47%",
-      "Automated stakeholder mapping reduces sales cycles by 18%",
-      "Teams using customer intelligence see 3.2x pipeline growth"
-    ]
-  }
-];
+// Icon mapping
+const iconMap: Record<string, any> = {
+  BarChart3,
+  Users,
+  Target,
+  Award
+};
+
+interface IndustryReport {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  year: string;
+  pages: number;
+  downloads: string;
+  gradient: string;
+  icon: string;
+  key_findings: string[];
+  pdf_url: string;
+}
 
 // Stats
 const benchmarkStats = [
@@ -79,6 +39,35 @@ const benchmarkStats = [
 ];
 
 export function IndustryBenchmarksPage() {
+  const [reports, setReports] = useState<IndustryReport[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchReports() {
+      if (!supabase) {
+        console.warn("Supabase client not configured");
+        setLoading(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("industry_reports")
+        .select("*")
+        .eq("is_published", true)
+        .order("year", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching reports:", error);
+        setLoading(false);
+        return;
+      }
+
+      setReports(data || []);
+      setLoading(false);
+    }
+
+    fetchReports();
+  }, []);
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -127,10 +116,17 @@ export function IndustryBenchmarksPage() {
               transition={{ delay: 0.3 }}
               className="flex flex-wrap gap-4 justify-center"
             >
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg">
-                Download Latest Report
-                <Download className="inline-block ml-2 w-5 h-5" />
-              </button>
+              {!loading && reports.length > 0 && (
+                <a
+                  href={reports[0].pdf_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg inline-flex items-center gap-2"
+                >
+                  View Latest Report
+                  <ExternalLink className="w-5 h-5" />
+                </a>
+              )}
               <Link to="/resources">
                 <button className="px-8 py-4 border-2 border-white/20 rounded-xl font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
                   View All Resources
@@ -187,65 +183,80 @@ export function IndustryBenchmarksPage() {
             </motion.div>
             
             <div className="space-y-8">
-              {industryReports.map((report, index) => {
-                const Icon = report.icon;
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="p-8 rounded-2xl bg-slate-50 border-2 border-slate-200 hover:shadow-2xl transition-all group"
-                  >
-                    <div className="flex flex-col lg:flex-row gap-8">
-                      {/* Report Icon & Metadata */}
-                      <div className="lg:w-1/4">
-                        <div className={`inline-flex p-6 rounded-xl bg-gradient-to-r ${report.gradient} mb-4`}>
-                          <Icon className="w-12 h-12 text-white" />
-                        </div>
-                        <div className="space-y-2">
-                          <div className="inline-block px-3 py-1 rounded-full bg-cyan-50 text-cyan-700 text-xs font-semibold">
-                            {report.year} Report
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+                </div>
+              ) : reports.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-slate-600 text-lg">No reports available yet.</p>
+                </div>
+              ) : (
+                reports.map((report, index) => {
+                  const Icon = iconMap[report.icon] || BarChart3;
+                  return (
+                    <motion.div
+                      key={report.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="p-8 rounded-2xl bg-slate-50 border-2 border-slate-200 hover:shadow-2xl transition-all group"
+                    >
+                      <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Report Icon & Metadata */}
+                        <div className="lg:w-1/4">
+                          <div className={`inline-flex p-6 rounded-xl bg-gradient-to-r ${report.gradient} mb-4`}>
+                            <Icon className="w-12 h-12 text-white" />
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-slate-500">
-                            <div className="flex items-center gap-1">
-                              <Download className="w-4 h-4" />
-                              <span>{report.downloads}</span>
+                          <div className="space-y-2">
+                            <div className="inline-block px-3 py-1 rounded-full bg-cyan-50 text-cyan-700 text-xs font-semibold">
+                              {report.year} Report
                             </div>
-                            <div>
-                              {report.pages} pages
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Report Content */}
-                      <div className="lg:w-3/4">
-                        <h3 className="text-3xl font-bold mb-3">{report.title}</h3>
-                        <p className="text-slate-600 mb-6 text-lg leading-relaxed">{report.description}</p>
-                        
-                        <div className="mb-6">
-                          <p className="text-sm font-semibold text-slate-700 mb-3">Key Findings:</p>
-                          <div className="grid md:grid-cols-2 gap-3">
-                            {report.keyFindings.map((finding, idx) => (
-                              <div key={idx} className="flex items-start gap-2">
-                                <CheckCircle2 className="w-5 h-5 text-cyan-500 flex-shrink-0 mt-0.5" />
-                                <span className="text-slate-700">{finding}</span>
+                            <div className="flex items-center gap-4 text-sm text-slate-500">
+                              <div className="flex items-center gap-1">
+                                <ExternalLink className="w-4 h-4" />
+                                <span>{report.downloads}</span>
                               </div>
-                            ))}
+                              <div>
+                                {report.pages} pages
+                              </div>
+                            </div>
                           </div>
                         </div>
                         
-                        <button className={`px-8 py-4 rounded-lg bg-gradient-to-r ${report.gradient} text-white font-semibold hover:opacity-90 transition-opacity group-hover:scale-105`}>
-                          Download Report
-                          <ArrowRight className="inline-block ml-2 w-5 h-5" />
-                        </button>
+                        {/* Report Content */}
+                        <div className="lg:w-3/4">
+                          <h3 className="text-3xl font-bold mb-3">{report.title}</h3>
+                          <p className="text-slate-600 mb-6 text-lg leading-relaxed">{report.description}</p>
+                          
+                          <div className="mb-6">
+                            <p className="text-sm font-semibold text-slate-700 mb-3">Key Findings:</p>
+                            <div className="grid md:grid-cols-2 gap-3">
+                              {report.key_findings.map((finding, idx) => (
+                                <div key={idx} className="flex items-start gap-2">
+                                  <CheckCircle2 className="w-5 h-5 text-cyan-500 flex-shrink-0 mt-0.5" />
+                                  <span className="text-slate-700">{finding}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <a
+                            href={report.pdf_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r ${report.gradient} text-white font-semibold hover:opacity-90 transition-opacity group-hover:scale-105`}
+                          >
+                            View Report
+                            <ExternalLink className="w-5 h-5" />
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                    </motion.div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
