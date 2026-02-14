@@ -54,15 +54,6 @@ export function FinalCTA() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/book-demo">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-2 border-white/30 hover:border-white !text-white hover:bg-white/10 px-10 py-7 text-lg"
-              >
-                Start Free Trial
-              </Button>
-            </Link>
           </div>
 
           <p className="text-sm text-slate-400">
