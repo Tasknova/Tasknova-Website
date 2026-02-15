@@ -243,7 +243,7 @@ export default function JobDetailPage() {
       // Combine country code with phone number
       const fullPhoneNumber = `${formData.countryCode} ${formData.phone}`;
 
-      const { data: insertedData, error: insertError } = await supabase.from("job_applicants").insert({
+      const { error: insertError } = await supabase.from("job_applicants").insert({
         job_id: job.id,
         full_name: formData.fullName,
         email: formData.email,
@@ -258,7 +258,7 @@ export default function JobDetailPage() {
           notice_period: formData.noticePeriod,
           preferred_location: formData.location
         }
-      }).select().single();
+      });
 
       if (insertError) {
         throw insertError;
@@ -267,7 +267,7 @@ export default function JobDetailPage() {
       // Send notification to admin with application details
       try {
         const notificationPayload = {
-          applicantId: insertedData.id,
+          applicantId: `application-${Date.now()}`, // Temporary ID for tracking
           fullName: formData.fullName,
           email: formData.email,
           phone: fullPhoneNumber,
