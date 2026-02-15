@@ -218,7 +218,7 @@ export default function JobDetailPage() {
       const { data: publicUrlData } = supabase.storage.from("resumes").getPublicUrl(path);
       const resumeUrl = publicUrlData.publicUrl;
 
-      const { error: insertError } = await supabase.from("job_applicants").insert({
+      const { data: insertedData, error: insertError } = await supabase.from("job_applicants").insert({
         job_id: job.id,
         full_name: formData.fullName,
         email: formData.email,
@@ -232,10 +232,51 @@ export default function JobDetailPage() {
           notice_period: formData.noticePeriod,
           preferred_location: formData.location
         }
-      });
+      }).select().single();
 
       if (insertError) {
         throw insertError;
+      }
+
+      // Send notification to admin with application details
+      try {
+        const notificationPayload = {
+          applicantId: insertedData.id,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          experienceYears: experience,
+          portfolioUrl: formData.portfolioUrl || undefined,
+          resumeUrl: resumeUrl,
+          coverLetter: formData.coverLetter || undefined,
+          answers: {
+            why_tasknova: formData.whyTasknova,
+            notice_period: formData.noticePeriod,
+            preferred_location: formData.location
+          },
+          jobId: job.id,
+          jobTitle: job.title,
+          jobDepartment: job.department,
+          jobLocation: job.location,
+          jobType: job.type,
+          jobDescription: job.description
+        };
+
+        const notificationResponse = await fetch(
+          'https://qdeqpgixanmuzonsoeou.supabase.co/functions/v1/job-application-notification',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(notificationPayload)
+          }
+        );
+
+        if (!notificationResponse.ok) {
+          console.warn('Notification failed but application submitted successfully');
+        }
+      } catch (notificationError) {
+        console.error('Failed to send notification:', notificationError);
+        // Don't fail the application submission if notification fails
       }
 
       setSubmitStatus({ type: "success", message: "Application submitted successfully." });
