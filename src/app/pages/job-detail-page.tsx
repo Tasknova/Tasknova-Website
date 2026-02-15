@@ -36,6 +36,7 @@ type FormState = {
   phone: string;
   location: string;
   experienceYears: string;
+  linkedinUrl: string;
   portfolioUrl: string;
   whyTasknova: string;
   noticePeriod: string;
@@ -48,6 +49,7 @@ const defaultForm: FormState = {
   phone: "",
   location: "",
   experienceYears: "",
+  linkedinUrl: "",
   portfolioUrl: "",
   whyTasknova: "",
   noticePeriod: ""
@@ -246,7 +248,8 @@ export default function JobDetailPage() {
         email: formData.email,
         phone: fullPhoneNumber,
         experience_years: experience,
-        portfolio_url: formData.portfolioUrl,
+        linkedin_url: formData.linkedinUrl || null,
+        portfolio_url: formData.portfolioUrl || null,
         resume_url: resumeUrl,
         cover_letter: coverLetterUrl,
         answers: {
@@ -268,6 +271,7 @@ export default function JobDetailPage() {
           email: formData.email,
           phone: fullPhoneNumber,
           experienceYears: experience,
+          linkedinUrl: formData.linkedinUrl || undefined,
           portfolioUrl: formData.portfolioUrl || undefined,
           resumeUrl: resumeUrl,
           coverLetter: coverLetterUrl || undefined,
@@ -622,6 +626,18 @@ export default function JobDetailPage() {
                     />
                   </div>
                   <div>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="linkedinUrl">LinkedIn URL (Optional)</label>
+                    <input
+                      id="linkedinUrl"
+                      name="linkedinUrl"
+                      type="url"
+                      value={formData.linkedinUrl}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      placeholder="https://linkedin.com/in/yourprofile"
+                    />
+                  </div>
+                  <div>
                     <label className="block text-sm font-semibold mb-1" htmlFor="portfolioUrl">Portfolio URL (Optional)</label>
                     <input
                       id="portfolioUrl"
@@ -630,7 +646,7 @@ export default function JobDetailPage() {
                       value={formData.portfolioUrl}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="https://yourportfolio.com or https://linkedin.com/in/you"
+                      placeholder="https://yourportfolio.com"
                     />
                   </div>
                 </div>

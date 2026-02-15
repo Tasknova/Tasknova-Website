@@ -12,6 +12,7 @@ interface JobApplicationPayload {
   email: string;
   phone: string;
   experienceYears: number;
+  linkedinUrl?: string;
   portfolioUrl?: string;
   resumeUrl: string;
   coverLetter?: string;
@@ -105,6 +106,7 @@ Deno.serve(async (req: Request) => {
         email: payload.email,
         phone: payload.phone,
         experience_years: payload.experienceYears,
+        linkedin_url: payload.linkedinUrl || null,
         portfolio_url: payload.portfolioUrl || null,
         resume_url: payload.resumeUrl,
         preferred_location: payload.answers?.preferred_location || null,
@@ -129,6 +131,7 @@ Deno.serve(async (req: Request) => {
       // Links
       links: {
         resume: payload.resumeUrl,
+        linkedin: payload.linkedinUrl || null,
         portfolio: payload.portfolioUrl || null,
         admin_panel: `https://supabase.com/dashboard/project/qdeqpgixanmuzonsoeou/editor/${payload.applicantId}`,
       }
