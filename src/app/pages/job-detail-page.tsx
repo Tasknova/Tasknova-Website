@@ -32,11 +32,11 @@ type JobOpening = {
 type FormState = {
   fullName: string;
   email: string;
+  countryCode: string;
   phone: string;
   location: string;
   experienceYears: string;
   portfolioUrl: string;
-  coverLetter: string;
   whyTasknova: string;
   noticePeriod: string;
 };
@@ -44,11 +44,11 @@ type FormState = {
 const defaultForm: FormState = {
   fullName: "",
   email: "",
+  countryCode: "+1",
   phone: "",
   location: "",
   experienceYears: "",
   portfolioUrl: "",
-  coverLetter: "",
   whyTasknova: "",
   noticePeriod: ""
 };
@@ -106,6 +106,7 @@ export default function JobDetailPage() {
   const [submitStatus, setSubmitStatus] = useState<{ type: "success" | "error" | ""; message: string }>({ type: "", message: "" });
   const [isApplying, setIsApplying] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormState>(defaultForm);
 
   useEffect(() => {
@@ -174,7 +175,7 @@ export default function JobDetailPage() {
     ];
   }, [job]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -209,24 +210,45 @@ export default function JobDetailPage() {
       setSubmitStatus({ type: "", message: "" });
       setIsApplying(true);
 
-      const path = `${job.id}/${Date.now()}-${resumeFile.name}`;
-      const { error: uploadError } = await supabase.storage.from("resumes").upload(path, resumeFile, { upsert: true });
+      // Upload resume
+      const resumePath = `${job.id}/${Date.now()}-${resumeFile.name}`;
+      const { error: uploadError } = await supabase.storage.from("resumes").upload(resumePath, resumeFile, { upsert: true });
       if (uploadError) {
         throw uploadError;
       }
 
-      const { data: publicUrlData } = supabase.storage.from("resumes").getPublicUrl(path);
-      const resumeUrl = publicUrlData.publicUrl;
+      const { data: resumeUrlData } = supabase.storage.from("resumes").getPublicUrl(resumePath);
+      const resumeUrl = resumeUrlData.publicUrl;
+
+      // Upload cover letter if provided
+      let coverLetterUrl: string | null = null;
+      if (coverLetterFile) {
+        const coverLetterPath = `${job.id}/cover-letters/${Date.now()}-${coverLetterFile.name}`;
+        const { error: coverLetterUploadError } = await supabase.storage
+          .from("resumes")
+          .upload(coverLetterPath, coverLetterFile, { upsert: true });
+        
+        if (coverLetterUploadError) {
+          console.error("Cover letter upload failed:", coverLetterUploadError);
+          // Continue without cover letter
+        } else {
+          const { data: coverLetterUrlData } = supabase.storage.from("resumes").getPublicUrl(coverLetterPath);
+          coverLetterUrl = coverLetterUrlData.publicUrl;
+        }
+      }
+
+      // Combine country code with phone number
+      const fullPhoneNumber = `${formData.countryCode} ${formData.phone}`;
 
       const { data: insertedData, error: insertError } = await supabase.from("job_applicants").insert({
         job_id: job.id,
         full_name: formData.fullName,
         email: formData.email,
-        phone: formData.phone,
+        phone: fullPhoneNumber,
         experience_years: experience,
         portfolio_url: formData.portfolioUrl,
         resume_url: resumeUrl,
-        cover_letter: formData.coverLetter,
+        cover_letter: coverLetterUrl,
         answers: {
           why_tasknova: formData.whyTasknova,
           notice_period: formData.noticePeriod,
@@ -244,11 +266,11 @@ export default function JobDetailPage() {
           applicantId: insertedData.id,
           fullName: formData.fullName,
           email: formData.email,
-          phone: formData.phone,
+          phone: fullPhoneNumber,
           experienceYears: experience,
           portfolioUrl: formData.portfolioUrl || undefined,
           resumeUrl: resumeUrl,
-          coverLetter: formData.coverLetter || undefined,
+          coverLetter: coverLetterUrl || undefined,
           answers: {
             why_tasknova: formData.whyTasknova,
             notice_period: formData.noticePeriod,
@@ -282,6 +304,7 @@ export default function JobDetailPage() {
       setSubmitStatus({ type: "success", message: "Application submitted successfully." });
       setFormData(defaultForm);
       setResumeFile(null);
+      setCoverLetterFile(null);
     } catch (err) {
       console.error("Application submission failed:", err);
       const message = err instanceof Error ? err.message : "Unable to submit application.";
@@ -519,16 +542,58 @@ export default function JobDetailPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="phone">Phone</label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="+1 555 000 1234"
-                    />
+                    <label className="block text-sm font-semibold mb-1" htmlFor="phone">Phone Number</label>
+                    <div className="flex gap-2">
+                      <select
+                        name="countryCode"
+                        value={formData.countryCode}
+                        onChange={handleInputChange}
+                        className="rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-white"
+                      >
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+61">🇦🇺 +61</option>
+                        <option value="+81">🇯🇵 +81</option>
+                        <option value="+86">🇨🇳 +86</option>
+                        <option value="+49">🇩🇪 +49</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+39">🇮🇹 +39</option>
+                        <option value="+34">🇪🇸 +34</option>
+                        <option value="+7">🇷🇺 +7</option>
+                        <option value="+55">🇧🇷 +55</option>
+                        <option value="+27">🇿🇦 +27</option>
+                        <option value="+20">🇪🇬 +20</option>
+                        <option value="+52">🇲🇽 +52</option>
+                        <option value="+82">🇰🇷 +82</option>
+                        <option value="+65">🇸🇬 +65</option>
+                        <option value="+971">🇦🇪 +971</option>
+                        <option value="+966">🇸🇦 +966</option>
+                        <option value="+31">🇳🇱 +31</option>
+                        <option value="+46">🇸🇪 +46</option>
+                        <option value="+41">🇨🇭 +41</option>
+                        <option value="+64">🇳🇿 +64</option>
+                        <option value="+60">🇲🇾 +60</option>
+                        <option value="+62">🇮🇩 +62</option>
+                        <option value="+63">🇵🇭 +63</option>
+                        <option value="+66">🇹🇭 +66</option>
+                        <option value="+84">🇻🇳 +84</option>
+                        <option value="+234">🇳🇬 +234</option>
+                        <option value="+254">🇰🇪 +254</option>
+                        <option value="+92">🇵🇰 +92</option>
+                        <option value="+880">🇧🇩 +880</option>
+                      </select>
+                      <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        placeholder="555 000 1234"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-1" htmlFor="location">Location / Timezone</label>
@@ -557,72 +622,73 @@ export default function JobDetailPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="portfolioUrl">LinkedIn / Portfolio</label>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="portfolioUrl">Portfolio URL (Optional)</label>
                     <input
                       id="portfolioUrl"
                       name="portfolioUrl"
+                      type="url"
                       value={formData.portfolioUrl}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="https://linkedin.com/in/you"
+                      placeholder="https://yourportfolio.com or https://linkedin.com/in/you"
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="coverLetter">Cover Letter</label>
-                  <textarea
-                    id="coverLetter"
-                    name="coverLetter"
-                    rows={4}
-                    value={formData.coverLetter}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="Share your relevant experience and impact."
-                  />
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="whyTasknova">Why Tasknova?</label>
-                    <textarea
-                      id="whyTasknova"
-                      name="whyTasknova"
-                      rows={2}
+                    <label className="block text-sm font-semibold mb-1" htmlFor="resume">Resume (PDF) *</label>
+                    <input
+                      id="resume"
+                      name="resume"
+                      type="file"
+                      accept="application/pdf"
                       required
-                      value={formData.whyTasknova}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="What excites you about this role?"
+                      onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)}
+                      className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-3 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
                     />
+                    <p className="text-xs text-slate-500 mt-1">Upload your resume (PDF format)</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="noticePeriod">Notice Period / Start Date</label>
-                    <textarea
-                      id="noticePeriod"
-                      name="noticePeriod"
-                      rows={2}
-                      required
-                      value={formData.noticePeriod}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="e.g., 2 weeks notice"
+                    <label className="block text-sm font-semibold mb-1" htmlFor="coverLetter">Cover Letter (Optional)</label>
+                    <input
+                      id="coverLetter"
+                      name="coverLetter"
+                      type="file"
+                      accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      onChange={(e) => setCoverLetterFile(e.target.files ? e.target.files[0] : null)}
+                      className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-3 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
                     />
+                    <p className="text-xs text-slate-500 mt-1">Upload cover letter (PDF, DOC, DOCX)</p>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="resume">Resume (PDF)</label>
-                  <input
-                    id="resume"
-                    name="resume"
-                    type="file"
-                    accept="application/pdf"
+                  <label className="block text-sm font-semibold mb-1" htmlFor="whyTasknova">Why Tasknova? *</label>
+                  <textarea
+                    id="whyTasknova"
+                    name="whyTasknova"
+                    rows={3}
                     required
-                    onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)}
-                    className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-3 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    value={formData.whyTasknova}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    placeholder="What excites you about this role and joining Tasknova?"
                   />
-                  <p className="text-xs text-slate-500 mt-1">We store your resume securely in our resumes bucket.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-1" htmlFor="noticePeriod">Notice Period / Available Start Date *</label>
+                  <textarea
+                    id="noticePeriod"
+                    name="noticePeriod"
+                    rows={2}
+                    required
+                    value={formData.noticePeriod}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    placeholder="e.g., 2 weeks notice or Available immediately"
+                  />
                 </div>
 
                 {submitStatus.message && (
