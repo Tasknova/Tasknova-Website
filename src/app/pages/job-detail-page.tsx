@@ -191,19 +191,20 @@ export default function JobDetailPage() {
       return;
     }
 
+    const { fullName, email, phone, location, experienceYears, linkedinUrl, whyTasknova, noticePeriod } = formData;
+
+    if (!fullName || !email || !phone || !location || !experienceYears || !linkedinUrl || !whyTasknova || !noticePeriod) {
+      setSubmitStatus({ type: "error", message: "Please complete all required fields before submitting." });
+      return;
+    }
+
     if (!resumeFile) {
       setSubmitStatus({ type: "error", message: "Please attach your resume." });
       return;
     }
 
-    const { fullName, email, phone, location, experienceYears, whyTasknova, noticePeriod } = formData;
-    if (!fullName || !email || !phone || !location || !experienceYears || !whyTasknova || !noticePeriod) {
-      setSubmitStatus({ type: "error", message: "Please complete all required fields before submitting." });
-      return;
-    }
-
-    const experience = Number(experienceYears);
-    if (Number.isNaN(experience)) {
+    const experience = formData.experienceYears ? Number(formData.experienceYears) : 0;
+    if (formData.experienceYears && Number.isNaN(experience)) {
       setSubmitStatus({ type: "error", message: "Years of experience must be a valid number." });
       return;
     }
@@ -626,11 +627,12 @@ export default function JobDetailPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="linkedinUrl">LinkedIn URL (Optional)</label>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="linkedinUrl">LinkedIn URL</label>
                     <input
                       id="linkedinUrl"
                       name="linkedinUrl"
                       type="url"
+                      required
                       value={formData.linkedinUrl}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -638,7 +640,7 @@ export default function JobDetailPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="portfolioUrl">Portfolio URL (Optional)</label>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="portfolioUrl">Portfolio URL</label>
                     <input
                       id="portfolioUrl"
                       name="portfolioUrl"
@@ -653,7 +655,7 @@ export default function JobDetailPage() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="resume">Resume (PDF) *</label>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="resume">Resume (PDF)</label>
                     <input
                       id="resume"
                       name="resume"
@@ -666,7 +668,7 @@ export default function JobDetailPage() {
                     <p className="text-xs text-slate-500 mt-1">Upload your resume (PDF format)</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-1" htmlFor="coverLetter">Cover Letter (Optional)</label>
+                    <label className="block text-sm font-semibold mb-1" htmlFor="coverLetter">Cover Letter</label>
                     <input
                       id="coverLetter"
                       name="coverLetter"
@@ -680,32 +682,32 @@ export default function JobDetailPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="whyTasknova">Why Tasknova? *</label>
-                  <textarea
-                    id="whyTasknova"
-                    name="whyTasknova"
-                    rows={3}
-                    required
-                    value={formData.whyTasknova}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="What excites you about this role and joining Tasknova?"
-                  />
-                </div>
+                <label className="block text-sm font-semibold mb-1" htmlFor="whyTasknova">Why Tasknova?</label>
+                <textarea
+                  id="whyTasknova"
+                  name="whyTasknova"
+                  rows={3}
+                  required
+                  value={formData.whyTasknova}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  placeholder="What excites you about this role and joining Tasknova?"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="noticePeriod">Notice Period / Available Start Date *</label>
-                  <textarea
-                    id="noticePeriod"
-                    name="noticePeriod"
-                    rows={2}
-                    required
-                    value={formData.noticePeriod}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="e.g., 2 weeks notice or Available immediately"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-semibold mb-1" htmlFor="noticePeriod">Notice Period / Available Start Date</label>
+                <textarea
+                  id="noticePeriod"
+                  name="noticePeriod"
+                  rows={2}
+                  required
+                  value={formData.noticePeriod}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  placeholder="e.g., 2 weeks notice or Available immediately"
+                />
+              </div>
 
                 {submitStatus.message && (
                   <div className={`rounded-lg px-4 py-3 text-sm ${submitStatus.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
